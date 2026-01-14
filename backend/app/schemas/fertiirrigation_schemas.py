@@ -157,6 +157,7 @@ class CropRequirements(BaseModel):
     
     # Requirements kg/ha
     n_kg_ha: float = Field(ge=0, description="N requirement kg/ha")
+    nh4_kg_ha: Optional[float] = Field(0, ge=0, description="NH4 requirement kg/ha")
     p2o5_kg_ha: float = Field(ge=0, description="P2O5 requirement kg/ha")
     k2o_kg_ha: float = Field(ge=0, description="K2O requirement kg/ha")
     ca_kg_ha: Optional[float] = Field(None, ge=0)
@@ -271,6 +272,13 @@ class FertilizerDose(BaseModel):
     concentration_g_l: Optional[float] = None
     cost_ha: Optional[float] = None
     nutrients: Optional[Dict[str, float]] = None
+    nutrient_composition: Optional[Dict[str, float]] = None
+    n_contribution: Optional[float] = None
+    p2o5_contribution: Optional[float] = None
+    k2o_contribution: Optional[float] = None
+    ca_contribution: Optional[float] = None
+    mg_contribution: Optional[float] = None
+    s_contribution: Optional[float] = None
 
 
 class AcidProgramResult(BaseModel):
@@ -294,6 +302,7 @@ class FertiIrrigationResult(BaseModel):
     """Fertiirrigation calculation result."""
     # Summary
     total_n_kg_ha: float
+    total_nh4_kg_ha: Optional[float] = None
     total_p2o5_kg_ha: float
     total_k2o_kg_ha: float
     

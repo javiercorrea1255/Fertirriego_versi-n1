@@ -241,6 +241,7 @@ def water_model_to_data(water: WaterAnalysis) -> WaterData:
         ec=water.ec or 0.5,
         ph=water.ph or 7.0,
         no3_meq=convert_to_meq(water.anion_no3, "no3", saved_unit),
+        nh4_meq=convert_to_meq(getattr(water, 'cation_nh4', None), "nh4", saved_unit),
         h2po4_meq=convert_to_meq(water.anion_h2po4, "h2po4", saved_unit),
         so4_meq=convert_to_meq(water.anion_so42, "so42", saved_unit),
         hco3_meq=convert_to_meq(water.anion_hco3, "hco3", saved_unit),
@@ -442,6 +443,7 @@ async def calculate_nutrient_contributions(
             prev_curve = {"N": 0, "P2O5": 0, "K2O": 0, "Ca": 0, "Mg": 0, "S": 0}
         stage_pct_by_nutrient = {
             "N": current_curve.get("N", 0) - prev_curve.get("N", 0),
+            "NH4": current_curve.get("N", 0) - prev_curve.get("N", 0),
             "P2O5": current_curve.get("P2O5", 0) - prev_curve.get("P2O5", 0),
             "K2O": current_curve.get("K2O", 0) - prev_curve.get("K2O", 0),
             "Ca": current_curve.get("Ca", 0) - prev_curve.get("Ca", 0),
@@ -515,6 +517,7 @@ async def calculate_nutrient_contributions(
     
     base_requirements = {
         "N": request.requirements.get("n_kg_ha", 0.0),
+        "NH4": request.requirements.get("nh4_kg_ha", 0.0),
         "P2O5": request.requirements.get("p2o5_kg_ha", 0.0),
         "K2O": request.requirements.get("k2o_kg_ha", 0.0),
         "Ca": request.requirements.get("ca_kg_ha", 0.0),
@@ -531,6 +534,7 @@ async def calculate_nutrient_contributions(
         crop_data = CropData(
             name=request.crop_name or "Cultivo",
             n_kg_ha=base_requirements.get("N", 0),
+            nh4_kg_ha=base_requirements.get("NH4", 0),
             p2o5_kg_ha=base_requirements.get("P2O5", 0),
             k2o_kg_ha=base_requirements.get("K2O", 0),
             ca_kg_ha=base_requirements.get("Ca", 0),
@@ -546,6 +550,8 @@ async def calculate_nutrient_contributions(
             request.extraction_stage_id,
             previous_stage=request.previous_stage_id
         )
+        nh4_share = (base_requirements.get("NH4", 0) / base_requirements.get("N", 1)) if base_requirements.get("N", 0) else 0
+        requirements["NH4"] = requirements.get("N", base_requirements.get("N", 0)) * nh4_share
     else:
         requirements = base_requirements
     
@@ -571,6 +577,7 @@ async def calculate_nutrient_contributions(
         
         acid_contribution = {
             "N": acid_n_kg,
+            "NH4": 0.0,
             "P2O5": acid_p2o5_kg,
             "K2O": 0.0,
             "Ca": 0.0,
@@ -593,17 +600,17 @@ async def calculate_nutrient_contributions(
     EFFICIENCY_FACTORS = {
         # Efert: Eficiencia del fertilizante en fertirriego (80-90% típico)
         'Efert': {
-            'N': 0.85, 'P2O5': 0.75, 'K2O': 0.85,
+            'N': 0.85, 'NH4': 0.85, 'P2O5': 0.75, 'K2O': 0.85,
             'Ca': 0.90, 'Mg': 0.85, 'S': 0.80
         },
         # Esuelo: Eficiencia/disponibilidad del nutriente en suelo
         'Esuelo': {
-            'N': 0.60, 'P2O5': 0.40, 'K2O': 0.70,
+            'N': 0.60, 'NH4': 0.60, 'P2O5': 0.40, 'K2O': 0.70,
             'Ca': 0.85, 'Mg': 0.75, 'S': 0.70
         },
         # Eagua: Eficiencia del nutriente en agua de riego
         'Eagua': {
-            'N': 0.95, 'P2O5': 0.50, 'K2O': 0.95,
+            'N': 0.95, 'NH4': 0.95, 'P2O5': 0.50, 'K2O': 0.95,
             'Ca': 0.90, 'Mg': 0.95, 'S': 0.95
         }
     }
@@ -767,6 +774,7 @@ async def calculate_fertiirrigation(
         growth_stage=request.crop.growth_stage,
         yield_target=request.crop.yield_target_ton_ha or 10.0,
         n_kg_ha=request.crop.n_kg_ha,
+        nh4_kg_ha=request.crop.nh4_kg_ha or 0,
         p2o5_kg_ha=request.crop.p2o5_kg_ha,
         k2o_kg_ha=request.crop.k2o_kg_ha,
         ca_kg_ha=request.crop.ca_kg_ha,
@@ -869,6 +877,14 @@ async def calculate_fertiirrigation(
             for fert in profile.fertilizers:
                 dose_per_app = round(fert.dose_kg_ha / num_apps, 3)
                 conc_g_l = round((dose_per_app * 1000) / volume_per_app_liters, 3) if volume_per_app_liters > 0 else 0
+                nutrient_contrib = fert.nutrients or {}
+                n_contribution = (nutrient_contrib.get("N", 0) or 0) / num_apps
+                nh4_contribution = (nutrient_contrib.get("NH4", 0) or 0) / num_apps
+                p2o5_contribution = (nutrient_contrib.get("P2O5", 0) or 0) / num_apps
+                k2o_contribution = (nutrient_contrib.get("K2O", 0) or 0) / num_apps
+                ca_contribution = (nutrient_contrib.get("Ca", 0) or 0) / num_apps
+                mg_contribution = (nutrient_contrib.get("Mg", 0) or 0) / num_apps
+                s_contribution = (nutrient_contrib.get("S", 0) or 0) / num_apps
                 profile_fertilizer_program.append({
                     "application_number": app_num,
                     "fertilizer_name": fert.name,
@@ -879,6 +895,13 @@ async def calculate_fertiirrigation(
                     "concentration_g_l": conc_g_l,
                     "cost_ha": round(fert.cost_ha / num_apps, 2),
                     "nutrients": fert.nutrients,
+                    "n_contribution": round(n_contribution, 4),
+                    "nh4_contribution": round(nh4_contribution, 4),
+                    "p2o5_contribution": round(p2o5_contribution, 4),
+                    "k2o_contribution": round(k2o_contribution, 4),
+                    "ca_contribution": round(ca_contribution, 4),
+                    "mg_contribution": round(mg_contribution, 4),
+                    "s_contribution": round(s_contribution, 4),
                 })
         
         acid_program = None
@@ -960,6 +983,7 @@ async def calculate_fertiirrigation(
         status="success",
         result=FertiIrrigationResult(
             total_n_kg_ha=result["total_n_kg_ha"],
+            total_nh4_kg_ha=result.get("total_nh4_kg_ha"),
             total_p2o5_kg_ha=result["total_p2o5_kg_ha"],
             total_k2o_kg_ha=result["total_k2o_kg_ha"],
             nutrient_balance=[NutrientBalance(**nb) for nb in result["nutrient_balance"]],
@@ -1276,6 +1300,7 @@ class FertilizerDoseResponse(BaseModel):
     cost_per_kg: float
     cost_total: float
     n_contribution: float
+    nh4_contribution: float = 0.0
     p2o5_contribution: float
     k2o_contribution: float
     ca_contribution: float
@@ -1365,6 +1390,7 @@ async def optimize_fertigation(
     """
     base_requirements = {
         "N": request.deficit.get("n_kg_ha", 0),
+        "NH4": request.deficit.get("nh4_kg_ha", 0),
         "P2O5": request.deficit.get("p2o5_kg_ha", 0),
         "K2O": request.deficit.get("k2o_kg_ha", 0),
         "Ca": request.deficit.get("ca_kg_ha", 0),
@@ -1402,6 +1428,7 @@ async def optimize_fertigation(
         crop_data = CropData(
             name=request.crop_name or "Cultivo",
             n_kg_ha=base_requirements.get("N", 0),
+            nh4_kg_ha=base_requirements.get("NH4", 0),
             p2o5_kg_ha=base_requirements.get("P2O5", 0),
             k2o_kg_ha=base_requirements.get("K2O", 0),
             ca_kg_ha=base_requirements.get("Ca", 0),
@@ -1750,6 +1777,7 @@ async def optimize_fertigation(
     
     deficits_dict = {
         "N": n_deficit,
+        "NH4": request.deficit.get("nh4_kg_ha", 0),
         "P2O5": p2o5_deficit,
         "K2O": k2o_deficit,
         "Ca": ca_deficit,

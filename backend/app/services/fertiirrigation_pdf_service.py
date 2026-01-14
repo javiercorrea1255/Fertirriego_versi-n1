@@ -3,8 +3,6 @@ FertiIrrigation PDF Report Service.
 Generates professional PDF reports for fertigation calculations.
 """
 import io
-import json
-import os
 from datetime import datetime
 from typing import Dict, Any, Optional, List
 from reportlab.lib.pagesizes import letter
@@ -25,6 +23,11 @@ from app.services.pdf_branding import (
     BRAND_GREEN
 )
 from app.services.fertiirrigation_ab_tanks_service import separate_fertilizers_ab
+from app.services.fertiirrigation_report_utils import (
+    CONTRIBUTION_KEYS,
+    compute_contributions,
+    get_fertilizer_composition,
+)
 from app.routers.fertilizer_prices import DEFAULT_PRICES_BY_CURRENCY
 
 logger = logging.getLogger(__name__)
@@ -632,6 +635,51 @@ def create_fertiirrigation_pdf_report(
         ]))
         story.append(finance_table)
         story.append(Spacer(1, 10))
+
+    # === EXECUTIVE SUMMARY ===
+    exec_crop = calculation.get('crop_name') or calculation.get('crop', {}).get('crop_name') or result.get('crop_name')
+    exec_stage = calculation.get('growth_stage') or calculation.get('crop', {}).get('growth_stage') or result.get('growth_stage')
+    exec_yield = calculation.get('yield_target_ton_ha') or calculation.get('crop', {}).get('yield_target_ton_ha')
+    exec_num_apps = calculation.get('num_applications', result.get('num_applications', 10))
+    exec_balance = result.get('nutrient_balance', [])
+    top_deficits = sorted(
+        [
+            (nb.get('nutrient', ''), nb.get('deficit_kg_ha', 0))
+            for nb in exec_balance
+            if nb.get('deficit_kg_ha', 0) > 0
+        ],
+        key=lambda item: item[1],
+        reverse=True,
+    )[:3]
+
+    story.append(Paragraph("RESUMEN EJECUTIVO", heading_style))
+    exec_rows = [
+        ["Cultivo", exec_crop or "N/A", "Etapa", exec_stage or "N/A"],
+        ["Meta de rendimiento", f"{exec_yield} t/ha" if exec_yield else "N/A", "Aplicaciones", str(exec_num_apps)],
+    ]
+    if top_deficits:
+        deficit_text = ", ".join([f"{nutr}: {val:.1f} kg/ha" for nutr, val in top_deficits])
+    else:
+        deficit_text = "Sin déficits relevantes en esta etapa."
+    exec_rows.append(["Déficits críticos", deficit_text, "Unidades", "kg/ha (etapa actual)"])
+
+    exec_table = Table(exec_rows, colWidths=[1.3*inch, 2.4*inch, 1.0*inch, 1.6*inch])
+    exec_table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), HexColor("#f8fafc")),
+        ('TEXTCOLOR', (0, 0), (-1, -1), TEXT_COLOR),
+        ('FONTSIZE', (0, 0), (-1, -1), 8),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('GRID', (0, 0), (-1, -1), 0.5, HexColor("#e2e8f0")),
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BACKGROUND', (0, 0), (-1, 0), HexColor("#e2e8f0")),
+    ]))
+    story.append(exec_table)
+    story.append(Paragraph(
+        "Referencia: los aportes y déficits se reportan por etapa. Por riego = total / Nº aplicaciones.",
+        small_style
+    ))
+    story.append(Spacer(1, 10))
     
     # === SHOPPING LIST SECTION (NEW - Similar to Hydroponics) ===
     result = calculation.get('result', calculation)
@@ -1187,7 +1235,10 @@ def create_fertiirrigation_pdf_report(
         total_dose = 0
         total_cost = 0
         
-        for fd in unique_fertilizers[:15]:
+        max_fertilizers = 15
+        display_fertilizers = unique_fertilizers[:max_fertilizers]
+
+        for fd in display_fertilizers:
             name = fd.get('fertilizer_name', '')
             fert_id = fd.get('fertilizer_id', fd.get('id', fd.get('slug', '')))
             dose = fd.get('dose_kg_ha', 0)
@@ -1233,76 +1284,45 @@ def create_fertiirrigation_pdf_report(
             ('FONTNAME', (0, -1), (-1, -1), 'Helvetica-Bold'),
         ]))
         story.append(program_table)
+        if len(unique_fertilizers) > max_fertilizers:
+            story.append(Paragraph(
+                f"Nota: se muestran los primeros {max_fertilizers} fertilizantes para mantener el reporte legible.",
+                small_style
+            ))
         story.append(Spacer(1, 8))
         
         # === NUTRIENT CONTRIBUTIONS TABLE ===
-        story.append(Paragraph("APORTES NUTRIMENTALES POR FERTILIZANTE (kg/ha)", heading_style))
+        story.append(Paragraph("APORTES NUTRIMENTALES POR FERTILIZANTE (kg/ha por etapa)", heading_style))
         story.append(Paragraph(
             "Desglose de nutrientes aportados por cada fertilizante seleccionado.",
             small_style
         ))
         story.append(Spacer(1, 4))
         
-        catalog_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'hydro_fertilizers.json')
-        fert_nutrient_lookup = {}
-        try:
-            with open(catalog_path, 'r', encoding='utf-8') as f:
-                catalog = json.load(f)
-                for fert in catalog.get('fertilizers', []):
-                    fert_nutrient_lookup[fert['id']] = fert.get('nutrient_composition', {})
-                    fert_nutrient_lookup[fert['name']] = fert.get('nutrient_composition', {})
-        except Exception:
-            pass
-        
-        nutrient_cols = ["N", "P2O5", "K2O", "Ca", "Mg", "S"]
-        contrib_keys = ['n_contribution', 'p2o5_contribution', 'k2o_contribution', 'ca_contribution', 'mg_contribution', 's_contribution']
+        nutrient_cols = ["N", "NH4", "P2O5", "K2O", "Ca", "Mg", "S"]
+        contrib_keys = CONTRIBUTION_KEYS
         
         contrib_header = ["Fertilizante", "kg/ha"] + nutrient_cols
         contrib_data = [contrib_header]
         nutrient_totals = {k: 0.0 for k in contrib_keys}
         
-        K_TO_K2O = 1.205
-        P_TO_P2O5 = 2.29
-        
-        for fd in unique_fertilizers[:12]:
+        for fd in display_fertilizers:
             fert_name = fd.get('fertilizer_name', '')
             fert_id = fd.get('fertilizer_id', '')
             dose_kg = fd.get('dose_kg_ha', 0)
             
             row = [fert_name, f"{dose_kg:.1f}"]
             has_any_contrib = False
-            
-            composition = fd.get('nutrient_composition', {}) or fert_nutrient_lookup.get(fert_id, {}) or fert_nutrient_lookup.get(fert_name, {})
-            
-            for i, key in enumerate(contrib_keys):
-                contrib_kg = fd.get(key, 0) or 0
-                
-                if contrib_kg == 0 and dose_kg > 0 and composition:
-                    if key == 'n_contribution':
-                        pct = composition.get('N_percent', 0) or 0
-                        contrib_kg = (pct / 100) * dose_kg
-                    elif key == 'p2o5_contribution':
-                        pct = composition.get('P2O5_percent', 0) or composition.get('P_percent', 0) or 0
-                        if composition.get('P_percent') and not composition.get('P2O5_percent'):
-                            contrib_kg = (pct / 100) * dose_kg * P_TO_P2O5
-                        else:
-                            contrib_kg = (pct / 100) * dose_kg
-                    elif key == 'k2o_contribution':
-                        pct = composition.get('K2O_percent', 0) or composition.get('K_percent', 0) or 0
-                        if composition.get('K_percent') and not composition.get('K2O_percent'):
-                            contrib_kg = (pct / 100) * dose_kg * K_TO_K2O
-                        else:
-                            contrib_kg = (pct / 100) * dose_kg
-                    elif key == 'ca_contribution':
-                        pct = composition.get('Ca_percent', 0) or 0
-                        contrib_kg = (pct / 100) * dose_kg
-                    elif key == 'mg_contribution':
-                        pct = composition.get('Mg_percent', 0) or 0
-                        contrib_kg = (pct / 100) * dose_kg
-                    elif key == 's_contribution':
-                        pct = composition.get('S_percent', 0) or 0
-                        contrib_kg = (pct / 100) * dose_kg
-                
+
+            composition = get_fertilizer_composition(
+                fert_id,
+                fert_name,
+                fallback=fd.get('nutrient_composition', {}),
+            )
+            contributions = compute_contributions(fd, dose_kg, composition)
+
+            for key in contrib_keys:
+                contrib_kg = contributions.get(key, 0) or 0
                 nutrient_totals[key] += contrib_kg
                 if contrib_kg > 0.05:
                     row.append(f"{contrib_kg:.1f}")
@@ -1319,7 +1339,7 @@ def create_fertiirrigation_pdf_report(
             totals_row.append(f"{total_val:.1f}" if total_val > 0 else "–")
         contrib_data.append(totals_row)
         
-        contrib_table = Table(contrib_data, colWidths=[1.9*inch, 0.6*inch, 0.65*inch, 0.65*inch, 0.65*inch, 0.6*inch, 0.6*inch, 0.5*inch])
+        contrib_table = Table(contrib_data, colWidths=[1.8*inch, 0.6*inch, 0.6*inch, 0.6*inch, 0.6*inch, 0.6*inch, 0.55*inch, 0.55*inch, 0.5*inch])
         contrib_table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1e3a5f")),
             ('TEXTCOLOR', (0, 0), (-1, 0), HexColor("#ffffff")),
@@ -1334,6 +1354,11 @@ def create_fertiirrigation_pdf_report(
             ('FONTNAME', (0, -1), (-1, -1), 'Helvetica-Bold'),
         ]))
         story.append(contrib_table)
+        story.append(Paragraph(
+            "Guía de lectura: los aportes están expresados en kg/ha para toda la etapa. "
+            "Por riego = total / Nº aplicaciones. Un guion indica que el fertilizante no aporta ese nutriente.",
+            small_style
+        ))
         story.append(Spacer(1, 8))
         
         # === A/B TANKS SECTION ===
