@@ -1334,6 +1334,11 @@ def create_fertiirrigation_pdf_report(
             ('FONTNAME', (0, -1), (-1, -1), 'Helvetica-Bold'),
         ]))
         story.append(contrib_table)
+        story.append(Paragraph(
+            "Guía de lectura: los aportes están expresados en kg/ha para toda la etapa. "
+            "Un guion indica que el fertilizante no aporta ese nutriente.",
+            small_style
+        ))
         story.append(Spacer(1, 8))
         
         # === A/B TANKS SECTION ===
