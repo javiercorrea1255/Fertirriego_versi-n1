@@ -165,6 +165,14 @@ export default function FertiIrrigationCalculator() {
   const [nutrientContributions, setNutrientContributions] = useState(null);
   const [loadingContributions, setLoadingContributions] = useState(false);
 
+  const normalizeExtractionPercent = (percentages) => {
+    if (!percentages) return percentages;
+    return {
+      ...percentages,
+      NH4: percentages.NH4 ?? percentages.N ?? 0
+    };
+  };
+
   const [formData, setFormData] = useState({
     name: '',
     soil_analysis_id: null,
@@ -361,14 +369,14 @@ export default function FertiIrrigationCalculator() {
         const previousStageId = cropStages[stageIndex - 1].id;
         try {
           const res = await api.get(`/api/fertiirrigation/extraction-crops/${selectedCropId}/curve/${previousStageId}`);
-          setPreviousStageExtractionPercent(res.cumulative_percent || null);
+          setPreviousStageExtractionPercent(normalizeExtractionPercent(res.cumulative_percent) || null);
         } catch (err) {
           console.error('Error fetching previous stage extraction:', err);
           setPreviousStageExtractionPercent(null);
         }
       } else {
         // First stage, previous is 0%
-        setPreviousStageExtractionPercent({ N: 0, P2O5: 0, K2O: 0, Ca: 0, Mg: 0, S: 0 });
+        setPreviousStageExtractionPercent({ N: 0, NH4: 0, P2O5: 0, K2O: 0, Ca: 0, Mg: 0, S: 0 });
       }
     };
     
@@ -379,12 +387,15 @@ export default function FertiIrrigationCalculator() {
           const stageIndex = customCurve.stages.findIndex(s => s.id === selectedStageId);
           const stage = customCurve.stages[stageIndex];
           if (stage && stage.cumulative_percent) {
-            setStageExtractionPercent(stage.cumulative_percent);
+            setStageExtractionPercent(normalizeExtractionPercent(stage.cumulative_percent));
             // Get previous stage for custom curves
             if (stageIndex > 0) {
-              setPreviousStageExtractionPercent(customCurve.stages[stageIndex - 1].cumulative_percent || { N: 0, P2O5: 0, K2O: 0, Ca: 0, Mg: 0, S: 0 });
+              setPreviousStageExtractionPercent(
+                normalizeExtractionPercent(customCurve.stages[stageIndex - 1].cumulative_percent)
+                  || { N: 0, NH4: 0, P2O5: 0, K2O: 0, Ca: 0, Mg: 0, S: 0 }
+              );
             } else {
-              setPreviousStageExtractionPercent({ N: 0, P2O5: 0, K2O: 0, Ca: 0, Mg: 0, S: 0 });
+              setPreviousStageExtractionPercent({ N: 0, NH4: 0, P2O5: 0, K2O: 0, Ca: 0, Mg: 0, S: 0 });
             }
           } else {
             setStageExtractionPercent(null);
@@ -543,7 +554,7 @@ export default function FertiIrrigationCalculator() {
   const fetchExtractionCurve = async (cropId, stageId) => {
     try {
       const res = await api.get(`/api/fertiirrigation/extraction-crops/${cropId}/curve/${stageId}`);
-      setStageExtractionPercent(res.cumulative_percent || null);
+      setStageExtractionPercent(normalizeExtractionPercent(res.cumulative_percent) || null);
     } catch (err) {
       console.error('Error fetching extraction curve:', err);
       setStageExtractionPercent(null);
@@ -777,7 +788,7 @@ export default function FertiIrrigationCalculator() {
         const firstStageId = stagesWithNumericPercent[0].id;
         setSelectedStageId(firstStageId);
         setCropStages(stagesWithNumericPercent.map(s => ({ id: s.id, name: s.name })));
-        setStageExtractionPercent(stagesWithNumericPercent[0].cumulative_percent);
+        setStageExtractionPercent(normalizeExtractionPercent(stagesWithNumericPercent[0].cumulative_percent));
       }
       
       setShowInlineCurveEditor(false);
