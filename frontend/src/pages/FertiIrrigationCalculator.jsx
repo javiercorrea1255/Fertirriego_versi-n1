@@ -696,7 +696,7 @@ export default function FertiIrrigationCalculator() {
       payload.custom_extraction_percent = (selectedCropSource === 'custom' || selectedCropSource === 'manual') && stageExtractionPercent
         ? {
           N: getDeltaPercent('N'),
-          NH4: getDeltaPercent('N'),
+          NH4: getDeltaPercent('NH4'),
           P2O5: getDeltaPercent('P2O5'),
           K2O: getDeltaPercent('K2O'),
           Ca: getDeltaPercent('Ca'),
@@ -1043,7 +1043,7 @@ export default function FertiIrrigationCalculator() {
       const deltaExtractionPercentages = stageExtractionPercent
         ? {
           N: getDeltaPercent('N'),
-          NH4: getDeltaPercent('N'),
+          NH4: getDeltaPercent('NH4'),
           P2O5: getDeltaPercent('P2O5'),
           K2O: getDeltaPercent('K2O'),
           Ca: getDeltaPercent('Ca'),
@@ -1294,7 +1294,7 @@ export default function FertiIrrigationCalculator() {
       custom_extraction_percent: (selectedCropSource === 'custom' || selectedCropSource === 'manual') && stageExtractionPercent
         ? {
           N: getDeltaPercent('N'),
-          NH4: getDeltaPercent('N'),
+          NH4: getDeltaPercent('NH4'),
           P2O5: getDeltaPercent('P2O5'),
           K2O: getDeltaPercent('K2O'),
           Ca: getDeltaPercent('Ca'),
@@ -2812,7 +2812,7 @@ export default function FertiIrrigationCalculator() {
         <div className="wizard-grid-6">
           {[
             { field: 'n_kg_ha', label: 'N', sublabel: 'Nitrógeno', extractKey: 'N' },
-            { field: 'nh4_kg_ha', label: 'NH₄', sublabel: 'Amonio', extractKey: 'N' },
+            { field: 'nh4_kg_ha', label: 'NH₄', sublabel: 'Amonio', extractKey: 'NH4' },
             { field: 'p2o5_kg_ha', label: 'P₂O₅', sublabel: 'Fósforo', extractKey: 'P2O5' },
             { field: 'k2o_kg_ha', label: 'K₂O', sublabel: 'Potasio', extractKey: 'K2O' },
             { field: 'ca_kg_ha', label: 'Ca', sublabel: 'Calcio', extractKey: 'Ca' },
@@ -2855,7 +2855,7 @@ export default function FertiIrrigationCalculator() {
             <div className="wizard-grid-6" style={{ gap: '8px' }}>
               {[
                 { field: 'n_kg_ha', label: 'N', extractKey: 'N' },
-                { field: 'nh4_kg_ha', label: 'NH₄', extractKey: 'N' },
+                { field: 'nh4_kg_ha', label: 'NH₄', extractKey: 'NH4' },
                 { field: 'p2o5_kg_ha', label: 'P₂O₅', extractKey: 'P2O5' },
                 { field: 'k2o_kg_ha', label: 'K₂O', extractKey: 'K2O' },
                 { field: 'ca_kg_ha', label: 'Ca', extractKey: 'Ca' },
