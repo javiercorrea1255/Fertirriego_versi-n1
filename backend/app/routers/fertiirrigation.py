@@ -869,6 +869,13 @@ async def calculate_fertiirrigation(
             for fert in profile.fertilizers:
                 dose_per_app = round(fert.dose_kg_ha / num_apps, 3)
                 conc_g_l = round((dose_per_app * 1000) / volume_per_app_liters, 3) if volume_per_app_liters > 0 else 0
+                nutrient_contrib = fert.nutrients or {}
+                n_contribution = (nutrient_contrib.get("N", 0) or 0) / num_apps
+                p2o5_contribution = (nutrient_contrib.get("P2O5", 0) or 0) / num_apps
+                k2o_contribution = (nutrient_contrib.get("K2O", 0) or 0) / num_apps
+                ca_contribution = (nutrient_contrib.get("Ca", 0) or 0) / num_apps
+                mg_contribution = (nutrient_contrib.get("Mg", 0) or 0) / num_apps
+                s_contribution = (nutrient_contrib.get("S", 0) or 0) / num_apps
                 profile_fertilizer_program.append({
                     "application_number": app_num,
                     "fertilizer_name": fert.name,
@@ -879,6 +886,12 @@ async def calculate_fertiirrigation(
                     "concentration_g_l": conc_g_l,
                     "cost_ha": round(fert.cost_ha / num_apps, 2),
                     "nutrients": fert.nutrients,
+                    "n_contribution": round(n_contribution, 4),
+                    "p2o5_contribution": round(p2o5_contribution, 4),
+                    "k2o_contribution": round(k2o_contribution, 4),
+                    "ca_contribution": round(ca_contribution, 4),
+                    "mg_contribution": round(mg_contribution, 4),
+                    "s_contribution": round(s_contribution, 4),
                 })
         
         acid_program = None
