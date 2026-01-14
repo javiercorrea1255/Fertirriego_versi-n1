@@ -271,6 +271,13 @@ class FertilizerDose(BaseModel):
     concentration_g_l: Optional[float] = None
     cost_ha: Optional[float] = None
     nutrients: Optional[Dict[str, float]] = None
+    nutrient_composition: Optional[Dict[str, float]] = None
+    n_contribution: Optional[float] = None
+    p2o5_contribution: Optional[float] = None
+    k2o_contribution: Optional[float] = None
+    ca_contribution: Optional[float] = None
+    mg_contribution: Optional[float] = None
+    s_contribution: Optional[float] = None
 
 
 class AcidProgramResult(BaseModel):
