@@ -1460,6 +1460,9 @@ export default function FertiIrrigationCalculator() {
             cost_per_kg: f.cost_per_kg ?? f.price_per_kg || 0,
             cost_total: f.cost_total ?? f.subtotal || 0,
             subtotal: f.subtotal || 0,
+            nutrients: Object.values(normalizedContributions).some(value => value > 0)
+              ? normalizedContributions
+              : (f.nutrients || {}),
             contributions: Object.values(normalizedContributions).some(value => value > 0)
               ? normalizedContributions
               : (f.contributions || {}),
