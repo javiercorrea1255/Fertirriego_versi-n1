@@ -8,6 +8,7 @@ from typing import Dict
 
 CONTRIBUTION_KEYS = [
     "n_contribution",
+    "nh4_contribution",
     "p2o5_contribution",
     "k2o_contribution",
     "ca_contribution",
@@ -61,6 +62,8 @@ def compute_contributions(
 
     if contributions["n_contribution"] == 0:
         contributions["n_contribution"] = (composition.get("N_percent", 0) / 100) * dose_kg
+    if contributions["nh4_contribution"] == 0:
+        contributions["nh4_contribution"] = (composition.get("NH4_N_percent", 0) / 100) * dose_kg
     if contributions["p2o5_contribution"] == 0:
         pct = composition.get("P2O5_percent", 0) or composition.get("P_percent", 0)
         multiplier = P_TO_P2O5 if composition.get("P_percent") and not composition.get("P2O5_percent") else 1

@@ -284,6 +284,7 @@ class WaterData:
     ph: float = 7.0
     # Ions in meq/L
     no3_meq: float = 0.0
+    nh4_meq: float = 0.0
     h2po4_meq: float = 0.0
     so4_meq: float = 0.0
     hco3_meq: float = 0.0
@@ -308,6 +309,7 @@ class CropData:
     yield_target: float = 10.0  # ton/ha
     # Requirements in kg/ha
     n_kg_ha: float = 150.0
+    nh4_kg_ha: float = 0.0
     p2o5_kg_ha: float = 60.0
     k2o_kg_ha: float = 180.0
     ca_kg_ha: float = 40.0
@@ -368,6 +370,7 @@ class FertiIrrigationCalculator:
     # Molecular weights for water analysis conversions
     ION_WEIGHTS = {
         "NO3": 62.0,
+        "NH4": 18.039,
         "H2PO4": 97.0,
         "SO4": 96.0,
         "HCO3": 61.0,
@@ -379,6 +382,7 @@ class FertiIrrigationCalculator:
     
     ION_VALENCES = {
         "NO3": 1,
+        "NH4": 1,
         "H2PO4": 1,
         "SO4": 2,
         "HCO3": 1,
@@ -658,6 +662,7 @@ class FertiIrrigationCalculator:
         
         adjusted = {
             "N": (base_availability["N"] * base_factors.get("N", 0.5) * ph_factors.get("N", 1.0) + om_n_release) * get_stage_factor("N"),
+            "NH4": base_availability["NH4"] * base_factors.get("N", 0.5) * ph_factors.get("N", 1.0) * get_stage_factor("NH4"),
             "P2O5": base_availability["P2O5"] * base_factors.get("P", 0.2) * ph_factors.get("P", 1.0) * get_stage_factor("P2O5"),
             "K2O": base_availability["K2O"] * base_factors.get("K", 0.4) * ph_factors.get("K", 1.0) * cic_factors.get("K", 1.0) * get_stage_factor("K2O"),
             "Ca": base_availability["Ca"] * base_factors.get("Ca", 0.15) * ph_factors.get("Ca", 1.0) * cic_factors.get("Ca", 1.0) * get_stage_factor("Ca"),
@@ -706,7 +711,7 @@ class FertiIrrigationCalculator:
         """
         Calculate available nutrients from soil in kg/ha.
         
-        Returns dict with N, P2O5, K2O, Ca, Mg, S in kg/ha.
+        Returns dict with N, NH4, P2O5, K2O, Ca, Mg, S in kg/ha.
         """
         depth = soil.depth_cm
         bd = soil.bulk_density
@@ -715,6 +720,7 @@ class FertiIrrigationCalculator:
         n_available = self.ppm_to_kg_ha(
             (soil.n_no3_ppm or 0) + (soil.n_nh4_ppm or 0), bd, depth
         )
+        nh4_available = self.ppm_to_kg_ha(soil.n_nh4_ppm or 0, bd, depth)
         
         # P (convert to P2O5)
         p_available = self.ppm_to_kg_ha(soil.p_ppm or 0, bd, depth)
@@ -731,6 +737,7 @@ class FertiIrrigationCalculator:
         
         return {
             "N": n_available,
+            "NH4": nh4_available,
             "P2O5": p2o5_available,
             "K2O": k2o_available,
             "Ca": ca_available,
@@ -744,13 +751,14 @@ class FertiIrrigationCalculator:
         """
         Calculate nutrient contribution from irrigation water in kg/ha.
         
-        Returns dict with N, P2O5, K2O, Ca, Mg, S in kg/ha.
+        Returns dict with N, NH4, P2O5, K2O, Ca, Mg, S in kg/ha.
         """
         volume = max(1.0, irrigation.volume_m3_ha)
         apps = max(1, irrigation.num_applications)
         
         # N from NO3
         n_contrib = self.meq_to_kg_ha(water.no3_meq, "NO3", volume, apps)
+        nh4_contrib = self.meq_to_kg_ha(water.nh4_meq, "NH4", volume, apps)
         # Convert NO3 to N (14/62)
         n_contrib = n_contrib * (14.0 / 62.0)
         
@@ -773,6 +781,7 @@ class FertiIrrigationCalculator:
         
         return {
             "N": n_contrib,
+            "NH4": nh4_contrib,
             "P2O5": p2o5_contrib,
             "K2O": k2o_contrib,
             "Ca": ca_contrib,
@@ -875,6 +884,7 @@ class FertiIrrigationCalculator:
             pct = crop.custom_extraction_percent
             requirements = {
                 "N": (crop.n_kg_ha or 0) * pct.get("N", 100) / 100,
+                "NH4": (crop.nh4_kg_ha or 0) * pct.get("NH4", pct.get("N", 100)) / 100,
                 "P2O5": (crop.p2o5_kg_ha or 0) * pct.get("P2O5", 100) / 100,
                 "K2O": (crop.k2o_kg_ha or 0) * pct.get("K2O", 100) / 100,
                 "Ca": (crop.ca_kg_ha or 0) * pct.get("Ca", 100) / 100,
@@ -890,6 +900,7 @@ class FertiIrrigationCalculator:
                 prev_curve = {"N": 0, "P2O5": 0, "K2O": 0, "Ca": 0, "Mg": 0, "S": 0}
             stage_pct_by_nutrient = {
                 "N": current_curve.get("N", 0) - prev_curve.get("N", 0),
+                "NH4": current_curve.get("N", 0) - prev_curve.get("N", 0),
                 "P2O5": current_curve.get("P2O5", 0) - prev_curve.get("P2O5", 0),
                 "K2O": current_curve.get("K2O", 0) - prev_curve.get("K2O", 0),
                 "Ca": current_curve.get("Ca", 0) - prev_curve.get("Ca", 0),
@@ -904,6 +915,7 @@ class FertiIrrigationCalculator:
             )
             requirements = {
                 "N": stage_requirements.get("N", crop.n_kg_ha),
+                "NH4": stage_requirements.get("N", crop.n_kg_ha) * ((crop.nh4_kg_ha or 0) / (crop.n_kg_ha or 1)),
                 "P2O5": stage_requirements.get("P2O5", crop.p2o5_kg_ha),
                 "K2O": stage_requirements.get("K2O", crop.k2o_kg_ha),
                 "Ca": stage_requirements.get("Ca", crop.ca_kg_ha or 0),
@@ -913,6 +925,7 @@ class FertiIrrigationCalculator:
         else:
             requirements = {
                 "N": crop.n_kg_ha,
+                "NH4": crop.nh4_kg_ha or 0,
                 "P2O5": crop.p2o5_kg_ha,
                 "K2O": crop.k2o_kg_ha,
                 "Ca": crop.ca_kg_ha or 0,
@@ -959,9 +972,10 @@ class FertiIrrigationCalculator:
                         minimum_applied = True
                         minimum_reason = f"Dosis mínima aplicada por seguridad ({int(min_pct*100)}% del requerimiento)"
             
+            efficiency_key = "N" if nutrient == "NH4" else nutrient.replace("2O5", "").replace("2O", "")
             efficiency = self.get_efficiency_factor(
                 soil.texture, 
-                nutrient.replace("2O5", "").replace("2O", "")
+                efficiency_key
             )
             
             fertilizer_needed = deficit / efficiency if efficiency > 0 else deficit
@@ -1028,6 +1042,7 @@ class FertiIrrigationCalculator:
         
         # Get total needs
         n_total = next((b["fertilizer_needed_kg_ha"] for b in balance if b["nutrient"] == "N"), 0)
+        nh4_total = next((b["fertilizer_needed_kg_ha"] for b in balance if b["nutrient"] == "NH4"), 0)
         p_total = next((b["fertilizer_needed_kg_ha"] for b in balance if b["nutrient"] == "P2O5"), 0)
         k_total = next((b["fertilizer_needed_kg_ha"] for b in balance if b["nutrient"] == "K2O"), 0)
         
@@ -1036,6 +1051,7 @@ class FertiIrrigationCalculator:
             "urea_46_0_0": DEFAULT_PRICES_BY_CURRENCY.get("urea_46_0_0", {}).get(currency, 14.0),
             "map_11_52_0": DEFAULT_PRICES_BY_CURRENCY.get("map_11_52_0", {}).get(currency, 20.0),
             "sop_0_0_50_18s": DEFAULT_PRICES_BY_CURRENCY.get("sop_0_0_50_18s", {}).get(currency, 22.0),
+            "ammonium_sulfate": DEFAULT_PRICES_BY_CURRENCY.get("ammonium_sulfate", {}).get(currency, 16.0),
         }
         
         # Use user prices if provided, otherwise fallback to defaults
@@ -1049,12 +1065,25 @@ class FertiIrrigationCalculator:
             "Urea (46-0-0)": get_price("urea_46_0_0"),
             "MAP (12-61-0)": get_price("map_11_52_0"),
             "Sulfato de Potasio (0-0-50)": get_price("sop_0_0_50_18s"),
+            "Sulfato de Amonio (21-0-0-24S)": get_price("ammonium_sulfate"),
         }
         
         # Simple fertilizer selection (can be expanded)
         # Using common soluble fertilizers
         fertilizers = []
         
+        if nh4_total > 0:
+            ammonium_sulfate_kg = nh4_total / 0.21
+            fertilizers.append({
+                "name": "Sulfato de Amonio (21-0-0-24S)",
+                "slug": "ammonium_sulfate",
+                "total_kg_ha": round(ammonium_sulfate_kg, 2),
+                "nutrient": "NH4",
+                "concentration": 0.21,
+                "price_per_kg": price_map["Sulfato de Amonio (21-0-0-24S)"]
+            })
+            n_total = max(0, n_total - nh4_total)
+
         if n_total > 0:
             # Urea (46-0-0)
             urea_kg = n_total / 0.46
@@ -1353,6 +1382,7 @@ class FertiIrrigationCalculator:
             return {
                 "status": "success",
                 "total_n_kg_ha": 0,
+                "total_nh4_kg_ha": 0,
                 "total_p2o5_kg_ha": 0,
                 "total_k2o_kg_ha": 0,
                 "nutrient_balance": balance,
@@ -1378,6 +1408,7 @@ class FertiIrrigationCalculator:
         
         # Summary totals
         total_n = next((b["fertilizer_needed_kg_ha"] for b in balance if b["nutrient"] == "N"), 0)
+        total_nh4 = next((b["fertilizer_needed_kg_ha"] for b in balance if b["nutrient"] == "NH4"), 0)
         total_p2o5 = next((b["fertilizer_needed_kg_ha"] for b in balance if b["nutrient"] == "P2O5"), 0)
         total_k2o = next((b["fertilizer_needed_kg_ha"] for b in balance if b["nutrient"] == "K2O"), 0)
         
@@ -1400,6 +1431,7 @@ class FertiIrrigationCalculator:
         return {
             "status": "success",
             "total_n_kg_ha": round(total_n, 2),
+            "total_nh4_kg_ha": round(total_nh4, 2),
             "total_p2o5_kg_ha": round(total_p2o5, 2),
             "total_k2o_kg_ha": round(total_k2o, 2),
             "nutrient_balance": balance,

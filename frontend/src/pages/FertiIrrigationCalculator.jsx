@@ -13,20 +13,20 @@ import { getNutrientStatus, getBarColor, STATUS_CONFIG, NUTRIENT_STATUS } from '
 import '../styles/fertiirrigation-wizard.css';
 
 const cropDefaults = [
-  { name: 'Maíz', yield_reference: 12, n_kg_ha: 180, p2o5_kg_ha: 80, k2o_kg_ha: 150, ca_kg_ha: 40, mg_kg_ha: 30, s_kg_ha: 25, fe_g_ton: 4, mn_g_ton: 2, zn_g_ton: 2, cu_g_ton: 0.5, b_g_ton: 0.8, mo_g_ton: 0.05 },
-  { name: 'Tomate', yield_reference: 80, n_kg_ha: 250, p2o5_kg_ha: 120, k2o_kg_ha: 350, ca_kg_ha: 150, mg_kg_ha: 50, s_kg_ha: 40, fe_g_ton: 8, mn_g_ton: 3, zn_g_ton: 2.5, cu_g_ton: 0.8, b_g_ton: 1.5, mo_g_ton: 0.15 },
-  { name: 'Chile', yield_reference: 40, n_kg_ha: 220, p2o5_kg_ha: 100, k2o_kg_ha: 280, ca_kg_ha: 120, mg_kg_ha: 40, s_kg_ha: 35, fe_g_ton: 7, mn_g_ton: 3, zn_g_ton: 2.5, cu_g_ton: 0.7, b_g_ton: 1.2, mo_g_ton: 0.12 },
-  { name: 'Fresa', yield_reference: 50, n_kg_ha: 180, p2o5_kg_ha: 80, k2o_kg_ha: 250, ca_kg_ha: 100, mg_kg_ha: 35, s_kg_ha: 30, fe_g_ton: 6, mn_g_ton: 2.5, zn_g_ton: 2, cu_g_ton: 0.6, b_g_ton: 1.5, mo_g_ton: 0.1 },
-  { name: 'Aguacate', yield_reference: 15, n_kg_ha: 150, p2o5_kg_ha: 60, k2o_kg_ha: 200, ca_kg_ha: 80, mg_kg_ha: 40, s_kg_ha: 25, fe_g_ton: 10, mn_g_ton: 4, zn_g_ton: 3, cu_g_ton: 1, b_g_ton: 2, mo_g_ton: 0.2 },
-  { name: 'Papa', yield_reference: 40, n_kg_ha: 200, p2o5_kg_ha: 100, k2o_kg_ha: 280, ca_kg_ha: 60, mg_kg_ha: 35, s_kg_ha: 30, fe_g_ton: 5, mn_g_ton: 2, zn_g_ton: 1.5, cu_g_ton: 0.5, b_g_ton: 0.8, mo_g_ton: 0.08 },
-  { name: 'Cebolla', yield_reference: 50, n_kg_ha: 160, p2o5_kg_ha: 80, k2o_kg_ha: 180, ca_kg_ha: 50, mg_kg_ha: 25, s_kg_ha: 40, fe_g_ton: 4, mn_g_ton: 2, zn_g_ton: 1.5, cu_g_ton: 0.4, b_g_ton: 1, mo_g_ton: 0.08 },
-  { name: 'Lechuga', yield_reference: 30, n_kg_ha: 120, p2o5_kg_ha: 50, k2o_kg_ha: 150, ca_kg_ha: 60, mg_kg_ha: 20, s_kg_ha: 15, fe_g_ton: 5, mn_g_ton: 2, zn_g_ton: 1.5, cu_g_ton: 0.3, b_g_ton: 1.2, mo_g_ton: 0.1 },
-  { name: 'Frijol', yield_reference: 2.5, n_kg_ha: 40, p2o5_kg_ha: 60, k2o_kg_ha: 80, ca_kg_ha: 30, mg_kg_ha: 15, s_kg_ha: 15, fe_g_ton: 20, mn_g_ton: 8, zn_g_ton: 6, cu_g_ton: 2, b_g_ton: 3, mo_g_ton: 0.5 },
-  { name: 'Pepino', yield_reference: 60, n_kg_ha: 180, p2o5_kg_ha: 80, k2o_kg_ha: 220, ca_kg_ha: 80, mg_kg_ha: 30, s_kg_ha: 25, fe_g_ton: 5, mn_g_ton: 2, zn_g_ton: 2, cu_g_ton: 0.5, b_g_ton: 1, mo_g_ton: 0.1 },
-  { name: 'Calabaza', yield_reference: 30, n_kg_ha: 120, p2o5_kg_ha: 60, k2o_kg_ha: 150, ca_kg_ha: 50, mg_kg_ha: 25, s_kg_ha: 20, fe_g_ton: 5, mn_g_ton: 2, zn_g_ton: 2, cu_g_ton: 0.5, b_g_ton: 1, mo_g_ton: 0.1 },
-  { name: 'Sandía', yield_reference: 40, n_kg_ha: 150, p2o5_kg_ha: 80, k2o_kg_ha: 200, ca_kg_ha: 60, mg_kg_ha: 30, s_kg_ha: 25, fe_g_ton: 4, mn_g_ton: 2, zn_g_ton: 1.5, cu_g_ton: 0.4, b_g_ton: 0.8, mo_g_ton: 0.08 },
-  { name: 'Melón', yield_reference: 35, n_kg_ha: 160, p2o5_kg_ha: 90, k2o_kg_ha: 220, ca_kg_ha: 70, mg_kg_ha: 35, s_kg_ha: 25, fe_g_ton: 5, mn_g_ton: 2.5, zn_g_ton: 2, cu_g_ton: 0.5, b_g_ton: 1, mo_g_ton: 0.1 },
-  { name: 'Personalizado', yield_reference: 10, n_kg_ha: 150, p2o5_kg_ha: 60, k2o_kg_ha: 120, ca_kg_ha: 40, mg_kg_ha: 20, s_kg_ha: 20, fe_g_ton: 5, mn_g_ton: 2, zn_g_ton: 2, cu_g_ton: 0.5, b_g_ton: 1, mo_g_ton: 0.1 },
+  { name: 'Maíz', yield_reference: 12, n_kg_ha: 180, nh4_kg_ha: 36, p2o5_kg_ha: 80, k2o_kg_ha: 150, ca_kg_ha: 40, mg_kg_ha: 30, s_kg_ha: 25, fe_g_ton: 4, mn_g_ton: 2, zn_g_ton: 2, cu_g_ton: 0.5, b_g_ton: 0.8, mo_g_ton: 0.05 },
+  { name: 'Tomate', yield_reference: 80, n_kg_ha: 250, nh4_kg_ha: 50, p2o5_kg_ha: 120, k2o_kg_ha: 350, ca_kg_ha: 150, mg_kg_ha: 50, s_kg_ha: 40, fe_g_ton: 8, mn_g_ton: 3, zn_g_ton: 2.5, cu_g_ton: 0.8, b_g_ton: 1.5, mo_g_ton: 0.15 },
+  { name: 'Chile', yield_reference: 40, n_kg_ha: 220, nh4_kg_ha: 44, p2o5_kg_ha: 100, k2o_kg_ha: 280, ca_kg_ha: 120, mg_kg_ha: 40, s_kg_ha: 35, fe_g_ton: 7, mn_g_ton: 3, zn_g_ton: 2.5, cu_g_ton: 0.7, b_g_ton: 1.2, mo_g_ton: 0.12 },
+  { name: 'Fresa', yield_reference: 50, n_kg_ha: 180, nh4_kg_ha: 36, p2o5_kg_ha: 80, k2o_kg_ha: 250, ca_kg_ha: 100, mg_kg_ha: 35, s_kg_ha: 30, fe_g_ton: 6, mn_g_ton: 2.5, zn_g_ton: 2, cu_g_ton: 0.6, b_g_ton: 1.5, mo_g_ton: 0.1 },
+  { name: 'Aguacate', yield_reference: 15, n_kg_ha: 150, nh4_kg_ha: 30, p2o5_kg_ha: 60, k2o_kg_ha: 200, ca_kg_ha: 80, mg_kg_ha: 40, s_kg_ha: 25, fe_g_ton: 10, mn_g_ton: 4, zn_g_ton: 3, cu_g_ton: 1, b_g_ton: 2, mo_g_ton: 0.2 },
+  { name: 'Papa', yield_reference: 40, n_kg_ha: 200, nh4_kg_ha: 40, p2o5_kg_ha: 100, k2o_kg_ha: 280, ca_kg_ha: 60, mg_kg_ha: 35, s_kg_ha: 30, fe_g_ton: 5, mn_g_ton: 2, zn_g_ton: 1.5, cu_g_ton: 0.5, b_g_ton: 0.8, mo_g_ton: 0.08 },
+  { name: 'Cebolla', yield_reference: 50, n_kg_ha: 160, nh4_kg_ha: 32, p2o5_kg_ha: 80, k2o_kg_ha: 180, ca_kg_ha: 50, mg_kg_ha: 25, s_kg_ha: 40, fe_g_ton: 4, mn_g_ton: 2, zn_g_ton: 1.5, cu_g_ton: 0.4, b_g_ton: 1, mo_g_ton: 0.08 },
+  { name: 'Lechuga', yield_reference: 30, n_kg_ha: 120, nh4_kg_ha: 24, p2o5_kg_ha: 50, k2o_kg_ha: 150, ca_kg_ha: 60, mg_kg_ha: 20, s_kg_ha: 15, fe_g_ton: 5, mn_g_ton: 2, zn_g_ton: 1.5, cu_g_ton: 0.3, b_g_ton: 1.2, mo_g_ton: 0.1 },
+  { name: 'Frijol', yield_reference: 2.5, n_kg_ha: 40, nh4_kg_ha: 8, p2o5_kg_ha: 60, k2o_kg_ha: 80, ca_kg_ha: 30, mg_kg_ha: 15, s_kg_ha: 15, fe_g_ton: 20, mn_g_ton: 8, zn_g_ton: 6, cu_g_ton: 2, b_g_ton: 3, mo_g_ton: 0.5 },
+  { name: 'Pepino', yield_reference: 60, n_kg_ha: 180, nh4_kg_ha: 36, p2o5_kg_ha: 80, k2o_kg_ha: 220, ca_kg_ha: 80, mg_kg_ha: 30, s_kg_ha: 25, fe_g_ton: 5, mn_g_ton: 2, zn_g_ton: 2, cu_g_ton: 0.5, b_g_ton: 1, mo_g_ton: 0.1 },
+  { name: 'Calabaza', yield_reference: 30, n_kg_ha: 120, nh4_kg_ha: 24, p2o5_kg_ha: 60, k2o_kg_ha: 150, ca_kg_ha: 50, mg_kg_ha: 25, s_kg_ha: 20, fe_g_ton: 5, mn_g_ton: 2, zn_g_ton: 2, cu_g_ton: 0.5, b_g_ton: 1, mo_g_ton: 0.1 },
+  { name: 'Sandía', yield_reference: 40, n_kg_ha: 150, nh4_kg_ha: 30, p2o5_kg_ha: 80, k2o_kg_ha: 200, ca_kg_ha: 60, mg_kg_ha: 30, s_kg_ha: 25, fe_g_ton: 4, mn_g_ton: 2, zn_g_ton: 1.5, cu_g_ton: 0.4, b_g_ton: 0.8, mo_g_ton: 0.08 },
+  { name: 'Melón', yield_reference: 35, n_kg_ha: 160, nh4_kg_ha: 32, p2o5_kg_ha: 90, k2o_kg_ha: 220, ca_kg_ha: 70, mg_kg_ha: 35, s_kg_ha: 25, fe_g_ton: 5, mn_g_ton: 2.5, zn_g_ton: 2, cu_g_ton: 0.5, b_g_ton: 1, mo_g_ton: 0.1 },
+  { name: 'Personalizado', yield_reference: 10, n_kg_ha: 150, nh4_kg_ha: 30, p2o5_kg_ha: 60, k2o_kg_ha: 120, ca_kg_ha: 40, mg_kg_ha: 20, s_kg_ha: 20, fe_g_ton: 5, mn_g_ton: 2, zn_g_ton: 2, cu_g_ton: 0.5, b_g_ton: 1, mo_g_ton: 0.1 },
 ];
 
 const calculateNutrientRequirements = (crop, targetYield) => {
@@ -34,6 +34,7 @@ const calculateNutrientRequirements = (crop, targetYield) => {
   const ratio = targetYield / crop.yield_reference;
   return {
     n_kg_ha: Math.round(crop.n_kg_ha * ratio * 10) / 10,
+    nh4_kg_ha: Math.round((crop.nh4_kg_ha || 0) * ratio * 10) / 10,
     p2o5_kg_ha: Math.round(crop.p2o5_kg_ha * ratio * 10) / 10,
     k2o_kg_ha: Math.round(crop.k2o_kg_ha * ratio * 10) / 10,
     ca_kg_ha: Math.round(crop.ca_kg_ha * ratio * 10) / 10,
@@ -173,6 +174,7 @@ export default function FertiIrrigationCalculator() {
     growth_stage: '',
     yield_target_ton_ha: 12,
     n_kg_ha: 180,
+    nh4_kg_ha: 36,
     p2o5_kg_ha: 80,
     k2o_kg_ha: 150,
     ca_kg_ha: 40,
@@ -348,7 +350,7 @@ export default function FertiIrrigationCalculator() {
       setHasGeneratedAIProfiles(false);
       setOptimizationResult(null);
     }
-  }, [formData.soil_analysis_id, formData.water_analysis_id, selectedCropId, selectedStageId, formData.n_kg_ha, formData.p2o5_kg_ha, formData.k2o_kg_ha, formData.ca_kg_ha, formData.mg_kg_ha, formData.s_kg_ha, selectedFertilizers]);
+  }, [formData.soil_analysis_id, formData.water_analysis_id, selectedCropId, selectedStageId, formData.n_kg_ha, formData.nh4_kg_ha, formData.p2o5_kg_ha, formData.k2o_kg_ha, formData.ca_kg_ha, formData.mg_kg_ha, formData.s_kg_ha, selectedFertilizers]);
   
   useEffect(() => {
     const fetchPreviousStagePercent = async () => {
@@ -446,7 +448,7 @@ export default function FertiIrrigationCalculator() {
     }
   }, [currentStep, formData.soil_analysis_id, formData.water_analysis_id, 
       formData.irrigation_volume_m3_ha, formData.irrigation_frequency_days, formData.num_applications,
-      formData.n_kg_ha, formData.p2o5_kg_ha, formData.k2o_kg_ha, 
+      formData.n_kg_ha, formData.nh4_kg_ha, formData.p2o5_kg_ha, formData.k2o_kg_ha, 
       formData.ca_kg_ha, formData.mg_kg_ha, formData.s_kg_ha,
       stageExtractionPercent, previousStageExtractionPercent]);
 
@@ -642,6 +644,7 @@ export default function FertiIrrigationCalculator() {
         stage_extraction_pct: microDeltaPercent,
         requirements: {
           n_kg_ha: parseFloat(formData.n_kg_ha) || 0,
+          nh4_kg_ha: parseFloat(formData.nh4_kg_ha) || 0,
           p2o5_kg_ha: parseFloat(formData.p2o5_kg_ha) || 0,
           k2o_kg_ha: parseFloat(formData.k2o_kg_ha) || 0,
           ca_kg_ha: parseFloat(formData.ca_kg_ha) || 0,
@@ -682,6 +685,7 @@ export default function FertiIrrigationCalculator() {
       payload.custom_extraction_percent = (selectedCropSource === 'custom' || selectedCropSource === 'manual') && stageExtractionPercent
         ? {
           N: getDeltaPercent('N'),
+          NH4: getDeltaPercent('N'),
           P2O5: getDeltaPercent('P2O5'),
           K2O: getDeltaPercent('K2O'),
           Ca: getDeltaPercent('Ca'),
@@ -944,6 +948,7 @@ export default function FertiIrrigationCalculator() {
           crop_name: value,
           yield_target_ton_ha: crop.yield_reference,
           n_kg_ha: crop.n_kg_ha,
+          nh4_kg_ha: crop.nh4_kg_ha || 0,
           p2o5_kg_ha: crop.p2o5_kg_ha,
           k2o_kg_ha: crop.k2o_kg_ha,
           ca_kg_ha: crop.ca_kg_ha,
@@ -1026,6 +1031,7 @@ export default function FertiIrrigationCalculator() {
       const deltaExtractionPercentages = stageExtractionPercent
         ? {
           N: getDeltaPercent('N'),
+          NH4: getDeltaPercent('N'),
           P2O5: getDeltaPercent('P2O5'),
           K2O: getDeltaPercent('K2O'),
           Ca: getDeltaPercent('Ca'),
@@ -1064,6 +1070,7 @@ export default function FertiIrrigationCalculator() {
           formData.growth_stage,
         yield_target_ton_ha: parseFloat(formData.yield_target_ton_ha) || 10,
         n_kg_ha: (parseFloat(formData.n_kg_ha) || 0),
+        nh4_kg_ha: (parseFloat(formData.nh4_kg_ha) || 0),
         p2o5_kg_ha: (parseFloat(formData.p2o5_kg_ha) || 0),
         k2o_kg_ha: (parseFloat(formData.k2o_kg_ha) || 0),
         ca_kg_ha: (parseFloat(formData.ca_kg_ha) || 0),
@@ -1233,6 +1240,7 @@ export default function FertiIrrigationCalculator() {
     const payload = {
       deficit: {
         n_kg_ha: parseFloat(formData.n_kg_ha) || 0,
+        nh4_kg_ha: parseFloat(formData.nh4_kg_ha) || 0,
         p2o5_kg_ha: parseFloat(formData.p2o5_kg_ha) || 0,
         k2o_kg_ha: parseFloat(formData.k2o_kg_ha) || 0,
         ca_kg_ha: parseFloat(formData.ca_kg_ha) || 0,
@@ -1274,6 +1282,7 @@ export default function FertiIrrigationCalculator() {
       custom_extraction_percent: (selectedCropSource === 'custom' || selectedCropSource === 'manual') && stageExtractionPercent
         ? {
           N: getDeltaPercent('N'),
+          NH4: getDeltaPercent('N'),
           P2O5: getDeltaPercent('P2O5'),
           K2O: getDeltaPercent('K2O'),
           Ca: getDeltaPercent('Ca'),
@@ -1355,6 +1364,7 @@ export default function FertiIrrigationCalculator() {
 
     const resolved = realDeficit || {
       N: fallback.n_kg_ha || 0,
+      NH4: fallback.nh4_kg_ha || 0,
       P2O5: fallback.p2o5_kg_ha || 0,
       K2O: fallback.k2o_kg_ha || 0,
       Ca: fallback.ca_kg_ha || 0,
@@ -1364,6 +1374,7 @@ export default function FertiIrrigationCalculator() {
 
     return {
       N: Math.max(0, resolved.N || 0),
+      NH4: Math.max(0, resolved.NH4 || 0),
       P2O5: Math.max(0, resolved.P2O5 || 0),
       K2O: Math.max(0, resolved.K2O || 0),
       Ca: Math.max(0, resolved.Ca || 0),
@@ -1444,6 +1455,7 @@ export default function FertiIrrigationCalculator() {
         const macroFertilizers = (profile.macro_fertilizers || profile.fertilizers || []).map(f => {
           const normalizedContributions = {
             N: f.n_contribution ?? f.contributions?.N ?? 0,
+            NH4: f.nh4_contribution ?? f.contributions?.NH4 ?? 0,
             P2O5: f.p2o5_contribution ?? f.contributions?.P2O5 ?? 0,
             K2O: f.k2o_contribution ?? f.contributions?.K2O ?? 0,
             Ca: f.ca_contribution ?? f.contributions?.Ca ?? 0,
@@ -1467,6 +1479,7 @@ export default function FertiIrrigationCalculator() {
               ? normalizedContributions
               : (f.contributions || {}),
             n_contribution: f.n_contribution ?? normalizedContributions.N,
+            nh4_contribution: f.nh4_contribution ?? normalizedContributions.NH4,
             p2o5_contribution: f.p2o5_contribution ?? normalizedContributions.P2O5,
             k2o_contribution: f.k2o_contribution ?? normalizedContributions.K2O,
             ca_contribution: f.ca_contribution ?? normalizedContributions.Ca,
@@ -2786,6 +2799,7 @@ export default function FertiIrrigationCalculator() {
         <div className="wizard-grid-6">
           {[
             { field: 'n_kg_ha', label: 'N', sublabel: 'Nitrógeno', extractKey: 'N' },
+            { field: 'nh4_kg_ha', label: 'NH₄', sublabel: 'Amonio', extractKey: 'N' },
             { field: 'p2o5_kg_ha', label: 'P₂O₅', sublabel: 'Fósforo', extractKey: 'P2O5' },
             { field: 'k2o_kg_ha', label: 'K₂O', sublabel: 'Potasio', extractKey: 'K2O' },
             { field: 'ca_kg_ha', label: 'Ca', sublabel: 'Calcio', extractKey: 'Ca' },
@@ -2828,6 +2842,7 @@ export default function FertiIrrigationCalculator() {
             <div className="wizard-grid-6" style={{ gap: '8px' }}>
               {[
                 { field: 'n_kg_ha', label: 'N', extractKey: 'N' },
+                { field: 'nh4_kg_ha', label: 'NH₄', extractKey: 'N' },
                 { field: 'p2o5_kg_ha', label: 'P₂O₅', extractKey: 'P2O5' },
                 { field: 'k2o_kg_ha', label: 'K₂O', extractKey: 'K2O' },
                 { field: 'ca_kg_ha', label: 'Ca', extractKey: 'Ca' },
@@ -2919,6 +2934,9 @@ export default function FertiIrrigationCalculator() {
               </span>
               <span style={{ fontSize: '0.75rem', background: '#f1f5f9', color: '#475569', padding: '2px 8px', borderRadius: '4px' }}>
                 N: {formData.n_kg_ha} kg/ha
+              </span>
+              <span style={{ fontSize: '0.75rem', background: '#e0e7ff', color: '#312e81', padding: '2px 8px', borderRadius: '4px' }}>
+                NH₄: {formData.nh4_kg_ha} kg/ha
               </span>
             </div>
           </div>
@@ -3156,6 +3174,14 @@ export default function FertiIrrigationCalculator() {
                       agua: nutrientContributions.water_contribution?.N || 0, 
                       acido: nutrientContributions.acid_contribution?.N || 0,
                       deficit: nutrientContributions.deficit_final?.N || nutrientContributions.real_deficit?.N || 0 
+                    },
+                    { 
+                      name: 'NH₄', 
+                      requerimiento: nutrientContributions.requirements?.NH4 || 0,
+                      suelo: nutrientContributions.soil_contribution?.NH4 || 0, 
+                      agua: nutrientContributions.water_contribution?.NH4 || 0, 
+                      acido: nutrientContributions.acid_contribution?.NH4 || 0,
+                      deficit: nutrientContributions.deficit_final?.NH4 || nutrientContributions.real_deficit?.NH4 || 0 
                     },
                     { 
                       name: 'P₂O₅', 
@@ -4755,6 +4781,7 @@ export default function FertiIrrigationCalculator() {
 
   const NUTRIENT_COLORS = {
     N: '#1d4ed8',
+    NH4: '#1e3a8a',
     P2O5: '#2563eb', 
     K2O: '#3b82f6',
     Ca: '#60a5fa',
@@ -4856,6 +4883,7 @@ export default function FertiIrrigationCalculator() {
     
     const nutrientsPerApp = {
       N: fertSource.reduce((sum, f) => sum + (f.n_contribution || f.nutrients?.N || 0), 0) / numApplications,
+      NH4: fertSource.reduce((sum, f) => sum + (f.nh4_contribution || f.nutrients?.NH4 || 0), 0) / numApplications,
       P2O5: fertSource.reduce((sum, f) => sum + (f.p2o5_contribution || f.nutrients?.P2O5 || 0), 0) / numApplications,
       K2O: fertSource.reduce((sum, f) => sum + (f.k2o_contribution || f.nutrients?.K2O || 0), 0) / numApplications,
       Ca: fertSource.reduce((sum, f) => sum + (f.ca_contribution || f.nutrients?.Ca || 0), 0) / numApplications,
@@ -4877,12 +4905,15 @@ export default function FertiIrrigationCalculator() {
       if (fertilizer.nutrients?.[nutrientKey] > 0) return fertilizer.nutrients[nutrientKey];
       const flatKey = pctField.replace('_pct', '_contribution');
       if (fertilizer[flatKey] > 0) return fertilizer[flatKey];
-      const pct = fertilizer[pctField] || fertilizer.nutrient_composition?.[`${nutrientKey}_percent`] || 0;
+      const pct = nutrientKey === 'NH4'
+        ? fertilizer[pctField] || fertilizer.nutrient_composition?.NH4_N_percent || fertilizer.nutrient_composition?.NH4_percent || 0
+        : fertilizer[pctField] || fertilizer.nutrient_composition?.[`${nutrientKey}_percent`] || 0;
       return dose * pct / 100;
     };
 
     const contributionTotals = {
       N: fertSource.reduce((sum, f) => sum + getContributionValue(f, 'N', 'n_pct', f.dose_kg_ha || f.total_dose || 0), 0),
+      NH4: fertSource.reduce((sum, f) => sum + getContributionValue(f, 'NH4', 'nh4_pct', f.dose_kg_ha || f.total_dose || 0), 0),
       P2O5: fertSource.reduce((sum, f) => sum + getContributionValue(f, 'P2O5', 'p2o5_pct', f.dose_kg_ha || f.total_dose || 0), 0),
       K2O: fertSource.reduce((sum, f) => sum + getContributionValue(f, 'K2O', 'k2o_pct', f.dose_kg_ha || f.total_dose || 0), 0),
       Ca: fertSource.reduce((sum, f) => sum + getContributionValue(f, 'Ca', 'ca_pct', f.dose_kg_ha || f.total_dose || 0), 0),
@@ -5510,6 +5541,7 @@ export default function FertiIrrigationCalculator() {
                       <th>Fertilizante</th>
                       <th className="text-right">Dosis (kg/ha)</th>
                       <th className="text-center" style={{ color: NUTRIENT_COLORS['N'] }}>N</th>
+                      <th className="text-center" style={{ color: NUTRIENT_COLORS['NH4'] }}>NH₄</th>
                       <th className="text-center" style={{ color: NUTRIENT_COLORS['P2O5'] }}>P₂O₅</th>
                       <th className="text-center" style={{ color: NUTRIENT_COLORS['K2O'] }}>K₂O</th>
                       <th className="text-center" style={{ color: NUTRIENT_COLORS['Ca'] }}>Ca</th>
@@ -5522,6 +5554,7 @@ export default function FertiIrrigationCalculator() {
                       const dose = f.dose_kg_ha || f.total_dose || 0;
 
                       const nContrib = getContributionValue(f, 'N', 'n_pct', dose);
+                      const nh4Contrib = getContributionValue(f, 'NH4', 'nh4_pct', dose);
                       const pContrib = getContributionValue(f, 'P2O5', 'p2o5_pct', dose);
                       const kContrib = getContributionValue(f, 'K2O', 'k2o_pct', dose);
                       const caContrib = getContributionValue(f, 'Ca', 'ca_pct', dose);
@@ -5534,6 +5567,9 @@ export default function FertiIrrigationCalculator() {
                           <td className="text-right">{dose.toFixed(1)} kg</td>
                           <td className="text-center" style={{ background: nContrib > 0.1 ? '#dcfce7' : 'transparent' }}>
                             {nContrib > 0.1 ? nContrib.toFixed(1) : '–'}
+                          </td>
+                          <td className="text-center" style={{ background: nh4Contrib > 0.1 ? '#e0e7ff' : 'transparent' }}>
+                            {nh4Contrib > 0.1 ? nh4Contrib.toFixed(1) : '–'}
                           </td>
                           <td className="text-center" style={{ background: pContrib > 0.1 ? '#fef3c7' : 'transparent' }}>
                             {pContrib > 0.1 ? pContrib.toFixed(1) : '–'}
@@ -5559,6 +5595,7 @@ export default function FertiIrrigationCalculator() {
                       <td>TOTAL APORTE</td>
                       <td className="text-right">{fertSource.reduce((sum, f) => sum + (f.dose_kg_ha || f.total_dose || 0), 0).toFixed(1)} kg</td>
                       <td className="text-center">{contributionTotals.N.toFixed(1)}</td>
+                      <td className="text-center">{contributionTotals.NH4.toFixed(1)}</td>
                       <td className="text-center">{contributionTotals.P2O5.toFixed(1)}</td>
                       <td className="text-center">{contributionTotals.K2O.toFixed(1)}</td>
                       <td className="text-center">{contributionTotals.Ca.toFixed(1)}</td>

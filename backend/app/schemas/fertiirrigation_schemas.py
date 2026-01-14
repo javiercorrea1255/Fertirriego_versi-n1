@@ -157,6 +157,7 @@ class CropRequirements(BaseModel):
     
     # Requirements kg/ha
     n_kg_ha: float = Field(ge=0, description="N requirement kg/ha")
+    nh4_kg_ha: Optional[float] = Field(0, ge=0, description="NH4 requirement kg/ha")
     p2o5_kg_ha: float = Field(ge=0, description="P2O5 requirement kg/ha")
     k2o_kg_ha: float = Field(ge=0, description="K2O requirement kg/ha")
     ca_kg_ha: Optional[float] = Field(None, ge=0)
@@ -301,6 +302,7 @@ class FertiIrrigationResult(BaseModel):
     """Fertiirrigation calculation result."""
     # Summary
     total_n_kg_ha: float
+    total_nh4_kg_ha: Optional[float] = None
     total_p2o5_kg_ha: float
     total_k2o_kg_ha: float
     

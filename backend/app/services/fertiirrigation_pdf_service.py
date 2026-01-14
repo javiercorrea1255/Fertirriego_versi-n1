@@ -1299,7 +1299,7 @@ def create_fertiirrigation_pdf_report(
         ))
         story.append(Spacer(1, 4))
         
-        nutrient_cols = ["N", "P2O5", "K2O", "Ca", "Mg", "S"]
+        nutrient_cols = ["N", "NH4", "P2O5", "K2O", "Ca", "Mg", "S"]
         contrib_keys = CONTRIBUTION_KEYS
         
         contrib_header = ["Fertilizante", "kg/ha"] + nutrient_cols
@@ -1339,7 +1339,7 @@ def create_fertiirrigation_pdf_report(
             totals_row.append(f"{total_val:.1f}" if total_val > 0 else "–")
         contrib_data.append(totals_row)
         
-        contrib_table = Table(contrib_data, colWidths=[1.9*inch, 0.6*inch, 0.65*inch, 0.65*inch, 0.65*inch, 0.6*inch, 0.6*inch, 0.5*inch])
+        contrib_table = Table(contrib_data, colWidths=[1.8*inch, 0.6*inch, 0.6*inch, 0.6*inch, 0.6*inch, 0.6*inch, 0.55*inch, 0.55*inch, 0.5*inch])
         contrib_table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), HexColor("#1e3a5f")),
             ('TEXTCOLOR', (0, 0), (-1, 0), HexColor("#ffffff")),

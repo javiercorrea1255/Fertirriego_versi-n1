@@ -210,6 +210,7 @@ class FertiIrrigationExcelService:
 
         nutrient_summary = [
             ("Nitrógeno (N):", result.get('total_n_kg_ha', 0)),
+            ("Amonio (NH4):", result.get('total_nh4_kg_ha', 0)),
             ("Fósforo (P₂O₅):", result.get('total_p2o5_kg_ha', 0)),
             ("Potasio (K₂O):", result.get('total_k2o_kg_ha', 0)),
             ("Calcio (Ca):", result.get('total_ca_kg_ha', 0)),
@@ -498,7 +499,7 @@ class FertiIrrigationExcelService:
         ws.cell(row=1, column=1, value="APORTES DE NUTRIENTES POR FERTILIZANTE (kg/ha por etapa)").font = self.subtitle_font
         ws.merge_cells('A1:I1')
 
-        headers = ["Fertilizante", "Dosis Total (kg/ha)", "N", "P2O5", "K2O", "Ca", "Mg", "S"]
+        headers = ["Fertilizante", "Dosis Total (kg/ha)", "N", "NH4", "P2O5", "K2O", "Ca", "Mg", "S"]
         for col, header in enumerate(headers, 1):
             ws.cell(row=2, column=col, value=header)
         self._apply_header_style(ws, 2, len(headers))
@@ -508,7 +509,7 @@ class FertiIrrigationExcelService:
             name = fd.get('fertilizer_name', '')
             if name in consolidated_ferts:
                 consolidated_ferts[name]['dose_kg_ha'] += fd.get('dose_kg_ha', 0)
-                for key in ['n_contribution', 'p2o5_contribution', 'k2o_contribution', 'ca_contribution', 'mg_contribution', 's_contribution']:
+                for key in ['n_contribution', 'nh4_contribution', 'p2o5_contribution', 'k2o_contribution', 'ca_contribution', 'mg_contribution', 's_contribution']:
                     consolidated_ferts[name][key] = consolidated_ferts[name].get(key, 0) + fd.get(key, 0)
             else:
                 consolidated_ferts[name] = {
@@ -516,6 +517,7 @@ class FertiIrrigationExcelService:
                     'fertilizer_id': fd.get('fertilizer_id', fd.get('id', '')),
                     'dose_kg_ha': fd.get('dose_kg_ha', 0),
                     'n_contribution': fd.get('n_contribution', 0),
+                    'nh4_contribution': fd.get('nh4_contribution', 0),
                     'p2o5_contribution': fd.get('p2o5_contribution', 0),
                     'k2o_contribution': fd.get('k2o_contribution', 0),
                     'ca_contribution': fd.get('ca_contribution', 0),
@@ -525,7 +527,7 @@ class FertiIrrigationExcelService:
                 }
 
         row = 3
-        nutrient_totals = {k: 0.0 for k in ['n_contribution', 'p2o5_contribution', 'k2o_contribution', 'ca_contribution', 'mg_contribution', 's_contribution']}
+        nutrient_totals = {k: 0.0 for k in ['n_contribution', 'nh4_contribution', 'p2o5_contribution', 'k2o_contribution', 'ca_contribution', 'mg_contribution', 's_contribution']}
 
         for fd in consolidated_ferts.values():
             fert_name = fd.get('fertilizer_name', '')
@@ -541,11 +543,12 @@ class FertiIrrigationExcelService:
             ws.cell(row=row, column=1, value=fert_name)
             ws.cell(row=row, column=2, value=round(dose_kg, 1))
             ws.cell(row=row, column=3, value=round(contributions['n_contribution'], 1))
-            ws.cell(row=row, column=4, value=round(contributions['p2o5_contribution'], 1))
-            ws.cell(row=row, column=5, value=round(contributions['k2o_contribution'], 1))
-            ws.cell(row=row, column=6, value=round(contributions['ca_contribution'], 1))
-            ws.cell(row=row, column=7, value=round(contributions['mg_contribution'], 1))
-            ws.cell(row=row, column=8, value=round(contributions['s_contribution'], 1))
+            ws.cell(row=row, column=4, value=round(contributions['nh4_contribution'], 1))
+            ws.cell(row=row, column=5, value=round(contributions['p2o5_contribution'], 1))
+            ws.cell(row=row, column=6, value=round(contributions['k2o_contribution'], 1))
+            ws.cell(row=row, column=7, value=round(contributions['ca_contribution'], 1))
+            ws.cell(row=row, column=8, value=round(contributions['mg_contribution'], 1))
+            ws.cell(row=row, column=9, value=round(contributions['s_contribution'], 1))
 
             for col in range(1, len(headers) + 1):
                 ws.cell(row=row, column=col).border = self.border
@@ -559,11 +562,12 @@ class FertiIrrigationExcelService:
         ws.cell(row=row, column=1, value="TOTAL").font = Font(bold=True)
         ws.cell(row=row, column=2, value="").font = Font(bold=True)
         ws.cell(row=row, column=3, value=round(nutrient_totals['n_contribution'], 1)).font = Font(bold=True)
-        ws.cell(row=row, column=4, value=round(nutrient_totals['p2o5_contribution'], 1)).font = Font(bold=True)
-        ws.cell(row=row, column=5, value=round(nutrient_totals['k2o_contribution'], 1)).font = Font(bold=True)
-        ws.cell(row=row, column=6, value=round(nutrient_totals['ca_contribution'], 1)).font = Font(bold=True)
-        ws.cell(row=row, column=7, value=round(nutrient_totals['mg_contribution'], 1)).font = Font(bold=True)
-        ws.cell(row=row, column=8, value=round(nutrient_totals['s_contribution'], 1)).font = Font(bold=True)
+        ws.cell(row=row, column=4, value=round(nutrient_totals['nh4_contribution'], 1)).font = Font(bold=True)
+        ws.cell(row=row, column=5, value=round(nutrient_totals['p2o5_contribution'], 1)).font = Font(bold=True)
+        ws.cell(row=row, column=6, value=round(nutrient_totals['k2o_contribution'], 1)).font = Font(bold=True)
+        ws.cell(row=row, column=7, value=round(nutrient_totals['ca_contribution'], 1)).font = Font(bold=True)
+        ws.cell(row=row, column=8, value=round(nutrient_totals['mg_contribution'], 1)).font = Font(bold=True)
+        ws.cell(row=row, column=9, value=round(nutrient_totals['s_contribution'], 1)).font = Font(bold=True)
         for col in range(1, len(headers) + 1):
             ws.cell(row=row, column=col).border = self.border
             ws.cell(row=row, column=col).fill = self.light_fill
@@ -574,7 +578,7 @@ class FertiIrrigationExcelService:
             column=1,
             value="Nota: Los aportes están en kg/ha para la etapa actual. Por riego = total / Nº aplicaciones.",
         ).font = Font(italic=True, size=9)
-        ws.merge_cells(f'A{row + 2}:H{row + 2}')
+        ws.merge_cells(f'A{row + 2}:I{row + 2}')
 
         self._auto_adjust_columns(ws)
         return ws
