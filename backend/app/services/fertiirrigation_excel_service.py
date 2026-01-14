@@ -11,6 +11,7 @@ from openpyxl.utils import get_column_letter
 from openpyxl.chart import BarChart, Reference
 
 from app.services.fertiirrigation_ab_tanks_service import separate_fertilizers_ab
+from app.services.fertiirrigation_report_utils import compute_contributions, get_fertilizer_composition
 
 FERTIRRIEGO_GREEN = "10B981"
 FERTIRRIEGO_DARK = "059669"
@@ -88,6 +89,7 @@ class FertiIrrigationExcelService:
         ws_summary = self._create_summary_sheet(wb, calculation, user_name, extraction_curve_info)
         ws_balance = self._create_nutrient_balance_sheet(wb, result)
         ws_program = self._create_fertilizer_program_sheet(wb, result, calculation)
+        self._create_fertilizer_contributions_sheet(wb, result, calculation)
         self._create_acid_sheet(wb, result, calculation)
         self._create_soil_depletion_sheet(wb, result)
         self._create_ab_tanks_sheet(wb, result, calculation)
@@ -163,12 +165,49 @@ class FertiIrrigationExcelService:
             row += 1
         
         row += 1
-        
+
+        result = calculation.get('result', calculation.get('results', {}))
+        exec_stage = calculation.get('growth_stage') or calculation.get('crop', {}).get('growth_stage')
+        exec_yield = calculation.get('yield_target_ton_ha') or calculation.get('crop', {}).get('yield_target_ton_ha')
+        exec_balance = result.get('nutrient_balance', [])
+        top_deficits = sorted(
+            [
+                (nb.get('nutrient', ''), nb.get('deficit_kg_ha', 0))
+                for nb in exec_balance
+                if nb.get('deficit_kg_ha', 0) > 0
+            ],
+            key=lambda item: item[1],
+            reverse=True,
+        )[:3]
+        deficit_label = (
+            ", ".join([f"{nutr}: {val:.1f}" for nutr, val in top_deficits])
+            if top_deficits
+            else "Sin déficits relevantes"
+        )
+
+        ws.cell(row=row, column=1, value="RESUMEN EJECUTIVO").font = self.subtitle_font
+        ws.merge_cells(f'A{row}:B{row}')
+        row += 1
+
+        exec_data = [
+            ("Etapa actual:", exec_stage or "N/A"),
+            ("Meta de rendimiento (t/ha):", exec_yield or "N/A"),
+            ("Déficits críticos (kg/ha etapa):", deficit_label),
+        ]
+        for label, value in exec_data:
+            ws.cell(row=row, column=1, value=label).font = Font(bold=True)
+            ws.cell(row=row, column=1).fill = self.light_fill
+            ws.cell(row=row, column=2, value=value)
+            ws.cell(row=row, column=1).border = self.border
+            ws.cell(row=row, column=2).border = self.border
+            row += 1
+
+        row += 1
+
         ws.cell(row=row, column=1, value="RESUMEN NUTRICIONAL (kg/ha)").font = self.subtitle_font
         ws.merge_cells(f'A{row}:B{row}')
         row += 1
-        
-        result = calculation.get('result', calculation.get('results', {}))
+
         nutrient_summary = [
             ("Nitrógeno (N):", result.get('total_n_kg_ha', 0)),
             ("Fósforo (P₂O₅):", result.get('total_p2o5_kg_ha', 0)),
@@ -445,6 +484,98 @@ class FertiIrrigationExcelService:
             ws.cell(row=row, column=col).fill = self.light_fill
             ws.cell(row=row, column=col).alignment = Alignment(horizontal='center')
         
+        self._auto_adjust_columns(ws)
+        return ws
+
+    def _create_fertilizer_contributions_sheet(self, wb, result: Dict, calculation: Dict) -> Any:
+        """Create a fertilizer nutrient contributions sheet."""
+        ws = wb.create_sheet("Aportes Nutrientes")
+
+        fertilizer_program = result.get('fertilizer_program', [])
+        if not fertilizer_program:
+            fertilizer_program = calculation.get('fertilizer_program', [])
+
+        ws.cell(row=1, column=1, value="APORTES DE NUTRIENTES POR FERTILIZANTE (kg/ha por etapa)").font = self.subtitle_font
+        ws.merge_cells('A1:I1')
+
+        headers = ["Fertilizante", "Dosis Total (kg/ha)", "N", "P2O5", "K2O", "Ca", "Mg", "S"]
+        for col, header in enumerate(headers, 1):
+            ws.cell(row=2, column=col, value=header)
+        self._apply_header_style(ws, 2, len(headers))
+
+        consolidated_ferts = {}
+        for fd in fertilizer_program:
+            name = fd.get('fertilizer_name', '')
+            if name in consolidated_ferts:
+                consolidated_ferts[name]['dose_kg_ha'] += fd.get('dose_kg_ha', 0)
+                for key in ['n_contribution', 'p2o5_contribution', 'k2o_contribution', 'ca_contribution', 'mg_contribution', 's_contribution']:
+                    consolidated_ferts[name][key] = consolidated_ferts[name].get(key, 0) + fd.get(key, 0)
+            else:
+                consolidated_ferts[name] = {
+                    'fertilizer_name': name,
+                    'fertilizer_id': fd.get('fertilizer_id', fd.get('id', '')),
+                    'dose_kg_ha': fd.get('dose_kg_ha', 0),
+                    'n_contribution': fd.get('n_contribution', 0),
+                    'p2o5_contribution': fd.get('p2o5_contribution', 0),
+                    'k2o_contribution': fd.get('k2o_contribution', 0),
+                    'ca_contribution': fd.get('ca_contribution', 0),
+                    'mg_contribution': fd.get('mg_contribution', 0),
+                    's_contribution': fd.get('s_contribution', 0),
+                    'nutrient_composition': fd.get('nutrient_composition', {})
+                }
+
+        row = 3
+        nutrient_totals = {k: 0.0 for k in ['n_contribution', 'p2o5_contribution', 'k2o_contribution', 'ca_contribution', 'mg_contribution', 's_contribution']}
+
+        for fd in consolidated_ferts.values():
+            fert_name = fd.get('fertilizer_name', '')
+            fert_id = fd.get('fertilizer_id', '')
+            dose_kg = fd.get('dose_kg_ha', 0)
+            composition = get_fertilizer_composition(
+                fert_id,
+                fert_name,
+                fallback=fd.get('nutrient_composition', {})
+            )
+            contributions = compute_contributions(fd, dose_kg, composition)
+
+            ws.cell(row=row, column=1, value=fert_name)
+            ws.cell(row=row, column=2, value=round(dose_kg, 1))
+            ws.cell(row=row, column=3, value=round(contributions['n_contribution'], 1))
+            ws.cell(row=row, column=4, value=round(contributions['p2o5_contribution'], 1))
+            ws.cell(row=row, column=5, value=round(contributions['k2o_contribution'], 1))
+            ws.cell(row=row, column=6, value=round(contributions['ca_contribution'], 1))
+            ws.cell(row=row, column=7, value=round(contributions['mg_contribution'], 1))
+            ws.cell(row=row, column=8, value=round(contributions['s_contribution'], 1))
+
+            for col in range(1, len(headers) + 1):
+                ws.cell(row=row, column=col).border = self.border
+                ws.cell(row=row, column=col).alignment = Alignment(horizontal='center')
+
+            for key in nutrient_totals:
+                nutrient_totals[key] += contributions[key]
+
+            row += 1
+
+        ws.cell(row=row, column=1, value="TOTAL").font = Font(bold=True)
+        ws.cell(row=row, column=2, value="").font = Font(bold=True)
+        ws.cell(row=row, column=3, value=round(nutrient_totals['n_contribution'], 1)).font = Font(bold=True)
+        ws.cell(row=row, column=4, value=round(nutrient_totals['p2o5_contribution'], 1)).font = Font(bold=True)
+        ws.cell(row=row, column=5, value=round(nutrient_totals['k2o_contribution'], 1)).font = Font(bold=True)
+        ws.cell(row=row, column=6, value=round(nutrient_totals['ca_contribution'], 1)).font = Font(bold=True)
+        ws.cell(row=row, column=7, value=round(nutrient_totals['mg_contribution'], 1)).font = Font(bold=True)
+        ws.cell(row=row, column=8, value=round(nutrient_totals['s_contribution'], 1)).font = Font(bold=True)
+        for col in range(1, len(headers) + 1):
+            ws.cell(row=row, column=col).border = self.border
+            ws.cell(row=row, column=col).fill = self.light_fill
+            ws.cell(row=row, column=col).alignment = Alignment(horizontal='center')
+
+        ws.cell(
+            row=row + 2,
+            column=1,
+            value="Nota: Los aportes están en kg/ha para la etapa actual. Por riego = total / Nº aplicaciones.",
+        ).font = Font(italic=True, size=9)
+        ws.merge_cells(f'A{row + 2}:H{row + 2}')
+
         self._auto_adjust_columns(ws)
         return ws
     

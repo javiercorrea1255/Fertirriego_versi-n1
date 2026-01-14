@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Droplets, Mountain, Sprout, Calculator, ChevronRight, ChevronLeft, ChevronDown, Check, AlertCircle, Loader2, Leaf, TrendingUp, FlaskConical, Sparkles, Info, HelpCircle, Package, DollarSign, BarChart3, Download, ExternalLink, Search, Zap, X, Plus, Save, Trash2, Beaker, AlertTriangle, Calendar, Star, CheckCircle } from 'lucide-react';
+import { Droplets, Mountain, Sprout, Calculator, ChevronRight, ChevronLeft, ChevronDown, Check, AlertCircle, Loader2, Leaf, TrendingUp, FlaskConical, Sparkles, Info, HelpCircle, Package, DollarSign, BarChart3, Download, ExternalLink, Search, Zap, X, Plus, Save, Trash2, Beaker, AlertTriangle, Calendar, Star, CheckCircle, ClipboardList } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, Cell, PieChart, Pie, ComposedChart, ReferenceLine } from 'recharts';
 import api from '../services/api';
 import useIsMobile from '../hooks/useIsMobile';
@@ -1441,22 +1441,46 @@ export default function FertiIrrigationCalculator() {
         const microCostHa = profile.micro_cost_per_ha || 0;
         const totalCostHa = profile.total_cost_per_ha || (macroCostHa + microCostHa);
         
-        const macroFertilizers = (profile.macro_fertilizers || profile.fertilizers || []).map(f => ({
-          fertilizer_id: f.id,
-          name: f.name,
-          dose_kg_ha: f.dose_kg_ha,
-          dose_per_application: f.dose_per_application,
-          cost_per_kg: f.price_per_kg || 0,
-          subtotal: f.subtotal || 0,
-          contributions: f.contributions || {},
-          tank: f.tank || 'A',
-          n_pct: f.n_pct || 0,
-          p2o5_pct: f.p2o5_pct || 0,
-          k2o_pct: f.k2o_pct || 0,
-          ca_pct: f.ca_pct || 0,
-          mg_pct: f.mg_pct || 0,
-          s_pct: f.s_pct || 0
-        }));
+        const macroFertilizers = (profile.macro_fertilizers || profile.fertilizers || []).map(f => {
+          const normalizedContributions = {
+            N: f.n_contribution ?? f.contributions?.N ?? 0,
+            P2O5: f.p2o5_contribution ?? f.contributions?.P2O5 ?? 0,
+            K2O: f.k2o_contribution ?? f.contributions?.K2O ?? 0,
+            Ca: f.ca_contribution ?? f.contributions?.Ca ?? 0,
+            Mg: f.mg_contribution ?? f.contributions?.Mg ?? 0,
+            S: f.s_contribution ?? f.contributions?.S ?? 0
+          };
+
+          return {
+            fertilizer_id: f.fertilizer_id ?? f.id,
+            fertilizer_name: f.fertilizer_name ?? f.name,
+            name: f.fertilizer_name ?? f.name,
+            dose_kg_ha: f.dose_kg_ha,
+            dose_per_application: f.dose_per_application,
+            cost_per_kg: f.cost_per_kg ?? f.price_per_kg || 0,
+            cost_total: f.cost_total ?? f.subtotal || 0,
+            subtotal: f.subtotal || 0,
+            nutrients: Object.values(normalizedContributions).some(value => value > 0)
+              ? normalizedContributions
+              : (f.nutrients || {}),
+            contributions: Object.values(normalizedContributions).some(value => value > 0)
+              ? normalizedContributions
+              : (f.contributions || {}),
+            n_contribution: f.n_contribution ?? normalizedContributions.N,
+            p2o5_contribution: f.p2o5_contribution ?? normalizedContributions.P2O5,
+            k2o_contribution: f.k2o_contribution ?? normalizedContributions.K2O,
+            ca_contribution: f.ca_contribution ?? normalizedContributions.Ca,
+            mg_contribution: f.mg_contribution ?? normalizedContributions.Mg,
+            s_contribution: f.s_contribution ?? normalizedContributions.S,
+            tank: f.tank || 'A',
+            n_pct: f.n_pct || 0,
+            p2o5_pct: f.p2o5_pct || 0,
+            k2o_pct: f.k2o_pct || 0,
+            ca_pct: f.ca_pct || 0,
+            mg_pct: f.mg_pct || 0,
+            s_pct: f.s_pct || 0
+          };
+        });
         
         const micronutrients = (profile.micronutrients || []).map(m => ({
           micronutrient: m.element,
@@ -4814,6 +4838,10 @@ export default function FertiIrrigationCalculator() {
     const numApplications = parseInt(formData.num_applications) || 10;
     const fertSource = macroFerts;
     const acidData = currentProfile?.acid_treatment || r.acid_treatment;
+    const selectedWater = getSelectedWater();
+    const waterPh = selectedWater?.ph;
+    const waterHco3 = selectedWater?.anion_hco3 || selectedWater?.hco3_meq_l || selectedWater?.bicarbonates || 0;
+    const showWaterWarning = (waterPh && waterPh >= 7.2) || waterHco3 >= 2;
 
     const irrigationFrequencyDays = irrigationSuggestion?.frequency_days || formData.irrigation_frequency_days;
     const irrigationVolumeM3Ha = irrigationSuggestion?.volume_m3_ha || formData.irrigation_volume_m3_ha;
@@ -4837,6 +4865,30 @@ export default function FertiIrrigationCalculator() {
     
     const acidDosePerHa = acidData?.dose_liters_ha || ((acidData?.ml_per_1000L || 0) * (formData.irrigation_volume_m3_ha || 50) * numApplications / 1000);
     const acidPerApp = acidData && acidDosePerHa > 0 ? (acidDosePerHa / numApplications).toFixed(3) : null;
+    const execStage = cropStages.find(s => s.id === selectedStageId)?.name || formData.growth_stage || 'General';
+    const topDeficits = (r.nutrient_balance || [])
+      .map(nb => ({ nutrient: nb.nutrient, deficit: nb.deficit_kg_ha || 0 }))
+      .filter(nb => nb.deficit > 0)
+      .sort((a, b) => b.deficit - a.deficit)
+      .slice(0, 3);
+
+    const getContributionValue = (fertilizer, nutrientKey, pctField, dose) => {
+      if (fertilizer.contributions?.[nutrientKey] > 0) return fertilizer.contributions[nutrientKey];
+      if (fertilizer.nutrients?.[nutrientKey] > 0) return fertilizer.nutrients[nutrientKey];
+      const flatKey = pctField.replace('_pct', '_contribution');
+      if (fertilizer[flatKey] > 0) return fertilizer[flatKey];
+      const pct = fertilizer[pctField] || fertilizer.nutrient_composition?.[`${nutrientKey}_percent`] || 0;
+      return dose * pct / 100;
+    };
+
+    const contributionTotals = {
+      N: fertSource.reduce((sum, f) => sum + getContributionValue(f, 'N', 'n_pct', f.dose_kg_ha || f.total_dose || 0), 0),
+      P2O5: fertSource.reduce((sum, f) => sum + getContributionValue(f, 'P2O5', 'p2o5_pct', f.dose_kg_ha || f.total_dose || 0), 0),
+      K2O: fertSource.reduce((sum, f) => sum + getContributionValue(f, 'K2O', 'k2o_pct', f.dose_kg_ha || f.total_dose || 0), 0),
+      Ca: fertSource.reduce((sum, f) => sum + getContributionValue(f, 'Ca', 'ca_pct', f.dose_kg_ha || f.total_dose || 0), 0),
+      Mg: fertSource.reduce((sum, f) => sum + getContributionValue(f, 'Mg', 'mg_pct', f.dose_kg_ha || f.total_dose || 0), 0),
+      S: fertSource.reduce((sum, f) => sum + getContributionValue(f, 'S', 's_pct', f.dose_kg_ha || f.total_dose || 0), 0)
+    };
 
     return (
       <div className="wizard-space-y-6">
@@ -4999,6 +5051,86 @@ export default function FertiIrrigationCalculator() {
             {notification.message}
           </div>
         )}
+
+        {(showWaterWarning || acidCompatibility?.has_incompatibilities) && (
+          <div className="wizard-panel" style={{
+            marginBottom: '20px',
+            background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+            border: '1px solid #f59e0b'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+              <AlertTriangle size={22} color="#92400e" />
+              <div>
+                <h4 style={{ margin: '0 0 6px', fontSize: '0.95rem', fontWeight: 700, color: '#92400e' }}>
+                  Alertas agronómicas relevantes
+                </h4>
+                {showWaterWarning && (
+                  <p style={{ margin: 0, fontSize: '0.8rem', color: '#78350f' }}>
+                    {waterPh && waterPh >= 7.2 ? `pH ${waterPh.toFixed(1)} elevado` : 'pH no disponible'} y/o HCO₃⁻ {waterHco3.toFixed(1)} meq/L
+                    : considerar ajuste de ácido o quelatos según la calidad del agua.
+                  </p>
+                )}
+                {acidCompatibility?.has_incompatibilities && (
+                  <p style={{ margin: showWaterWarning ? '6px 0 0' : 0, fontSize: '0.8rem', color: '#78350f' }}>
+                    Incompatibilidades detectadas entre fertilizantes: {acidCompatibility.incompatible_fertilizers?.map(f => f.name).join(', ') || 'N/D'}.
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ===== EXECUTIVE SUMMARY ===== */}
+        <div className="wizard-panel" style={{ marginBottom: '20px', background: '#f8fafc' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+            <ClipboardList size={18} color="#1e40af" />
+            <h4 style={{ margin: 0, fontWeight: 700, color: '#1e3a5f' }}>Resumen ejecutivo</h4>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '12px' }}>
+            <div>
+              <div style={{ fontSize: '0.75rem', color: '#64748b' }}>Cultivo</div>
+              <div style={{ fontWeight: 600, color: '#1f2937' }}>{formData.crop_name || 'N/D'}</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '0.75rem', color: '#64748b' }}>Etapa actual</div>
+              <div style={{ fontWeight: 600, color: '#1f2937' }}>{execStage}</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '0.75rem', color: '#64748b' }}>Meta rendimiento</div>
+              <div style={{ fontWeight: 600, color: '#1f2937' }}>
+                {formData.yield_target_ton_ha ? `${formData.yield_target_ton_ha} t/ha` : 'N/D'}
+              </div>
+            </div>
+          </div>
+          <div style={{ marginTop: '12px', padding: '10px 12px', background: '#eef2ff', borderRadius: '10px' }}>
+            <div style={{ fontSize: '0.75rem', color: '#4338ca', fontWeight: 600, marginBottom: '6px' }}>
+              Déficits críticos (kg/ha en esta etapa)
+            </div>
+            {topDeficits.length > 0 ? (
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                {topDeficits.map((item) => (
+                  <span key={item.nutrient} style={{
+                    background: 'white',
+                    borderRadius: '999px',
+                    padding: '4px 10px',
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    color: '#1e3a8a'
+                  }}>
+                    {item.nutrient}: {item.deficit.toFixed(1)}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <div style={{ fontSize: '0.75rem', color: '#475569' }}>
+                Sin déficits relevantes. El suelo y el agua cubren la demanda de esta etapa.
+              </div>
+            )}
+          </div>
+          <div style={{ marginTop: '8px', fontSize: '0.7rem', color: '#64748b' }}>
+            Referencia: los valores están expresados por etapa. Por riego = total / {numApplications} aplicaciones.
+          </div>
+        </div>
 
         {/* ===== EXECUTIVE SUMMARY - 4 METRIC CARDS ===== */}
         <div style={{ marginBottom: '28px' }}>
@@ -5357,6 +5489,9 @@ export default function FertiIrrigationCalculator() {
             <p style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '8px', fontStyle: 'italic' }}>
               * El déficit = Requerimiento - Aporte Suelo - Aporte Agua. Este déficit debe cubrirse con fertilizantes.
             </p>
+            <p style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '4px', fontStyle: 'italic' }}>
+              <strong>MIN</strong> = Dosis mínima de seguridad aplicada según el cultivo y etapa fenológica.
+            </p>
           </div>
 
           {/* Matriz de Aportes por Fertilizante */}
@@ -5365,7 +5500,7 @@ export default function FertiIrrigationCalculator() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
                 <FlaskConical size={20} color="#2563eb" />
                 <h4 style={{ fontSize: '1rem', fontWeight: '700', color: '#1e3a5f', margin: 0 }}>
-                  Aporte de Nutrientes por Fertilizante (kg/ha)
+                  Aporte de Nutrientes por Fertilizante (kg/ha por etapa)
                 </h4>
               </div>
               <div style={{ overflowX: 'auto' }}>
@@ -5373,7 +5508,7 @@ export default function FertiIrrigationCalculator() {
                   <thead>
                     <tr>
                       <th>Fertilizante</th>
-                      <th className="text-right">Dosis</th>
+                      <th className="text-right">Dosis (kg/ha)</th>
                       <th className="text-center" style={{ color: NUTRIENT_COLORS['N'] }}>N</th>
                       <th className="text-center" style={{ color: NUTRIENT_COLORS['P2O5'] }}>P₂O₅</th>
                       <th className="text-center" style={{ color: NUTRIENT_COLORS['K2O'] }}>K₂O</th>
@@ -5385,28 +5520,13 @@ export default function FertiIrrigationCalculator() {
                   <tbody>
                     {fertSource.map((f, i) => {
                       const dose = f.dose_kg_ha || f.total_dose || 0;
-                      
-                      // Get contribution values (already in kg/ha from backend)
-                      // Priority: f.contributions (optimizer) > f.nutrients > flat fields > calculated from pct
-                      const getContrib = (nutrientKey, pctField) => {
-                        // 1. Check f.contributions object (from optimizer)
-                        if (f.contributions?.[nutrientKey] > 0) return f.contributions[nutrientKey];
-                        // 2. Check f.nutrients object (manual/custom fertilizers)
-                        if (f.nutrients?.[nutrientKey] > 0) return f.nutrients[nutrientKey];
-                        // 3. Check flat contribution fields
-                        const flatKey = pctField.replace('_pct', '_contribution');
-                        if (f[flatKey] > 0) return f[flatKey];
-                        // 4. Calculate from percentage (multiple sources)
-                        const pct = f[pctField] || f.nutrient_composition?.[`${nutrientKey}_percent`] || 0;
-                        return dose * pct / 100;
-                      };
-                      
-                      const nContrib = getContrib('N', 'n_pct');
-                      const pContrib = getContrib('P2O5', 'p2o5_pct');
-                      const kContrib = getContrib('K2O', 'k2o_pct');
-                      const caContrib = getContrib('Ca', 'ca_pct');
-                      const mgContrib = getContrib('Mg', 'mg_pct');
-                      const sContrib = getContrib('S', 's_pct');
+
+                      const nContrib = getContributionValue(f, 'N', 'n_pct', dose);
+                      const pContrib = getContributionValue(f, 'P2O5', 'p2o5_pct', dose);
+                      const kContrib = getContributionValue(f, 'K2O', 'k2o_pct', dose);
+                      const caContrib = getContributionValue(f, 'Ca', 'ca_pct', dose);
+                      const mgContrib = getContributionValue(f, 'Mg', 'mg_pct', dose);
+                      const sContrib = getContributionValue(f, 'S', 's_pct', dose);
                       
                       return (
                         <tr key={i}>
@@ -5435,37 +5555,21 @@ export default function FertiIrrigationCalculator() {
                     })}
                   </tbody>
                   <tfoot>
-                    {(() => {
-                      const getTotal = (nutrientKey, pctField) => {
-                        return fertSource.reduce((sum, f) => {
-                          const dose = f.dose_kg_ha || f.total_dose || 0;
-                          // Same priority as row getter
-                          if (f.contributions?.[nutrientKey] > 0) return sum + f.contributions[nutrientKey];
-                          if (f.nutrients?.[nutrientKey] > 0) return sum + f.nutrients[nutrientKey];
-                          const flatKey = pctField.replace('_pct', '_contribution');
-                          if (f[flatKey] > 0) return sum + f[flatKey];
-                          const pct = f[pctField] || f.nutrient_composition?.[`${nutrientKey}_percent`] || 0;
-                          return sum + (dose * pct / 100);
-                        }, 0);
-                      };
-                      return (
-                        <tr style={{ background: '#eff6ff', fontWeight: '700' }}>
-                          <td>TOTAL APORTE</td>
-                          <td className="text-right">{fertSource.reduce((sum, f) => sum + (f.dose_kg_ha || f.total_dose || 0), 0).toFixed(1)} kg</td>
-                          <td className="text-center">{getTotal('N', 'n_pct').toFixed(1)}</td>
-                          <td className="text-center">{getTotal('P2O5', 'p2o5_pct').toFixed(1)}</td>
-                          <td className="text-center">{getTotal('K2O', 'k2o_pct').toFixed(1)}</td>
-                          <td className="text-center">{getTotal('Ca', 'ca_pct').toFixed(1)}</td>
-                          <td className="text-center">{getTotal('Mg', 'mg_pct').toFixed(1)}</td>
-                          <td className="text-center">{getTotal('S', 's_pct').toFixed(1)}</td>
-                        </tr>
-                      );
-                    })()}
+                    <tr style={{ background: '#eff6ff', fontWeight: '700' }}>
+                      <td>TOTAL APORTE</td>
+                      <td className="text-right">{fertSource.reduce((sum, f) => sum + (f.dose_kg_ha || f.total_dose || 0), 0).toFixed(1)} kg</td>
+                      <td className="text-center">{contributionTotals.N.toFixed(1)}</td>
+                      <td className="text-center">{contributionTotals.P2O5.toFixed(1)}</td>
+                      <td className="text-center">{contributionTotals.K2O.toFixed(1)}</td>
+                      <td className="text-center">{contributionTotals.Ca.toFixed(1)}</td>
+                      <td className="text-center">{contributionTotals.Mg.toFixed(1)}</td>
+                      <td className="text-center">{contributionTotals.S.toFixed(1)}</td>
+                    </tr>
                   </tfoot>
                 </table>
               </div>
               <p style={{ fontSize: '0.75rem', color: '#1e40af', marginTop: '12px', background: '#dbeafe', padding: '8px 12px', borderRadius: '6px' }}>
-                <strong>MIN</strong> = Dosis mínima de seguridad aplicada según el cultivo y etapa fenológica seleccionados.
+                Los aportes están expresados en kg/ha para la etapa actual. Por riego = total / {numApplications} aplicaciones.
               </p>
             </div>
           )}
