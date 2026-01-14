@@ -1441,22 +1441,46 @@ export default function FertiIrrigationCalculator() {
         const microCostHa = profile.micro_cost_per_ha || 0;
         const totalCostHa = profile.total_cost_per_ha || (macroCostHa + microCostHa);
         
-        const macroFertilizers = (profile.macro_fertilizers || profile.fertilizers || []).map(f => ({
-          fertilizer_id: f.id,
-          name: f.name,
-          dose_kg_ha: f.dose_kg_ha,
-          dose_per_application: f.dose_per_application,
-          cost_per_kg: f.price_per_kg || 0,
-          subtotal: f.subtotal || 0,
-          contributions: f.contributions || {},
-          tank: f.tank || 'A',
-          n_pct: f.n_pct || 0,
-          p2o5_pct: f.p2o5_pct || 0,
-          k2o_pct: f.k2o_pct || 0,
-          ca_pct: f.ca_pct || 0,
-          mg_pct: f.mg_pct || 0,
-          s_pct: f.s_pct || 0
-        }));
+        const macroFertilizers = (profile.macro_fertilizers || profile.fertilizers || []).map(f => {
+          const normalizedContributions = {
+            N: f.n_contribution ?? f.contributions?.N ?? 0,
+            P2O5: f.p2o5_contribution ?? f.contributions?.P2O5 ?? 0,
+            K2O: f.k2o_contribution ?? f.contributions?.K2O ?? 0,
+            Ca: f.ca_contribution ?? f.contributions?.Ca ?? 0,
+            Mg: f.mg_contribution ?? f.contributions?.Mg ?? 0,
+            S: f.s_contribution ?? f.contributions?.S ?? 0
+          };
+
+          return {
+            fertilizer_id: f.fertilizer_id ?? f.id,
+            fertilizer_name: f.fertilizer_name ?? f.name,
+            name: f.fertilizer_name ?? f.name,
+            dose_kg_ha: f.dose_kg_ha,
+            dose_per_application: f.dose_per_application,
+            cost_per_kg: f.cost_per_kg ?? f.price_per_kg || 0,
+            cost_total: f.cost_total ?? f.subtotal || 0,
+            subtotal: f.subtotal || 0,
+            nutrients: Object.values(normalizedContributions).some(value => value > 0)
+              ? normalizedContributions
+              : (f.nutrients || {}),
+            contributions: Object.values(normalizedContributions).some(value => value > 0)
+              ? normalizedContributions
+              : (f.contributions || {}),
+            n_contribution: f.n_contribution ?? normalizedContributions.N,
+            p2o5_contribution: f.p2o5_contribution ?? normalizedContributions.P2O5,
+            k2o_contribution: f.k2o_contribution ?? normalizedContributions.K2O,
+            ca_contribution: f.ca_contribution ?? normalizedContributions.Ca,
+            mg_contribution: f.mg_contribution ?? normalizedContributions.Mg,
+            s_contribution: f.s_contribution ?? normalizedContributions.S,
+            tank: f.tank || 'A',
+            n_pct: f.n_pct || 0,
+            p2o5_pct: f.p2o5_pct || 0,
+            k2o_pct: f.k2o_pct || 0,
+            ca_pct: f.ca_pct || 0,
+            mg_pct: f.mg_pct || 0,
+            s_pct: f.s_pct || 0
+          };
+        });
         
         const micronutrients = (profile.micronutrients || []).map(m => ({
           micronutrient: m.element,

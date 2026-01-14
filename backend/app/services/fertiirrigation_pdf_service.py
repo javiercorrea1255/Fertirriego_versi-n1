@@ -1187,7 +1187,10 @@ def create_fertiirrigation_pdf_report(
         total_dose = 0
         total_cost = 0
         
-        for fd in unique_fertilizers[:15]:
+        max_fertilizers = 15
+        display_fertilizers = unique_fertilizers[:max_fertilizers]
+
+        for fd in display_fertilizers:
             name = fd.get('fertilizer_name', '')
             fert_id = fd.get('fertilizer_id', fd.get('id', fd.get('slug', '')))
             dose = fd.get('dose_kg_ha', 0)
@@ -1233,6 +1236,11 @@ def create_fertiirrigation_pdf_report(
             ('FONTNAME', (0, -1), (-1, -1), 'Helvetica-Bold'),
         ]))
         story.append(program_table)
+        if len(unique_fertilizers) > max_fertilizers:
+            story.append(Paragraph(
+                f"Nota: se muestran los primeros {max_fertilizers} fertilizantes para mantener el reporte legible.",
+                small_style
+            ))
         story.append(Spacer(1, 8))
         
         # === NUTRIENT CONTRIBUTIONS TABLE ===
@@ -1264,7 +1272,7 @@ def create_fertiirrigation_pdf_report(
         K_TO_K2O = 1.205
         P_TO_P2O5 = 2.29
         
-        for fd in unique_fertilizers[:12]:
+        for fd in display_fertilizers:
             fert_name = fd.get('fertilizer_name', '')
             fert_id = fd.get('fertilizer_id', '')
             dose_kg = fd.get('dose_kg_ha', 0)
@@ -1334,6 +1342,11 @@ def create_fertiirrigation_pdf_report(
             ('FONTNAME', (0, -1), (-1, -1), 'Helvetica-Bold'),
         ]))
         story.append(contrib_table)
+        story.append(Paragraph(
+            "Guía de lectura: los aportes están expresados en kg/ha para toda la etapa. "
+            "Un guion indica que el fertilizante no aporta ese nutriente.",
+            small_style
+        ))
         story.append(Spacer(1, 8))
         
         # === A/B TANKS SECTION ===
