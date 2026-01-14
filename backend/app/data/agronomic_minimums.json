@@ -1,0 +1,466 @@
+{
+  "description": "Mínimos agronómicos obligatorios para TODOS los macronutrientes por cultivo y etapa fenológica. Estos porcentajes representan la fracción mínima del requerimiento que SIEMPRE debe aplicarse vía fertirriego por seguridad, incluso cuando las contribuciones de suelo/agua cubran el requerimiento.",
+  "version": "2.0",
+  "stage_defaults": {
+    "description": "Mínimos por defecto para cultivos no definidos explícitamente",
+    "seedling": {
+      "N": 0.10, "P2O5": 0.20, "K2O": 0.10, "Ca": 0.15, "Mg": 0.15, "S": 0.10
+    },
+    "vegetative": {
+      "N": 0.20, "P2O5": 0.15, "K2O": 0.15, "Ca": 0.20, "Mg": 0.20, "S": 0.15
+    },
+    "flowering": {
+      "N": 0.15, "P2O5": 0.15, "K2O": 0.25, "Ca": 0.30, "Mg": 0.25, "S": 0.20
+    },
+    "fruit_set": {
+      "N": 0.12, "P2O5": 0.12, "K2O": 0.28, "Ca": 0.32, "Mg": 0.25, "S": 0.22
+    },
+    "fruit_development": {
+      "N": 0.10, "P2O5": 0.10, "K2O": 0.30, "Ca": 0.35, "Mg": 0.25, "S": 0.25
+    },
+    "maturation": {
+      "N": 0.05, "P2O5": 0.05, "K2O": 0.25, "Ca": 0.25, "Mg": 0.20, "S": 0.20
+    }
+  },
+  "crops": {
+    "tomato": {
+      "name": "Tomate",
+      "stages": {
+        "seedling": {
+          "N": 0.10, "P2O5": 0.25, "K2O": 0.10, "Ca": 0.20, "Mg": 0.18, "S": 0.12,
+          "notes": "P alto para enraizamiento inicial"
+        },
+        "vegetative": {
+          "N": 0.25, "P2O5": 0.18, "K2O": 0.15, "Ca": 0.25, "Mg": 0.22, "S": 0.18,
+          "notes": "N alto para crecimiento foliar rápido"
+        },
+        "flowering": {
+          "N": 0.18, "P2O5": 0.18, "K2O": 0.28, "Ca": 0.35, "Mg": 0.28, "S": 0.22,
+          "notes": "K y Ca críticos para cuajado"
+        },
+        "fruit_set": {
+          "N": 0.15, "P2O5": 0.15, "K2O": 0.32, "Ca": 0.38, "Mg": 0.28, "S": 0.25,
+          "notes": "Ca máximo para prevenir BER"
+        },
+        "fruit_development": {
+          "N": 0.12, "P2O5": 0.12, "K2O": 0.35, "Ca": 0.40, "Mg": 0.30, "S": 0.28,
+          "notes": "K muy alto para calidad de fruto"
+        },
+        "maturation": {
+          "N": 0.08, "P2O5": 0.08, "K2O": 0.30, "Ca": 0.30, "Mg": 0.25, "S": 0.22,
+          "notes": "Reducir N para maduración"
+        }
+      }
+    },
+    "pepper": {
+      "name": "Chile/Pimiento",
+      "stages": {
+        "seedling": {
+          "N": 0.10, "P2O5": 0.22, "K2O": 0.10, "Ca": 0.20, "Mg": 0.18, "S": 0.12,
+          "notes": "Similar a tomate en etapa inicial"
+        },
+        "vegetative": {
+          "N": 0.22, "P2O5": 0.18, "K2O": 0.15, "Ca": 0.25, "Mg": 0.22, "S": 0.18,
+          "notes": "N importante para estructura"
+        },
+        "flowering": {
+          "N": 0.18, "P2O5": 0.20, "K2O": 0.28, "Ca": 0.35, "Mg": 0.28, "S": 0.22,
+          "notes": "P y B críticos en floración"
+        },
+        "fruit_set": {
+          "N": 0.15, "P2O5": 0.15, "K2O": 0.32, "Ca": 0.38, "Mg": 0.28, "S": 0.25,
+          "notes": "Ca crítico para firmeza"
+        },
+        "fruit_development": {
+          "N": 0.12, "P2O5": 0.12, "K2O": 0.35, "Ca": 0.38, "Mg": 0.30, "S": 0.28,
+          "notes": "K alto para calidad y color"
+        },
+        "maturation": {
+          "N": 0.08, "P2O5": 0.08, "K2O": 0.28, "Ca": 0.28, "Mg": 0.22, "S": 0.20,
+          "notes": "Menor demanda general"
+        }
+      }
+    },
+    "chili": {
+      "name": "Chile",
+      "alias_of": "pepper"
+    },
+    "cucumber": {
+      "name": "Pepino",
+      "stages": {
+        "seedling": {
+          "N": 0.12, "P2O5": 0.22, "K2O": 0.10, "Ca": 0.18, "Mg": 0.15, "S": 0.10,
+          "notes": "Cucurbitácea de rápido inicio"
+        },
+        "vegetative": {
+          "N": 0.22, "P2O5": 0.15, "K2O": 0.18, "Ca": 0.22, "Mg": 0.20, "S": 0.15,
+          "notes": "Desarrollo vegetativo intenso"
+        },
+        "flowering": {
+          "N": 0.18, "P2O5": 0.15, "K2O": 0.28, "Ca": 0.28, "Mg": 0.25, "S": 0.18,
+          "notes": "K importante para floración"
+        },
+        "fruit_set": {
+          "N": 0.15, "P2O5": 0.12, "K2O": 0.32, "Ca": 0.32, "Mg": 0.25, "S": 0.20,
+          "notes": "Cuajado continuo"
+        },
+        "fruit_development": {
+          "N": 0.12, "P2O5": 0.10, "K2O": 0.35, "Ca": 0.30, "Mg": 0.25, "S": 0.22,
+          "notes": "K máximo para calidad"
+        },
+        "maturation": {
+          "N": 0.08, "P2O5": 0.08, "K2O": 0.28, "Ca": 0.25, "Mg": 0.20, "S": 0.18,
+          "notes": "Cosecha continua"
+        }
+      }
+    },
+    "watermelon": {
+      "name": "Sandía",
+      "stages": {
+        "seedling": {
+          "N": 0.10, "P2O5": 0.20, "K2O": 0.08, "Ca": 0.15, "Mg": 0.15, "S": 0.10,
+          "notes": "Inicio lento de cucurbitácea grande"
+        },
+        "vegetative": {
+          "N": 0.20, "P2O5": 0.15, "K2O": 0.15, "Ca": 0.20, "Mg": 0.18, "S": 0.15,
+          "notes": "Desarrollo de guías"
+        },
+        "flowering": {
+          "N": 0.15, "P2O5": 0.15, "K2O": 0.25, "Ca": 0.25, "Mg": 0.22, "S": 0.18,
+          "notes": "Floración y polinización"
+        },
+        "fruit_set": {
+          "N": 0.12, "P2O5": 0.12, "K2O": 0.30, "Ca": 0.28, "Mg": 0.22, "S": 0.20,
+          "notes": "Cuajado de frutos grandes"
+        },
+        "fruit_development": {
+          "N": 0.10, "P2O5": 0.10, "K2O": 0.38, "Ca": 0.28, "Mg": 0.25, "S": 0.22,
+          "notes": "K muy alto para azúcares"
+        },
+        "maturation": {
+          "N": 0.05, "P2O5": 0.05, "K2O": 0.32, "Ca": 0.22, "Mg": 0.20, "S": 0.18,
+          "notes": "Maduración de fruto"
+        }
+      }
+    },
+    "melon": {
+      "name": "Melón",
+      "stages": {
+        "seedling": {
+          "N": 0.10, "P2O5": 0.22, "K2O": 0.10, "Ca": 0.18, "Mg": 0.15, "S": 0.10,
+          "notes": "Establecimiento inicial"
+        },
+        "vegetative": {
+          "N": 0.20, "P2O5": 0.15, "K2O": 0.15, "Ca": 0.22, "Mg": 0.20, "S": 0.15,
+          "notes": "Desarrollo de guías"
+        },
+        "flowering": {
+          "N": 0.15, "P2O5": 0.15, "K2O": 0.28, "Ca": 0.28, "Mg": 0.25, "S": 0.20,
+          "notes": "Floración"
+        },
+        "fruit_set": {
+          "N": 0.12, "P2O5": 0.12, "K2O": 0.32, "Ca": 0.32, "Mg": 0.25, "S": 0.22,
+          "notes": "Cuajado - Ca importante"
+        },
+        "fruit_development": {
+          "N": 0.10, "P2O5": 0.10, "K2O": 0.38, "Ca": 0.30, "Mg": 0.25, "S": 0.25,
+          "notes": "K máximo para dulzura"
+        },
+        "maturation": {
+          "N": 0.05, "P2O5": 0.05, "K2O": 0.30, "Ca": 0.25, "Mg": 0.20, "S": 0.20,
+          "notes": "Maduración"
+        }
+      }
+    },
+    "cantaloupe": {
+      "name": "Melón Cantaloupe",
+      "alias_of": "melon"
+    },
+    "strawberry": {
+      "name": "Fresa",
+      "stages": {
+        "seedling": {
+          "N": 0.12, "P2O5": 0.25, "K2O": 0.12, "Ca": 0.25, "Mg": 0.20, "S": 0.12,
+          "notes": "Establecimiento de corona"
+        },
+        "vegetative": {
+          "N": 0.22, "P2O5": 0.18, "K2O": 0.18, "Ca": 0.30, "Mg": 0.25, "S": 0.15,
+          "notes": "Desarrollo foliar"
+        },
+        "flowering": {
+          "N": 0.18, "P2O5": 0.18, "K2O": 0.30, "Ca": 0.38, "Mg": 0.28, "S": 0.20,
+          "notes": "Floración continua"
+        },
+        "fruit_set": {
+          "N": 0.15, "P2O5": 0.15, "K2O": 0.35, "Ca": 0.42, "Mg": 0.30, "S": 0.22,
+          "notes": "Ca muy alto para firmeza"
+        },
+        "fruit_development": {
+          "N": 0.12, "P2O5": 0.12, "K2O": 0.38, "Ca": 0.40, "Mg": 0.30, "S": 0.25,
+          "notes": "K para color y sabor"
+        },
+        "maturation": {
+          "N": 0.10, "P2O5": 0.10, "K2O": 0.32, "Ca": 0.35, "Mg": 0.25, "S": 0.20,
+          "notes": "Cosecha continua"
+        }
+      }
+    },
+    "lettuce": {
+      "name": "Lechuga",
+      "stages": {
+        "seedling": {
+          "N": 0.15, "P2O5": 0.22, "K2O": 0.12, "Ca": 0.28, "Mg": 0.20, "S": 0.10,
+          "notes": "Inicio rápido"
+        },
+        "vegetative": {
+          "N": 0.30, "P2O5": 0.15, "K2O": 0.20, "Ca": 0.40, "Mg": 0.28, "S": 0.15,
+          "notes": "N y Ca muy altos para hojas"
+        },
+        "flowering": {
+          "N": 0.25, "P2O5": 0.12, "K2O": 0.22, "Ca": 0.45, "Mg": 0.30, "S": 0.18,
+          "notes": "Ca máximo evitar tip burn"
+        },
+        "fruit_set": {
+          "N": 0.20, "P2O5": 0.10, "K2O": 0.20, "Ca": 0.45, "Mg": 0.28, "S": 0.15,
+          "notes": "Formación de cabeza"
+        },
+        "fruit_development": {
+          "N": 0.15, "P2O5": 0.08, "K2O": 0.18, "Ca": 0.42, "Mg": 0.25, "S": 0.15,
+          "notes": "Madurez comercial"
+        },
+        "maturation": {
+          "N": 0.10, "P2O5": 0.05, "K2O": 0.15, "Ca": 0.35, "Mg": 0.22, "S": 0.12,
+          "notes": "Cosecha"
+        }
+      }
+    },
+    "maize": {
+      "name": "Maíz",
+      "stages": {
+        "seedling": {
+          "N": 0.12, "P2O5": 0.25, "K2O": 0.10, "Ca": 0.10, "Mg": 0.12, "S": 0.15,
+          "notes": "P crítico para raíces"
+        },
+        "vegetative": {
+          "N": 0.28, "P2O5": 0.18, "K2O": 0.18, "Ca": 0.12, "Mg": 0.18, "S": 0.22,
+          "notes": "N muy alto para crecimiento"
+        },
+        "flowering": {
+          "N": 0.22, "P2O5": 0.15, "K2O": 0.28, "Ca": 0.15, "Mg": 0.22, "S": 0.25,
+          "notes": "K para jiloteo"
+        },
+        "fruit_set": {
+          "N": 0.18, "P2O5": 0.12, "K2O": 0.32, "Ca": 0.15, "Mg": 0.22, "S": 0.25,
+          "notes": "Llenado de grano"
+        },
+        "fruit_development": {
+          "N": 0.12, "P2O5": 0.10, "K2O": 0.35, "Ca": 0.12, "Mg": 0.20, "S": 0.28,
+          "notes": "K máximo para rendimiento"
+        },
+        "maturation": {
+          "N": 0.08, "P2O5": 0.08, "K2O": 0.28, "Ca": 0.10, "Mg": 0.15, "S": 0.22,
+          "notes": "Madurez fisiológica"
+        }
+      }
+    },
+    "corn": {
+      "name": "Maíz (alias)",
+      "alias_of": "maize"
+    },
+    "potato": {
+      "name": "Papa",
+      "stages": {
+        "seedling": {
+          "N": 0.12, "P2O5": 0.28, "K2O": 0.12, "Ca": 0.18, "Mg": 0.12, "S": 0.18,
+          "notes": "Brotación y emergencia"
+        },
+        "vegetative": {
+          "N": 0.25, "P2O5": 0.20, "K2O": 0.20, "Ca": 0.22, "Mg": 0.15, "S": 0.25,
+          "notes": "Desarrollo foliar"
+        },
+        "flowering": {
+          "N": 0.20, "P2O5": 0.18, "K2O": 0.30, "Ca": 0.28, "Mg": 0.18, "S": 0.28,
+          "notes": "Inicio tuberización"
+        },
+        "fruit_set": {
+          "N": 0.15, "P2O5": 0.15, "K2O": 0.35, "Ca": 0.30, "Mg": 0.18, "S": 0.30,
+          "notes": "Tuberización activa"
+        },
+        "fruit_development": {
+          "N": 0.12, "P2O5": 0.12, "K2O": 0.40, "Ca": 0.28, "Mg": 0.18, "S": 0.30,
+          "notes": "Llenado de tubérculos"
+        },
+        "maturation": {
+          "N": 0.05, "P2O5": 0.08, "K2O": 0.32, "Ca": 0.22, "Mg": 0.15, "S": 0.25,
+          "notes": "Madurez para cosecha"
+        }
+      }
+    },
+    "onion": {
+      "name": "Cebolla",
+      "stages": {
+        "seedling": {
+          "N": 0.12, "P2O5": 0.22, "K2O": 0.10, "Ca": 0.18, "Mg": 0.12, "S": 0.22,
+          "notes": "Trasplante"
+        },
+        "vegetative": {
+          "N": 0.25, "P2O5": 0.18, "K2O": 0.18, "Ca": 0.22, "Mg": 0.15, "S": 0.28,
+          "notes": "Desarrollo foliar"
+        },
+        "flowering": {
+          "N": 0.18, "P2O5": 0.15, "K2O": 0.25, "Ca": 0.28, "Mg": 0.18, "S": 0.32,
+          "notes": "Inicio bulbificación"
+        },
+        "fruit_set": {
+          "N": 0.12, "P2O5": 0.12, "K2O": 0.30, "Ca": 0.30, "Mg": 0.18, "S": 0.35,
+          "notes": "Bulbificación activa"
+        },
+        "fruit_development": {
+          "N": 0.08, "P2O5": 0.10, "K2O": 0.32, "Ca": 0.28, "Mg": 0.18, "S": 0.38,
+          "notes": "S alto para compuestos azufrados"
+        },
+        "maturation": {
+          "N": 0.05, "P2O5": 0.05, "K2O": 0.25, "Ca": 0.22, "Mg": 0.15, "S": 0.32,
+          "notes": "Madurez y secado"
+        }
+      }
+    },
+    "avocado": {
+      "name": "Aguacate",
+      "stages": {
+        "seedling": {
+          "N": 0.15, "P2O5": 0.22, "K2O": 0.12, "Ca": 0.20, "Mg": 0.18, "S": 0.12,
+          "notes": "Establecimiento"
+        },
+        "vegetative": {
+          "N": 0.22, "P2O5": 0.18, "K2O": 0.18, "Ca": 0.25, "Mg": 0.22, "S": 0.15,
+          "notes": "Crecimiento de brotes"
+        },
+        "flowering": {
+          "N": 0.18, "P2O5": 0.20, "K2O": 0.25, "Ca": 0.32, "Mg": 0.28, "S": 0.18,
+          "notes": "Floración - B crítico"
+        },
+        "fruit_set": {
+          "N": 0.15, "P2O5": 0.18, "K2O": 0.30, "Ca": 0.35, "Mg": 0.28, "S": 0.20,
+          "notes": "Cuajado de fruto"
+        },
+        "fruit_development": {
+          "N": 0.12, "P2O5": 0.15, "K2O": 0.35, "Ca": 0.32, "Mg": 0.28, "S": 0.22,
+          "notes": "Desarrollo de fruto"
+        },
+        "maturation": {
+          "N": 0.10, "P2O5": 0.12, "K2O": 0.30, "Ca": 0.28, "Mg": 0.25, "S": 0.18,
+          "notes": "Maduración en árbol"
+        }
+      }
+    },
+    "bean": {
+      "name": "Frijol",
+      "stages": {
+        "seedling": {
+          "N": 0.08, "P2O5": 0.25, "K2O": 0.10, "Ca": 0.12, "Mg": 0.15, "S": 0.18,
+          "notes": "Leguminosa - menor N inicial"
+        },
+        "vegetative": {
+          "N": 0.12, "P2O5": 0.18, "K2O": 0.15, "Ca": 0.15, "Mg": 0.20, "S": 0.22,
+          "notes": "N reducido por fijación"
+        },
+        "flowering": {
+          "N": 0.12, "P2O5": 0.18, "K2O": 0.25, "Ca": 0.18, "Mg": 0.22, "S": 0.25,
+          "notes": "Floración"
+        },
+        "fruit_set": {
+          "N": 0.10, "P2O5": 0.15, "K2O": 0.30, "Ca": 0.20, "Mg": 0.22, "S": 0.28,
+          "notes": "Llenado de vaina"
+        },
+        "fruit_development": {
+          "N": 0.08, "P2O5": 0.12, "K2O": 0.32, "Ca": 0.18, "Mg": 0.22, "S": 0.28,
+          "notes": "Llenado de grano"
+        },
+        "maturation": {
+          "N": 0.05, "P2O5": 0.08, "K2O": 0.25, "Ca": 0.15, "Mg": 0.18, "S": 0.22,
+          "notes": "Madurez"
+        }
+      }
+    },
+    "frijol": {
+      "name": "Frijol (alias)",
+      "alias_of": "bean"
+    },
+    "squash": {
+      "name": "Calabaza",
+      "stages": {
+        "seedling": {
+          "N": 0.10, "P2O5": 0.20, "K2O": 0.10, "Ca": 0.15, "Mg": 0.15, "S": 0.10,
+          "notes": "Inicio cucurbitácea"
+        },
+        "vegetative": {
+          "N": 0.20, "P2O5": 0.15, "K2O": 0.15, "Ca": 0.20, "Mg": 0.20, "S": 0.15,
+          "notes": "Desarrollo de guías"
+        },
+        "flowering": {
+          "N": 0.15, "P2O5": 0.15, "K2O": 0.25, "Ca": 0.25, "Mg": 0.22, "S": 0.18,
+          "notes": "Floración"
+        },
+        "fruit_set": {
+          "N": 0.12, "P2O5": 0.12, "K2O": 0.30, "Ca": 0.28, "Mg": 0.22, "S": 0.20,
+          "notes": "Cuajado"
+        },
+        "fruit_development": {
+          "N": 0.10, "P2O5": 0.10, "K2O": 0.35, "Ca": 0.25, "Mg": 0.22, "S": 0.22,
+          "notes": "Desarrollo de fruto"
+        },
+        "maturation": {
+          "N": 0.05, "P2O5": 0.05, "K2O": 0.28, "Ca": 0.22, "Mg": 0.18, "S": 0.18,
+          "notes": "Madurez"
+        }
+      }
+    },
+    "pumpkin": {
+      "name": "Calabaza",
+      "alias_of": "squash"
+    },
+    "basil": {
+      "name": "Albahaca",
+      "stages": {
+        "seedling": {
+          "N": 0.15, "P2O5": 0.20, "K2O": 0.12, "Ca": 0.18, "Mg": 0.15, "S": 0.10,
+          "notes": "Establecimiento rápido"
+        },
+        "vegetative": {
+          "N": 0.28, "P2O5": 0.15, "K2O": 0.18, "Ca": 0.22, "Mg": 0.20, "S": 0.12,
+          "notes": "N alto para hojas"
+        },
+        "flowering": {
+          "N": 0.22, "P2O5": 0.12, "K2O": 0.20, "Ca": 0.25, "Mg": 0.22, "S": 0.15,
+          "notes": "Evitar floración"
+        },
+        "fruit_set": {
+          "N": 0.20, "P2O5": 0.10, "K2O": 0.18, "Ca": 0.22, "Mg": 0.20, "S": 0.12,
+          "notes": "Cosecha continua"
+        },
+        "fruit_development": {
+          "N": 0.18, "P2O5": 0.10, "K2O": 0.18, "Ca": 0.22, "Mg": 0.20, "S": 0.12,
+          "notes": "Cosecha continua"
+        },
+        "maturation": {
+          "N": 0.15, "P2O5": 0.08, "K2O": 0.15, "Ca": 0.20, "Mg": 0.18, "S": 0.10,
+          "notes": "Final de ciclo"
+        }
+      }
+    }
+  },
+  "universal_defaults": {
+    "description": "Valores universales para cultivos y etapas completamente personalizados",
+    "N": 0.15,
+    "P2O5": 0.15,
+    "K2O": 0.20,
+    "Ca": 0.25,
+    "Mg": 0.20,
+    "S": 0.15
+  },
+  "default": {
+    "name": "Cultivo Personalizado",
+    "notes": "Usa stage_defaults para etapas conocidas, universal_defaults para etapas personalizadas"
+  }
+}

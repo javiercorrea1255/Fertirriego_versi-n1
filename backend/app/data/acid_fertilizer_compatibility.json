@@ -1,0 +1,44 @@
+{
+  "compatibility_rules": {
+    "phosphoric_acid": {
+      "incompatible_categories": ["calcium"],
+      "incompatible_slugs": [
+        "nitrato_calcio_15_5_0_0",
+        "nitrato_calcio_granular",
+        "cloruro_calcio_foliar",
+        "tiosulfato_calcio",
+        "polisulfuro_calcio"
+      ],
+      "reason": "El ácido fosfórico reacciona con el calcio formando precipitados de fosfato de calcio que obstruyen los goteros.",
+      "mitigation": "Inyectar el ácido y los fertilizantes con calcio en tanques separados o en diferentes tiempos de riego."
+    },
+    "nitric_acid": {
+      "incompatible_categories": [],
+      "incompatible_slugs": [],
+      "reason": "El ácido nítrico es compatible con la mayoría de los fertilizantes de fertirriego.",
+      "mitigation": null
+    },
+    "sulfuric_acid": {
+      "incompatible_categories": ["calcium"],
+      "incompatible_slugs": [
+        "nitrato_calcio_15_5_0_0",
+        "nitrato_calcio_granular",
+        "cloruro_calcio_foliar",
+        "tiosulfato_calcio",
+        "polisulfuro_calcio"
+      ],
+      "reason": "El ácido sulfúrico reacciona con el calcio formando sulfato de calcio (yeso) que precipita y obstruye el sistema.",
+      "mitigation": "Inyectar el ácido y los fertilizantes con calcio en tanques separados. El sulfato de calcio tiene baja solubilidad."
+    }
+  },
+  "general_warnings": {
+    "calcium_with_phosphate": "Nunca mezclar fertilizantes con calcio y fosfatos en el mismo tanque. El fosfato de calcio precipita inmediatamente.",
+    "calcium_with_sulfate": "Evitar mezclar calcio con sulfatos en alta concentración. El sulfato de calcio tiene solubilidad limitada (2.4 g/L).",
+    "iron_with_phosphate": "Los quelatos de hierro pueden desestabilizarse con ácido fosfórico concentrado."
+  },
+  "safe_combinations": {
+    "nitric_acid": ["Seguro con nitratos de calcio, potasio y magnesio", "Compatible con MAP y MKP en tanque separado"],
+    "phosphoric_acid": ["Seguro con sulfatos de potasio y magnesio", "Compatible con urea y nitratos (excepto Ca)"],
+    "sulfuric_acid": ["Seguro con sulfato de potasio", "Compatible con urea y nitratos (excepto Ca)"]
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "equivalent_products": {
+    "MgSO4": {
+      "primary_slug": "sulfato_magnesio_heptahidrato",
+      "equivalent_slugs": [
+        "sulfato_magnesio_heptahidrato",
+        "sulfato_magnesio_sal_epsom",
+        "sulfato_mg_soluble",
+        "sal_epsom"
+      ],
+      "nutrient": "Mg",
+      "description": "Todos los sulfatos de magnesio (Sal de Epsom, heptahidrato, soluble) son nutricionalmente equivalentes"
+    },
+    "KCl": {
+      "primary_slug": "cloruro_potasio_mop_60",
+      "equivalent_slugs": [
+        "cloruro_potasio_mop_60",
+        "muriato_potasio",
+        "mop_60",
+        "kcl_60"
+      ],
+      "nutrient": "K",
+      "description": "Cloruro de potasio en sus diferentes presentaciones"
+    },
+    "K2SO4": {
+      "primary_slug": "sulfato_potasio_sop_50",
+      "equivalent_slugs": [
+        "sulfato_potasio_sop_50",
+        "sop_50",
+        "k2so4_50"
+      ],
+      "nutrient": "K",
+      "description": "Sulfato de potasio en sus diferentes presentaciones"
+    },
+    "CaNO3": {
+      "primary_slug": "nitrato_calcio_15_5_0_0",
+      "equivalent_slugs": [
+        "nitrato_calcio_15_5_0_0",
+        "nitrato_calcio_granular",
+        "nitrato_calcio_soluble"
+      ],
+      "nutrient": "Ca",
+      "description": "Nitrato de calcio en diferentes formas"
+    }
+  },
+  "nutrient_limits_ppm": {
+    "tomate": {
+      "vegetativo": {
+        "N": {"min": 120, "max": 180, "optimal": 150},
+        "P2O5": {"min": 30, "max": 60, "optimal": 45},
+        "K2O": {"min": 100, "max": 180, "optimal": 140},
+        "Ca": {"min": 100, "max": 160, "optimal": 130},
+        "Mg": {"min": 30, "max": 60, "optimal": 45},
+        "S": {"min": 30, "max": 80, "optimal": 50}
+      },
+      "floracion": {
+        "N": {"min": 100, "max": 160, "optimal": 130},
+        "P2O5": {"min": 40, "max": 80, "optimal": 60},
+        "K2O": {"min": 150, "max": 250, "optimal": 200},
+        "Ca": {"min": 120, "max": 180, "optimal": 150},
+        "Mg": {"min": 35, "max": 70, "optimal": 50},
+        "S": {"min": 30, "max": 80, "optimal": 50}
+      },
+      "fructificacion": {
+        "N": {"min": 80, "max": 140, "optimal": 110},
+        "P2O5": {"min": 30, "max": 60, "optimal": 45},
+        "K2O": {"min": 200, "max": 350, "optimal": 280},
+        "Ca": {"min": 140, "max": 200, "optimal": 170},
+        "Mg": {"min": 40, "max": 80, "optimal": 55},
+        "S": {"min": 30, "max": 80, "optimal": 50}
+      }
+    },
+    "pimiento": {
+      "vegetativo": {
+        "N": {"min": 100, "max": 160, "optimal": 130},
+        "P2O5": {"min": 30, "max": 60, "optimal": 45},
+        "K2O": {"min": 80, "max": 150, "optimal": 120},
+        "Ca": {"min": 80, "max": 140, "optimal": 110},
+        "Mg": {"min": 30, "max": 60, "optimal": 40},
+        "S": {"min": 25, "max": 60, "optimal": 40}
+      },
+      "floracion": {
+        "N": {"min": 80, "max": 140, "optimal": 110},
+        "P2O5": {"min": 35, "max": 70, "optimal": 50},
+        "K2O": {"min": 120, "max": 220, "optimal": 170},
+        "Ca": {"min": 100, "max": 160, "optimal": 130},
+        "Mg": {"min": 35, "max": 65, "optimal": 45},
+        "S": {"min": 25, "max": 60, "optimal": 40}
+      },
+      "fructificacion": {
+        "N": {"min": 70, "max": 130, "optimal": 100},
+        "P2O5": {"min": 30, "max": 60, "optimal": 45},
+        "K2O": {"min": 180, "max": 300, "optimal": 240},
+        "Ca": {"min": 120, "max": 180, "optimal": 150},
+        "Mg": {"min": 40, "max": 75, "optimal": 55},
+        "S": {"min": 25, "max": 60, "optimal": 40}
+      }
+    },
+    "default": {
+      "default": {
+        "N": {"min": 80, "max": 250, "optimal": 150},
+        "P2O5": {"min": 20, "max": 100, "optimal": 50},
+        "K2O": {"min": 80, "max": 400, "optimal": 200},
+        "Ca": {"min": 60, "max": 220, "optimal": 140},
+        "Mg": {"min": 25, "max": 100, "optimal": 50},
+        "S": {"min": 20, "max": 120, "optimal": 60}
+      }
+    }
+  },
+  "chemical_incompatibilities": {
+    "calcium_phosphate": {
+      "group_a": ["nitrato_calcio_15_5_0_0", "nitrato_calcio_granular", "cloruro_calcio_foliar", "tiosulfato_calcio", "polisulfuro_calcio"],
+      "group_b": ["map_11_52_0", "dap_18_46_0", "acido_fosforico_85"],
+      "reason": "El calcio reacciona con fosfatos formando fosfato de calcio insoluble que precipita y obstruye el sistema.",
+      "severity": "critical",
+      "mitigation": "Inyectar en tanques separados o en diferentes tiempos de riego."
+    },
+    "calcium_sulfate_high_conc": {
+      "group_a": ["nitrato_calcio_15_5_0_0", "nitrato_calcio_granular", "cloruro_calcio_foliar"],
+      "group_b": ["sulfato_amonio_21_0_0_24s", "acido_sulfurico_98", "kts_potasio_tiosulfato"],
+      "reason": "El sulfato de calcio (yeso) tiene baja solubilidad (2.4 g/L). Alta concentración precipita.",
+      "severity": "warning",
+      "mitigation": "Mantener concentración final <2 g/L de CaSO4 o inyectar por separado."
+    },
+    "iron_phosphate": {
+      "group_a": ["quelato_fe_eddha_6", "sulfato_hierro_21", "fe_dtpa_11"],
+      "group_b": ["acido_fosforico_85", "map_11_52_0"],
+      "reason": "El ácido fosfórico puede desestabilizar quelatos de hierro y formar fosfatos insolubles.",
+      "severity": "warning",
+      "mitigation": "Aplicar quelatos de Fe en inyección separada del ácido fosfórico."
+    }
+  },
+  "excess_thresholds": {
+    "S": {
+      "max_ratio": 1.5,
+      "warning_ratio": 1.3,
+      "warning_message": "Azufre excesivo (>{ratio:.0%} del requerimiento). Puede acidificar suelo y afectar absorción de otros nutrientes."
+    },
+    "N": {
+      "max_ratio": 1.3,
+      "warning_ratio": 1.2,
+      "warning_message": "Nitrógeno excesivo (>{ratio:.0%} del requerimiento). Riesgo de crecimiento vegetativo excesivo y problemas de calidad."
+    },
+    "Ca": {
+      "max_ratio": 1.4,
+      "warning_ratio": 1.25,
+      "warning_message": "Calcio elevado (>{ratio:.0%} del requerimiento). Puede antagonizar absorción de Mg y K."
+    }
+  }
+}

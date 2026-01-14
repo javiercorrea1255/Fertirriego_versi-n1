@@ -1,0 +1,820 @@
+{
+  "version": "1.0",
+  "description": "Curvas de extracción de nutrientes por cultivo para fertirrigación en suelo. Porcentajes acumulativos de demanda total por etapa fenológica.",
+  "methodology": "Basado en investigación agronómica de absorción de nutrientes. Los porcentajes indican cuánto del requerimiento total se absorbe en cada etapa.",
+  "crops": {
+    "tomato": {
+      "name": "Tomate",
+      "scientific_name": "Solanum lycopersicum",
+      "cycle_days": {"min": 120, "max": 180},
+      "yield_reference_ton_ha": 80,
+      "extraction_curves": {
+        "seedling": {
+          "name": "Plántula/Trasplante",
+          "duration_days": {"min": 0, "max": 25},
+          "cumulative_percent": {
+            "N": 5, "P2O5": 5, "K2O": 3, "Ca": 4, "Mg": 4, "S": 5
+          },
+          "notes": "Desarrollo radicular inicial. Fósforo crítico."
+        },
+        "vegetative": {
+          "name": "Crecimiento Vegetativo",
+          "duration_days": {"min": 25, "max": 50},
+          "cumulative_percent": {
+            "N": 25, "P2O5": 20, "K2O": 15, "Ca": 20, "Mg": 20, "S": 22
+          },
+          "notes": "Rápido crecimiento foliar. Alta demanda de N."
+        },
+        "flowering": {
+          "name": "Floración",
+          "duration_days": {"min": 50, "max": 70},
+          "cumulative_percent": {
+            "N": 45, "P2O5": 45, "K2O": 35, "Ca": 40, "Mg": 40, "S": 45
+          },
+          "notes": "Formación de flores. P y Ca críticos."
+        },
+        "fruit_set": {
+          "name": "Cuajado de Frutos",
+          "duration_days": {"min": 70, "max": 90},
+          "cumulative_percent": {
+            "N": 65, "P2O5": 65, "K2O": 55, "Ca": 60, "Mg": 60, "S": 65
+          },
+          "notes": "Inicio de llenado. K comienza a dominar."
+        },
+        "fruit_development": {
+          "name": "Desarrollo de Frutos",
+          "duration_days": {"min": 90, "max": 130},
+          "cumulative_percent": {
+            "N": 85, "P2O5": 85, "K2O": 85, "Ca": 85, "Mg": 85, "S": 85
+          },
+          "notes": "Máxima extracción. K muy alto para calidad."
+        },
+        "maturation": {
+          "name": "Maduración/Cosecha",
+          "duration_days": {"min": 130, "max": 180},
+          "cumulative_percent": {
+            "N": 100, "P2O5": 100, "K2O": 100, "Ca": 100, "Mg": 100, "S": 100
+          },
+          "notes": "Finalización del ciclo. Reducir N para maduración."
+        }
+      },
+      "total_requirements_kg_ha": {
+        "N": 200, "P2O5": 80, "K2O": 300, "Ca": 160, "Mg": 40, "S": 35
+      },
+      "sensitivity_notes": "Sensible a BER (pudrición apical) por deficiencia de Ca. Mantener ratio K:Ca adecuado."
+    },
+    "pepper": {
+      "name": "Chile/Pimiento",
+      "scientific_name": "Capsicum annuum",
+      "cycle_days": {"min": 140, "max": 200},
+      "yield_reference_ton_ha": 50,
+      "extraction_curves": {
+        "seedling": {
+          "name": "Plántula/Trasplante",
+          "duration_days": {"min": 0, "max": 30},
+          "cumulative_percent": {
+            "N": 4, "P2O5": 5, "K2O": 3, "Ca": 4, "Mg": 4, "S": 4
+          },
+          "notes": "Crecimiento lento inicial. Desarrollo de raíces."
+        },
+        "vegetative": {
+          "name": "Crecimiento Vegetativo",
+          "duration_days": {"min": 30, "max": 60},
+          "cumulative_percent": {
+            "N": 22, "P2O5": 20, "K2O": 15, "Ca": 18, "Mg": 18, "S": 20
+          },
+          "notes": "Formación de estructura. N y P importantes."
+        },
+        "flowering": {
+          "name": "Floración",
+          "duration_days": {"min": 60, "max": 80},
+          "cumulative_percent": {
+            "N": 40, "P2O5": 40, "K2O": 30, "Ca": 35, "Mg": 35, "S": 40
+          },
+          "notes": "Floración intensa. P y B críticos."
+        },
+        "fruit_set": {
+          "name": "Cuajado de Frutos",
+          "duration_days": {"min": 80, "max": 110},
+          "cumulative_percent": {
+            "N": 60, "P2O5": 60, "K2O": 50, "Ca": 55, "Mg": 55, "S": 60
+          },
+          "notes": "Múltiples cuajos. Ca crítico para firmeza."
+        },
+        "fruit_development": {
+          "name": "Desarrollo de Frutos",
+          "duration_days": {"min": 110, "max": 160},
+          "cumulative_percent": {
+            "N": 85, "P2O5": 85, "K2O": 85, "Ca": 85, "Mg": 85, "S": 85
+          },
+          "notes": "Llenado de frutos. K para color y pungencia."
+        },
+        "maturation": {
+          "name": "Maduración/Cosecha",
+          "duration_days": {"min": 160, "max": 200},
+          "cumulative_percent": {
+            "N": 100, "P2O5": 100, "K2O": 100, "Ca": 100, "Mg": 100, "S": 100
+          },
+          "notes": "Cosechas escalonadas. Mantener K."
+        }
+      },
+      "total_requirements_kg_ha": {
+        "N": 180, "P2O5": 70, "K2O": 250, "Ca": 140, "Mg": 35, "S": 30
+      },
+      "sensitivity_notes": "Muy sensible a BER. Evitar estrés hídrico."
+    },
+    "maize": {
+      "name": "Maíz",
+      "scientific_name": "Zea mays",
+      "cycle_days": {"min": 120, "max": 150},
+      "yield_reference_ton_ha": 12,
+      "extraction_curves": {
+        "emergence": {
+          "name": "Emergencia (V1-V6)",
+          "duration_days": {"min": 0, "max": 25},
+          "cumulative_percent": {
+            "N": 8, "P2O5": 10, "K2O": 12, "Ca": 8, "Mg": 8, "S": 8
+          },
+          "notes": "Desarrollo de sistema radicular. P crítico."
+        },
+        "rapid_growth": {
+          "name": "Crecimiento Rápido (V7-V12)",
+          "duration_days": {"min": 25, "max": 50},
+          "cumulative_percent": {
+            "N": 35, "P2O5": 35, "K2O": 50, "Ca": 35, "Mg": 35, "S": 35
+          },
+          "notes": "Máxima tasa de absorción de K."
+        },
+        "pre_flowering": {
+          "name": "Pre-floración (V12-VT)",
+          "duration_days": {"min": 50, "max": 65},
+          "cumulative_percent": {
+            "N": 55, "P2O5": 55, "K2O": 75, "Ca": 55, "Mg": 55, "S": 55
+          },
+          "notes": "K casi completo. N continúa."
+        },
+        "flowering": {
+          "name": "Floración/Polinización (VT-R2)",
+          "duration_days": {"min": 65, "max": 80},
+          "cumulative_percent": {
+            "N": 70, "P2O5": 70, "K2O": 90, "Ca": 70, "Mg": 70, "S": 70
+          },
+          "notes": "Estrés hídrico reduce rendimiento. N crítico."
+        },
+        "grain_fill": {
+          "name": "Llenado de Grano (R3-R5)",
+          "duration_days": {"min": 80, "max": 120},
+          "cumulative_percent": {
+            "N": 95, "P2O5": 95, "K2O": 98, "Ca": 95, "Mg": 95, "S": 95
+          },
+          "notes": "Translocación de N al grano. P para energía."
+        },
+        "maturation": {
+          "name": "Madurez Fisiológica (R6)",
+          "duration_days": {"min": 120, "max": 150},
+          "cumulative_percent": {
+            "N": 100, "P2O5": 100, "K2O": 100, "Ca": 100, "Mg": 100, "S": 100
+          },
+          "notes": "Capa negra. Fin de absorción."
+        }
+      },
+      "total_requirements_kg_ha": {
+        "N": 220, "P2O5": 80, "K2O": 200, "Ca": 40, "Mg": 45, "S": 25
+      },
+      "sensitivity_notes": "K absorbido temprano. N definidor de rendimiento."
+    },
+    "bean": {
+      "name": "Frijol",
+      "scientific_name": "Phaseolus vulgaris",
+      "cycle_days": {"min": 80, "max": 120},
+      "yield_reference_ton_ha": 2.5,
+      "extraction_curves": {
+        "emergence": {
+          "name": "Emergencia (V0-V2)",
+          "duration_days": {"min": 0, "max": 15},
+          "cumulative_percent": {
+            "N": 5, "P2O5": 8, "K2O": 5, "Ca": 5, "Mg": 5, "S": 5
+          },
+          "notes": "Uso de reservas de semilla. P importante."
+        },
+        "vegetative": {
+          "name": "Vegetativo (V3-V4)",
+          "duration_days": {"min": 15, "max": 35},
+          "cumulative_percent": {
+            "N": 25, "P2O5": 30, "K2O": 25, "Ca": 25, "Mg": 25, "S": 25
+          },
+          "notes": "Nodulación activa. N simbiótico comienza."
+        },
+        "flowering": {
+          "name": "Floración (R5-R6)",
+          "duration_days": {"min": 35, "max": 50},
+          "cumulative_percent": {
+            "N": 50, "P2O5": 55, "K2O": 50, "Ca": 50, "Mg": 50, "S": 50
+          },
+          "notes": "Alta demanda. Estrés reduce vainas."
+        },
+        "pod_fill": {
+          "name": "Llenado de Vainas (R7-R8)",
+          "duration_days": {"min": 50, "max": 80},
+          "cumulative_percent": {
+            "N": 85, "P2O5": 90, "K2O": 85, "Ca": 85, "Mg": 85, "S": 85
+          },
+          "notes": "Translocación al grano. P y K críticos."
+        },
+        "maturation": {
+          "name": "Madurez (R9)",
+          "duration_days": {"min": 80, "max": 120},
+          "cumulative_percent": {
+            "N": 100, "P2O5": 100, "K2O": 100, "Ca": 100, "Mg": 100, "S": 100
+          },
+          "notes": "Senescencia. Cosecha."
+        }
+      },
+      "total_requirements_kg_ha": {
+        "N": 120, "P2O5": 40, "K2O": 100, "Ca": 60, "Mg": 20, "S": 15
+      },
+      "sensitivity_notes": "Fijador de N. No exceder dosis de N para favorecer nodulación."
+    },
+    "cucumber": {
+      "name": "Pepino",
+      "scientific_name": "Cucumis sativus",
+      "cycle_days": {"min": 70, "max": 100},
+      "yield_reference_ton_ha": 60,
+      "extraction_curves": {
+        "seedling": {
+          "name": "Plántula",
+          "duration_days": {"min": 0, "max": 15},
+          "cumulative_percent": {
+            "N": 5, "P2O5": 6, "K2O": 4, "Ca": 5, "Mg": 5, "S": 5
+          },
+          "notes": "Establecimiento rápido."
+        },
+        "vegetative": {
+          "name": "Crecimiento Vegetativo",
+          "duration_days": {"min": 15, "max": 30},
+          "cumulative_percent": {
+            "N": 25, "P2O5": 25, "K2O": 20, "Ca": 22, "Mg": 22, "S": 24
+          },
+          "notes": "Formación de guías. N dominante."
+        },
+        "flowering": {
+          "name": "Floración",
+          "duration_days": {"min": 30, "max": 40},
+          "cumulative_percent": {
+            "N": 45, "P2O5": 45, "K2O": 40, "Ca": 42, "Mg": 42, "S": 45
+          },
+          "notes": "Flores femeninas. P y Ca importantes."
+        },
+        "fruit_production": {
+          "name": "Producción de Frutos",
+          "duration_days": {"min": 40, "max": 80},
+          "cumulative_percent": {
+            "N": 85, "P2O5": 85, "K2O": 88, "Ca": 85, "Mg": 85, "S": 85
+          },
+          "notes": "Cosechas múltiples. K para calidad."
+        },
+        "final_harvest": {
+          "name": "Cosecha Final",
+          "duration_days": {"min": 80, "max": 100},
+          "cumulative_percent": {
+            "N": 100, "P2O5": 100, "K2O": 100, "Ca": 100, "Mg": 100, "S": 100
+          },
+          "notes": "Decline de producción."
+        }
+      },
+      "total_requirements_kg_ha": {
+        "N": 150, "P2O5": 50, "K2O": 200, "Ca": 100, "Mg": 30, "S": 25
+      },
+      "sensitivity_notes": "Alta demanda de K. Sensible a salinidad."
+    },
+    "squash": {
+      "name": "Calabaza/Calabacita",
+      "scientific_name": "Cucurbita spp.",
+      "cycle_days": {"min": 90, "max": 130},
+      "yield_reference_ton_ha": 40,
+      "extraction_curves": {
+        "seedling": {
+          "name": "Plántula",
+          "duration_days": {"min": 0, "max": 20},
+          "cumulative_percent": {
+            "N": 5, "P2O5": 6, "K2O": 4, "Ca": 5, "Mg": 5, "S": 5
+          },
+          "notes": "Germinación y establecimiento."
+        },
+        "vegetative": {
+          "name": "Crecimiento Vegetativo",
+          "duration_days": {"min": 20, "max": 45},
+          "cumulative_percent": {
+            "N": 30, "P2O5": 28, "K2O": 25, "Ca": 28, "Mg": 28, "S": 28
+          },
+          "notes": "Extensión de guías. N predominante."
+        },
+        "flowering": {
+          "name": "Floración",
+          "duration_days": {"min": 45, "max": 60},
+          "cumulative_percent": {
+            "N": 50, "P2O5": 50, "K2O": 45, "Ca": 48, "Mg": 48, "S": 50
+          },
+          "notes": "Flores masculinas y femeninas. B crítico."
+        },
+        "fruit_development": {
+          "name": "Desarrollo de Frutos",
+          "duration_days": {"min": 60, "max": 100},
+          "cumulative_percent": {
+            "N": 85, "P2O5": 85, "K2O": 88, "Ca": 85, "Mg": 85, "S": 85
+          },
+          "notes": "Llenado rápido. K muy importante."
+        },
+        "maturation": {
+          "name": "Maduración",
+          "duration_days": {"min": 100, "max": 130},
+          "cumulative_percent": {
+            "N": 100, "P2O5": 100, "K2O": 100, "Ca": 100, "Mg": 100, "S": 100
+          },
+          "notes": "Acumulación de azúcares."
+        }
+      },
+      "total_requirements_kg_ha": {
+        "N": 140, "P2O5": 50, "K2O": 180, "Ca": 80, "Mg": 30, "S": 20
+      },
+      "sensitivity_notes": "Deficiencia de B causa frutos deformes."
+    },
+    "onion": {
+      "name": "Cebolla",
+      "scientific_name": "Allium cepa",
+      "cycle_days": {"min": 120, "max": 180},
+      "yield_reference_ton_ha": 50,
+      "extraction_curves": {
+        "establishment": {
+          "name": "Establecimiento",
+          "duration_days": {"min": 0, "max": 30},
+          "cumulative_percent": {
+            "N": 8, "P2O5": 10, "K2O": 6, "Ca": 8, "Mg": 8, "S": 10
+          },
+          "notes": "Desarrollo radicular lento. P crítico."
+        },
+        "vegetative": {
+          "name": "Crecimiento Foliar",
+          "duration_days": {"min": 30, "max": 70},
+          "cumulative_percent": {
+            "N": 40, "P2O5": 40, "K2O": 35, "Ca": 38, "Mg": 38, "S": 45
+          },
+          "notes": "Formación de hojas. N y S importantes."
+        },
+        "bulbing": {
+          "name": "Formación de Bulbo",
+          "duration_days": {"min": 70, "max": 120},
+          "cumulative_percent": {
+            "N": 80, "P2O5": 80, "K2O": 80, "Ca": 80, "Mg": 80, "S": 85
+          },
+          "notes": "Llenado de bulbo. K para calidad. S para pungencia."
+        },
+        "maturation": {
+          "name": "Maduración",
+          "duration_days": {"min": 120, "max": 180},
+          "cumulative_percent": {
+            "N": 100, "P2O5": 100, "K2O": 100, "Ca": 100, "Mg": 100, "S": 100
+          },
+          "notes": "Reducir riego. Curado natural."
+        }
+      },
+      "total_requirements_kg_ha": {
+        "N": 120, "P2O5": 50, "K2O": 140, "Ca": 80, "Mg": 20, "S": 40
+      },
+      "sensitivity_notes": "Alta demanda de S. Deficiencia reduce pungencia y calidad."
+    },
+    "potato": {
+      "name": "Papa",
+      "scientific_name": "Solanum tuberosum",
+      "cycle_days": {"min": 100, "max": 140},
+      "yield_reference_ton_ha": 40,
+      "extraction_curves": {
+        "emergence": {
+          "name": "Emergencia",
+          "duration_days": {"min": 0, "max": 20},
+          "cumulative_percent": {
+            "N": 5, "P2O5": 8, "K2O": 5, "Ca": 5, "Mg": 5, "S": 5
+          },
+          "notes": "Brote usa reservas del tubérculo."
+        },
+        "vegetative": {
+          "name": "Crecimiento Vegetativo",
+          "duration_days": {"min": 20, "max": 45},
+          "cumulative_percent": {
+            "N": 30, "P2O5": 30, "K2O": 28, "Ca": 28, "Mg": 28, "S": 28
+          },
+          "notes": "Desarrollo foliar rápido. N domina."
+        },
+        "tuber_initiation": {
+          "name": "Iniciación de Tubérculos",
+          "duration_days": {"min": 45, "max": 60},
+          "cumulative_percent": {
+            "N": 55, "P2O5": 55, "K2O": 50, "Ca": 52, "Mg": 52, "S": 52
+          },
+          "notes": "Formación de estolones. P crítico."
+        },
+        "tuber_bulking": {
+          "name": "Llenado de Tubérculos",
+          "duration_days": {"min": 60, "max": 100},
+          "cumulative_percent": {
+            "N": 90, "P2O5": 90, "K2O": 92, "Ca": 90, "Mg": 90, "S": 90
+          },
+          "notes": "Máxima demanda. K para almidón."
+        },
+        "maturation": {
+          "name": "Maduración",
+          "duration_days": {"min": 100, "max": 140},
+          "cumulative_percent": {
+            "N": 100, "P2O5": 100, "K2O": 100, "Ca": 100, "Mg": 100, "S": 100
+          },
+          "notes": "Senescencia foliar. Curado de piel."
+        }
+      },
+      "total_requirements_kg_ha": {
+        "N": 180, "P2O5": 60, "K2O": 250, "Ca": 50, "Mg": 30, "S": 25
+      },
+      "sensitivity_notes": "K mejora calidad y almacenamiento. Exceso de N reduce materia seca."
+    },
+    "watermelon": {
+      "name": "Sandía",
+      "scientific_name": "Citrullus lanatus",
+      "cycle_days": {"min": 80, "max": 110},
+      "yield_reference_ton_ha": 50,
+      "extraction_curves": {
+        "seedling": {
+          "name": "Plántula",
+          "duration_days": {"min": 0, "max": 15},
+          "cumulative_percent": {
+            "N": 4, "P2O5": 5, "K2O": 3, "Ca": 4, "Mg": 4, "S": 4
+          },
+          "notes": "Desarrollo inicial lento."
+        },
+        "vegetative": {
+          "name": "Crecimiento de Guías",
+          "duration_days": {"min": 15, "max": 35},
+          "cumulative_percent": {
+            "N": 25, "P2O5": 22, "K2O": 18, "Ca": 22, "Mg": 22, "S": 22
+          },
+          "notes": "Extensión rápida. N predominante."
+        },
+        "flowering": {
+          "name": "Floración/Cuajado",
+          "duration_days": {"min": 35, "max": 50},
+          "cumulative_percent": {
+            "N": 50, "P2O5": 50, "K2O": 45, "Ca": 48, "Mg": 48, "S": 50
+          },
+          "notes": "Polinización crítica. B importante."
+        },
+        "fruit_development": {
+          "name": "Desarrollo de Frutos",
+          "duration_days": {"min": 50, "max": 85},
+          "cumulative_percent": {
+            "N": 88, "P2O5": 88, "K2O": 92, "Ca": 88, "Mg": 88, "S": 88
+          },
+          "notes": "Llenado rápido. K para dulzura."
+        },
+        "maturation": {
+          "name": "Maduración",
+          "duration_days": {"min": 85, "max": 110},
+          "cumulative_percent": {
+            "N": 100, "P2O5": 100, "K2O": 100, "Ca": 100, "Mg": 100, "S": 100
+          },
+          "notes": "Acumulación de azúcares. Reducir riego."
+        }
+      },
+      "total_requirements_kg_ha": {
+        "N": 140, "P2O5": 45, "K2O": 200, "Ca": 70, "Mg": 25, "S": 20
+      },
+      "sensitivity_notes": "K define calidad (dulzura). Sensible a salinidad."
+    },
+    "melon": {
+      "name": "Melón",
+      "scientific_name": "Cucumis melo",
+      "cycle_days": {"min": 85, "max": 120},
+      "yield_reference_ton_ha": 35,
+      "extraction_curves": {
+        "seedling": {
+          "name": "Plántula",
+          "duration_days": {"min": 0, "max": 18},
+          "cumulative_percent": {
+            "N": 5, "P2O5": 6, "K2O": 4, "Ca": 5, "Mg": 5, "S": 5
+          },
+          "notes": "Establecimiento."
+        },
+        "vegetative": {
+          "name": "Crecimiento Vegetativo",
+          "duration_days": {"min": 18, "max": 40},
+          "cumulative_percent": {
+            "N": 28, "P2O5": 25, "K2O": 20, "Ca": 25, "Mg": 25, "S": 25
+          },
+          "notes": "Desarrollo de guías."
+        },
+        "flowering": {
+          "name": "Floración",
+          "duration_days": {"min": 40, "max": 55},
+          "cumulative_percent": {
+            "N": 50, "P2O5": 50, "K2O": 45, "Ca": 48, "Mg": 48, "S": 50
+          },
+          "notes": "Cuajado de frutos. Ca para firmeza."
+        },
+        "fruit_development": {
+          "name": "Desarrollo de Frutos",
+          "duration_days": {"min": 55, "max": 95},
+          "cumulative_percent": {
+            "N": 88, "P2O5": 88, "K2O": 90, "Ca": 88, "Mg": 88, "S": 88
+          },
+          "notes": "Llenado. K para aroma y dulzura."
+        },
+        "maturation": {
+          "name": "Maduración",
+          "duration_days": {"min": 95, "max": 120},
+          "cumulative_percent": {
+            "N": 100, "P2O5": 100, "K2O": 100, "Ca": 100, "Mg": 100, "S": 100
+          },
+          "notes": "Corte de riego. Concentración de azúcares."
+        }
+      },
+      "total_requirements_kg_ha": {
+        "N": 130, "P2O5": 50, "K2O": 190, "Ca": 80, "Mg": 28, "S": 22
+      },
+      "sensitivity_notes": "Muy sensible a exceso de humedad. K crítico para calidad."
+    },
+    "avocado": {
+      "name": "Aguacate",
+      "scientific_name": "Persea americana",
+      "cycle_days": {"min": 365, "max": 365},
+      "yield_reference_ton_ha": 12,
+      "extraction_curves": {
+        "dormancy": {
+          "name": "Reposo/Brotación",
+          "duration_days": {"min": 0, "max": 60},
+          "cumulative_percent": {
+            "N": 8, "P2O5": 6, "K2O": 5, "Ca": 6, "Mg": 6, "S": 7
+          },
+          "notes": "Brotación inicial. N para nuevos brotes."
+        },
+        "flowering": {
+          "name": "Floración",
+          "duration_days": {"min": 60, "max": 120},
+          "cumulative_percent": {
+            "N": 25, "P2O5": 25, "K2O": 18, "Ca": 20, "Mg": 20, "S": 22
+          },
+          "notes": "Floración intensa. Boro y Zinc críticos para cuajado."
+        },
+        "fruit_set": {
+          "name": "Cuajado de Frutos",
+          "duration_days": {"min": 120, "max": 180},
+          "cumulative_percent": {
+            "N": 45, "P2O5": 45, "K2O": 38, "Ca": 42, "Mg": 40, "S": 45
+          },
+          "notes": "Cuajado y caída fisiológica. Ca crítico para firmeza."
+        },
+        "fruit_development": {
+          "name": "Desarrollo de Fruto",
+          "duration_days": {"min": 180, "max": 300},
+          "cumulative_percent": {
+            "N": 80, "P2O5": 80, "K2O": 82, "Ca": 78, "Mg": 78, "S": 80
+          },
+          "notes": "Llenado de fruto. K para calidad y aceite. Máxima demanda."
+        },
+        "maturation": {
+          "name": "Maduración/Cosecha",
+          "duration_days": {"min": 300, "max": 365},
+          "cumulative_percent": {
+            "N": 100, "P2O5": 100, "K2O": 100, "Ca": 100, "Mg": 100, "S": 100
+          },
+          "notes": "Maduración en árbol. Mantener K para calidad post-cosecha."
+        }
+      },
+      "total_requirements_kg_ha": {
+        "N": 180, "P2O5": 60, "K2O": 220, "Ca": 100, "Mg": 35, "S": 28
+      },
+      "sensitivity_notes": "Muy sensible a clorosis férrica en suelos calcáreos. Requiere buen drenaje. K crítico para contenido de aceite."
+    },
+    "basil": {
+      "name": "Albahaca",
+      "scientific_name": "Ocimum basilicum",
+      "cycle_days": {"min": 45, "max": 70},
+      "yield_reference_ton_ha": 15,
+      "extraction_curves": {
+        "seedling": {
+          "name": "Plántula/Trasplante",
+          "duration_days": {"min": 0, "max": 14},
+          "cumulative_percent": {
+            "N": 5, "P2O5": 6, "K2O": 4, "Ca": 5, "Mg": 5, "S": 5
+          },
+          "notes": "Desarrollo radicular inicial. Mantener humedad constante."
+        },
+        "vegetative_early": {
+          "name": "Vegetativo Temprano",
+          "duration_days": {"min": 14, "max": 28},
+          "cumulative_percent": {
+            "N": 25, "P2O5": 22, "K2O": 20, "Ca": 22, "Mg": 22, "S": 24
+          },
+          "notes": "Crecimiento foliar activo. Alta demanda de N."
+        },
+        "vegetative_peak": {
+          "name": "Vegetativo Máximo",
+          "duration_days": {"min": 28, "max": 42},
+          "cumulative_percent": {
+            "N": 60, "P2O5": 55, "K2O": 55, "Ca": 55, "Mg": 55, "S": 58
+          },
+          "notes": "Máxima tasa de crecimiento. Pico de absorción de nutrientes (semana 6)."
+        },
+        "pre_flowering": {
+          "name": "Pre-floración",
+          "duration_days": {"min": 42, "max": 52},
+          "cumulative_percent": {
+            "N": 85, "P2O5": 82, "K2O": 82, "Ca": 82, "Mg": 82, "S": 84
+          },
+          "notes": "Cosecha ideal antes de floración para máximo aceite esencial."
+        },
+        "flowering": {
+          "name": "Floración/Madurez",
+          "duration_days": {"min": 52, "max": 70},
+          "cumulative_percent": {
+            "N": 100, "P2O5": 100, "K2O": 100, "Ca": 100, "Mg": 100, "S": 100
+          },
+          "notes": "Reducir fertilización. La floración reduce calidad de hojas."
+        }
+      },
+      "total_requirements_kg_ha": {
+        "N": 180, "P2O5": 70, "K2O": 110, "Ca": 60, "Mg": 25, "S": 20
+      },
+      "sensitivity_notes": "Sensible a exceso de N que reduce aceites esenciales. Evitar estrés hídrico. Ratio NPK ideal 1:0.4:0.6."
+    },
+    "lettuce": {
+      "name": "Lechuga",
+      "scientific_name": "Lactuca sativa",
+      "cycle_days": {"min": 55, "max": 80},
+      "yield_reference_ton_ha": 40,
+      "extraction_curves": {
+        "seedling": {
+          "name": "Plántula/Trasplante",
+          "duration_days": {"min": 0, "max": 15},
+          "cumulative_percent": {
+            "N": 5, "P2O5": 6, "K2O": 5, "Ca": 5, "Mg": 5, "S": 5
+          },
+          "notes": "Establecimiento inicial. P crítico para raíces."
+        },
+        "vegetative_early": {
+          "name": "Vegetativo Temprano",
+          "duration_days": {"min": 15, "max": 35},
+          "cumulative_percent": {
+            "N": 26, "P2O5": 28, "K2O": 20, "Ca": 24, "Mg": 24, "S": 26
+          },
+          "notes": "Desarrollo de hojas externas. Baja demanda relativa."
+        },
+        "vegetative_mid": {
+          "name": "Vegetativo Medio",
+          "duration_days": {"min": 35, "max": 50},
+          "cumulative_percent": {
+            "N": 43, "P2O5": 45, "K2O": 51, "Ca": 45, "Mg": 45, "S": 45
+          },
+          "notes": "Formación de roseta. Pico de demanda de K."
+        },
+        "head_formation": {
+          "name": "Formación de Cabeza",
+          "duration_days": {"min": 50, "max": 65},
+          "cumulative_percent": {
+            "N": 63, "P2O5": 65, "K2O": 63, "Ca": 65, "Mg": 65, "S": 65
+          },
+          "notes": "Inicio de acogollado. Ca crítico para evitar tip burn."
+        },
+        "harvest": {
+          "name": "Pre-cosecha/Cosecha",
+          "duration_days": {"min": 65, "max": 80},
+          "cumulative_percent": {
+            "N": 100, "P2O5": 100, "K2O": 100, "Ca": 100, "Mg": 100, "S": 100
+          },
+          "notes": "Máxima extracción. 37% del N se absorbe en últimas 3 semanas."
+        }
+      },
+      "total_requirements_kg_ha": {
+        "N": 140, "P2O5": 80, "K2O": 150, "Ca": 50, "Mg": 20, "S": 15
+      },
+      "sensitivity_notes": "Muy sensible a tip burn por deficiencia de Ca. Absorción de N lineal hasta cosecha. Alta demanda de K en semanas 5-7."
+    },
+    "strawberry": {
+      "name": "Fresa",
+      "scientific_name": "Fragaria × ananassa",
+      "cycle_days": {"min": 180, "max": 365},
+      "yield_reference_ton_ha": 35,
+      "extraction_curves": {
+        "establishment": {
+          "name": "Establecimiento/Trasplante",
+          "duration_days": {"min": 0, "max": 30},
+          "cumulative_percent": {
+            "N": 5, "P2O5": 8, "K2O": 5, "Ca": 6, "Mg": 5, "S": 5
+          },
+          "notes": "Desarrollo radicular crítico. P y Ca esenciales. Ratio 1-2-1 o 1-3-1."
+        },
+        "vegetative": {
+          "name": "Crecimiento Vegetativo",
+          "duration_days": {"min": 30, "max": 90},
+          "cumulative_percent": {
+            "N": 30, "P2O5": 32, "K2O": 25, "Ca": 30, "Mg": 30, "S": 30
+          },
+          "notes": "Expansión foliar. Aumentos significativos de N en semanas 8-10."
+        },
+        "flowering": {
+          "name": "Floración",
+          "duration_days": {"min": 90, "max": 120},
+          "cumulative_percent": {
+            "N": 50, "P2O5": 55, "K2O": 45, "Ca": 50, "Mg": 50, "S": 52
+          },
+          "notes": "Máxima absorción de nutrientes. B crítico para cuajado."
+        },
+        "fruit_set": {
+          "name": "Cuajado de Frutos",
+          "duration_days": {"min": 120, "max": 160},
+          "cumulative_percent": {
+            "N": 70, "P2O5": 75, "K2O": 70, "Ca": 70, "Mg": 70, "S": 72
+          },
+          "notes": "K domina la demanda. 60% del K va al fruto."
+        },
+        "fruit_development": {
+          "name": "Desarrollo y Maduración",
+          "duration_days": {"min": 160, "max": 250},
+          "cumulative_percent": {
+            "N": 90, "P2O5": 92, "K2O": 92, "Ca": 88, "Mg": 88, "S": 90
+          },
+          "notes": "Pico de demanda de K para calidad. Limitar N para firmeza."
+        },
+        "harvest": {
+          "name": "Cosecha Continua",
+          "duration_days": {"min": 250, "max": 365},
+          "cumulative_percent": {
+            "N": 100, "P2O5": 100, "K2O": 100, "Ca": 100, "Mg": 100, "S": 100
+          },
+          "notes": "Mantener K para calidad post-cosecha. Ca para firmeza del fruto."
+        }
+      },
+      "total_requirements_kg_ha": {
+        "N": 150, "P2O5": 70, "K2O": 200, "Ca": 70, "Mg": 30, "S": 25
+      },
+      "sensitivity_notes": "K requerido en mayor cantidad que N. Ca inmóvil en planta - suministro continuo. 40% del P se redistribuye al fruto. Evitar exceso de N en fructificación."
+    }
+  },
+  "growth_stages_generic": {
+    "establishment": {"order": 1, "typical_percent": 5, "description": "Germinación y establecimiento inicial"},
+    "vegetative": {"order": 2, "typical_percent": 25, "description": "Crecimiento vegetativo activo"},
+    "flowering": {"order": 3, "typical_percent": 20, "description": "Floración y cuajado"},
+    "fruit_development": {"order": 4, "typical_percent": 35, "description": "Desarrollo y llenado de frutos/granos"},
+    "maturation": {"order": 5, "typical_percent": 15, "description": "Maduración y cosecha"}
+  },
+  "soil_availability_factors": {
+    "description": "Factores que modifican la disponibilidad real de nutrientes del suelo",
+    "base_extraction_factors": {
+      "description": "Porcentaje del nutriente extraíble (análisis de suelo) que está realmente disponible para el cultivo en un ciclo. Calibrado para suelos mexicanos típicos con alta saturación de bases.",
+      "N": 0.50,
+      "P": 0.20,
+      "K": 0.25,
+      "Ca": 0.08,
+      "Mg": 0.12,
+      "S": 0.35,
+      "methodology_notes": "N: ~50% del N mineral se absorbe por ciclo. P: Baja movilidad (15-25% P Olsen). K: 20-30% del K intercambiable efectivo. Ca: 5-10% de reservas muy altas en suelos calcáreos. Mg: 10-15% por saturación típica >15%. S: 30-40% por lixiviación moderada. Factores calibrados Dec 2024 con 100 escenarios de validación."
+    },
+    "ph_effects": {
+      "description": "Efecto del pH en la disponibilidad de nutrientes (factor multiplicador)",
+      "ranges": {
+        "very_acid": {"ph_range": [0, 5.0], "N": 0.7, "P": 0.3, "K": 0.8, "Ca": 0.5, "Mg": 0.6, "S": 0.9, "Fe": 1.2, "Mn": 1.2, "Zn": 1.0, "Cu": 1.0, "B": 0.6},
+        "acid": {"ph_range": [5.0, 5.5], "N": 0.8, "P": 0.5, "K": 0.9, "Ca": 0.7, "Mg": 0.8, "S": 1.0, "Fe": 1.1, "Mn": 1.1, "Zn": 1.0, "Cu": 1.0, "B": 0.7},
+        "slightly_acid": {"ph_range": [5.5, 6.0], "N": 0.9, "P": 0.7, "K": 1.0, "Ca": 0.9, "Mg": 0.9, "S": 1.0, "Fe": 1.0, "Mn": 1.0, "Zn": 1.0, "Cu": 1.0, "B": 0.85},
+        "optimal": {"ph_range": [6.0, 7.0], "N": 1.0, "P": 1.0, "K": 1.0, "Ca": 1.0, "Mg": 1.0, "S": 1.0, "Fe": 1.0, "Mn": 1.0, "Zn": 1.0, "Cu": 1.0, "B": 1.0},
+        "slightly_alkaline": {"ph_range": [7.0, 7.5], "N": 1.0, "P": 0.8, "K": 1.0, "Ca": 1.0, "Mg": 1.0, "S": 0.9, "Fe": 0.7, "Mn": 0.8, "Zn": 0.8, "Cu": 0.9, "B": 1.0},
+        "alkaline": {"ph_range": [7.5, 8.0], "N": 0.9, "P": 0.5, "K": 1.0, "Ca": 1.0, "Mg": 1.0, "S": 0.8, "Fe": 0.5, "Mn": 0.6, "Zn": 0.6, "Cu": 0.8, "B": 0.9},
+        "very_alkaline": {"ph_range": [8.0, 14], "N": 0.8, "P": 0.3, "K": 0.9, "Ca": 1.0, "Mg": 1.0, "S": 0.7, "Fe": 0.3, "Mn": 0.4, "Zn": 0.4, "Cu": 0.6, "B": 0.8}
+      }
+    },
+    "organic_matter_effects": {
+      "description": "Efecto de la materia orgánica en la mineralización de N (kg N/ha liberados por % MO)",
+      "mineralization_rate_kg_per_percent": {
+        "low_om": {"om_range": [0, 1.5], "n_release_kg_per_percent": 15},
+        "medium_om": {"om_range": [1.5, 3.0], "n_release_kg_per_percent": 25},
+        "high_om": {"om_range": [3.0, 5.0], "n_release_kg_per_percent": 35},
+        "very_high_om": {"om_range": [5.0, 100], "n_release_kg_per_percent": 45}
+      }
+    },
+    "cic_effects": {
+      "description": "Efecto del CIC en la retención de cationes (factor multiplicador de disponibilidad)",
+      "ranges": {
+        "very_low": {"cic_range": [0, 5], "K": 0.6, "Ca": 0.6, "Mg": 0.6, "retention": "Baja retención, alta lixiviación"},
+        "low": {"cic_range": [5, 10], "K": 0.8, "Ca": 0.8, "Mg": 0.8, "retention": "Moderada lixiviación"},
+        "medium": {"cic_range": [10, 20], "K": 1.0, "Ca": 1.0, "Mg": 1.0, "retention": "Retención adecuada"},
+        "high": {"cic_range": [20, 40], "K": 1.1, "Ca": 1.1, "Mg": 1.1, "retention": "Buena retención"},
+        "very_high": {"cic_range": [40, 100], "K": 1.0, "Ca": 1.0, "Mg": 1.0, "retention": "Puede retener en exceso"}
+      }
+    },
+    "carbonate_effects": {
+      "description": "Efecto de carbonatos en la fijación de P y micronutrientes",
+      "ranges": {
+        "none": {"caco3_range": [0, 1], "P": 1.0, "Fe": 1.0, "Zn": 1.0, "Mn": 1.0},
+        "low": {"caco3_range": [1, 5], "P": 0.85, "Fe": 0.9, "Zn": 0.9, "Mn": 0.9},
+        "medium": {"caco3_range": [5, 15], "P": 0.7, "Fe": 0.7, "Zn": 0.75, "Mn": 0.75},
+        "high": {"caco3_range": [15, 30], "P": 0.5, "Fe": 0.5, "Zn": 0.6, "Mn": 0.6},
+        "very_high": {"caco3_range": [30, 100], "P": 0.35, "Fe": 0.35, "Zn": 0.45, "Mn": 0.45}
+      }
+    }
+  }
+}

@@ -1,0 +1,1242 @@
+{
+  "fertilizers": [
+    {
+      "id": "sulfuric_acid_98",
+      "name": "Ácido Sulfúrico",
+      "chemical_formula": "H2SO4",
+      "type": "acid",
+      "form": "liquid",
+      "purity_percent": 98,
+      "density_g_ml": 1.85,
+      "molecular_weight": 98.079,
+      "equivalent_weight": 49.039,
+      "ion_contributions": {
+        "SO42": 2.0,
+        "H": 2.0
+      },
+      "meq_per_gram": {
+        "SO42": 19.98
+      },
+      "typical_cost_mxn_per_kg": 25.0,
+      "typical_cost_mxn_per_liter": 46.25,
+      "safety_warnings": [
+        "Altamente corrosivo",
+        "Siempre agregar ácido al agua, NUNCA agua al ácido",
+        "Usar protección completa (guantes, gafas, mandil)"
+      ],
+      "recommended_for": [
+        "ajuste_ph",
+        "aporte_azufre",
+        "neutralizacion_bicarbonatos"
+      ],
+      "stock_tank": "B",
+      "meq_per_gram_basis": "adjusted_for_purity"
+    },
+    {
+      "id": "phosphoric_acid_75",
+      "name": "Ácido Fosfórico",
+      "chemical_formula": "H3PO4",
+      "type": "acid",
+      "form": "liquid",
+      "purity_percent": 75,
+      "density_g_ml": 1.6,
+      "molecular_weight": 97.994,
+      "equivalent_weight": 97.994,
+      "ion_contributions": {
+        "H2PO4": 1.0,
+        "H": 3.0
+      },
+      "meq_per_gram": {
+        "H2PO4": 7.65
+      },
+      "typical_cost_mxn_per_kg": 35.0,
+      "typical_cost_mxn_per_liter": 56.0,
+      "safety_warnings": [
+        "Corrosivo moderado",
+        "Siempre agregar al agua lentamente",
+        "Usar protección ocular y guantes"
+      ],
+      "recommended_for": ["ajuste_ph", "aporte_fosforo"],
+      "stock_tank": "B",
+      "meq_per_gram_basis": "adjusted_for_purity"
+    },
+    {
+      "id": "nitric_acid_70",
+      "name": "Ácido Nítrico",
+      "chemical_formula": "HNO3",
+      "type": "acid",
+      "form": "liquid",
+      "purity_percent": 70,
+      "density_g_ml": 1.42,
+      "molecular_weight": 63.012,
+      "equivalent_weight": 63.012,
+      "ion_contributions": {
+        "NO3": 1.0,
+        "H": 1.0
+      },
+      "meq_per_gram": {
+        "NO3": 11.11
+      },
+      "typical_cost_mxn_per_kg": 40.0,
+      "typical_cost_mxn_per_liter": 56.8,
+      "safety_warnings": [
+        "Altamente corrosivo y oxidante",
+        "Evitar contacto con materia orgánica",
+        "Usar en área ventilada"
+      ],
+      "recommended_for": ["ajuste_ph", "aporte_nitrogeno"],
+      "stock_tank": "B",
+      "meq_per_gram_basis": "adjusted_for_purity"
+    },
+    {
+      "id": "calcium_nitrate",
+      "name": "Nitrato de Calcio",
+      "chemical_formula": "Ca(NO3)2·4H2O",
+      "type": "salt",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 236.149,
+      "equivalent_weight": 118.075,
+      "ion_contributions": {
+        "NO3": 2.0,
+        "Ca": 1.0
+      },
+      "meq_per_gram": {
+        "NO3": 8.47,
+        "Ca": 8.47
+      },
+      "nutrient_composition": {
+        "N_percent": 15.5,
+        "Ca_percent": 19.0
+      },
+      "typical_cost_mxn_per_kg": 45.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Oxidante fuerte",
+        "No mezclar con sulfatos concentrados (precipita)",
+        "Almacenar en lugar seco"
+      ],
+      "recommended_for": ["tanque_a", "aporte_calcio", "aporte_nitrogeno"],
+      "stock_tank": "A"
+    },
+    {
+      "id": "calcium_chloride",
+      "name": "Cloruro de Calcio",
+      "chemical_formula": "CaCl2",
+      "type": "salt",
+      "form": "solid",
+      "purity_percent": 77,
+      "density_g_ml": null,
+      "molecular_weight": 110.984,
+      "equivalent_weight": 55.492,
+      "ion_contributions": {
+        "Ca": 1.0,
+        "Cl": 2.0
+      },
+      "meq_per_gram": {
+        "Ca": 18.02,
+        "Cl": 18.02
+      },
+      "nutrient_composition": {
+        "Ca_percent": 36.1,
+        "Cl_percent": 63.9
+      },
+      "typical_cost_mxn_per_kg": 35.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Higroscópico - almacenar en lugar seco",
+        "Puede causar irritación ocular"
+      ],
+      "recommended_for": ["tanque_a", "aporte_calcio", "corrección_calcio"],
+      "stock_tank": "A",
+      "notes": "Fuente de calcio alternativa. Útil cuando se necesita Ca sin aportar NO3. El Cl puede acumularse - usar con precaución en cultivos sensibles."
+    },
+    {
+      "id": "potassium_nitrate",
+      "name": "Nitrato de Potasio",
+      "chemical_formula": "KNO3",
+      "type": "salt",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 101.103,
+      "equivalent_weight": 101.103,
+      "ion_contributions": {
+        "NO3": 1.0,
+        "K": 1.0
+      },
+      "meq_per_gram": {
+        "NO3": 9.9,
+        "K": 9.9
+      },
+      "nutrient_composition": {
+        "N_percent": 13.0,
+        "K_percent": 38.0
+      },
+      "typical_cost_mxn_per_kg": 55.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Oxidante moderado",
+        "Mantener alejado de fuentes de calor",
+        "Almacenar en lugar fresco y seco"
+      ],
+      "recommended_for": ["tanque_a", "aporte_potasio", "aporte_nitrogeno"],
+      "stock_tank": "A"
+    },
+    {
+      "id": "magnesium_nitrate",
+      "name": "Nitrato de Magnesio",
+      "chemical_formula": "Mg(NO3)2·6H2O",
+      "type": "salt",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 256.406,
+      "equivalent_weight": 128.203,
+      "ion_contributions": {
+        "NO3": 2.0,
+        "Mg": 1.0
+      },
+      "meq_per_gram": {
+        "NO3": 7.8,
+        "Mg": 7.8
+      },
+      "nutrient_composition": {
+        "N_percent": 11.0,
+        "Mg_percent": 9.4
+      },
+      "typical_cost_mxn_per_kg": 62.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Higroscópico (absorbe humedad)",
+        "Almacenar herméticamente",
+        "No mezclar con sulfatos"
+      ],
+      "recommended_for": ["tanque_b", "aporte_magnesio", "aporte_nitrogeno"],
+      "stock_tank": "B"
+    },
+    {
+      "id": "ammonium_nitrate",
+      "name": "Nitrato de Amonio",
+      "chemical_formula": "NH4NO3",
+      "type": "salt",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 80.043,
+      "equivalent_weight": 80.043,
+      "ion_contributions": {
+        "NH4": 1.0,
+        "NO3": 1.0
+      },
+      "meq_per_gram": {
+        "NH4": 12.5,
+        "NO3": 12.5
+      },
+      "nutrient_composition": {
+        "N_percent": 35.0,
+        "NH4_N_percent": 17.5,
+        "NO3_N_percent": 17.5
+      },
+      "typical_cost_mxn_per_kg": 38.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Altamente oxidante - RIESGO DE EXPLOSIÓN si se calienta",
+        "Almacenar en lugar fresco, seco y ventilado",
+        "NO mezclar con materia orgánica, combustibles o ácidos",
+        "Uso agrícola regulado - verificar legislación local"
+      ],
+      "recommended_for": [
+        "tanque_a",
+        "aporte_nitrogeno",
+        "aporte_amonio",
+        "relacion_nh4_no3"
+      ],
+      "stock_tank": "A",
+      "notes": "Fertilizante eficiente con relación 50:50 NH4:NO3. Útil para cultivos que requieren amonio (lechuga, fresa). PRECAUCIÓN: Regulado por seguridad."
+    },
+    {
+      "id": "ammonium_sulfate",
+      "name": "Sulfato de Amonio",
+      "chemical_formula": "(NH4)2SO4",
+      "type": "salt",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 132.14,
+      "equivalent_weight": 66.07,
+      "ion_contributions": {
+        "NH4": 2.0,
+        "SO42": 1.0
+      },
+      "meq_per_gram": {
+        "NH4": 15.14,
+        "SO42": 15.14
+      },
+      "nutrient_composition": {
+        "N_percent": 21.2,
+        "S_percent": 24.3
+      },
+      "typical_cost_mxn_per_kg": 25.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Almacenar en lugar seco y fresco",
+        "Evitar contacto con bases fuertes (libera amoniaco)"
+      ],
+      "recommended_for": [
+        "tanque_b",
+        "aporte_nitrogeno",
+        "aporte_amonio",
+        "aporte_azufre"
+      ],
+      "stock_tank": "B",
+      "notes": "Fuente económica de nitrógeno amoniacal y azufre. Ideal para cultivos que prefieren NH4 sobre NO3. TANQUE B: Mantener separado de fuentes de calcio para evitar precipitación de CaSO4."
+    },
+    {
+      "id": "potassium_sulfate",
+      "name": "Sulfato de Potasio",
+      "chemical_formula": "K2SO4",
+      "type": "salt",
+      "form": "solid",
+      "purity_percent": 98,
+      "density_g_ml": null,
+      "molecular_weight": 174.259,
+      "equivalent_weight": 87.13,
+      "ion_contributions": {
+        "K": 2.0,
+        "SO42": 1.0
+      },
+      "meq_per_gram": {
+        "K": 11.48,
+        "SO42": 11.48
+      },
+      "nutrient_composition": {
+        "K_percent": 44.0,
+        "S_percent": 18.0
+      },
+      "typical_cost_mxn_per_kg": 58.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Baja toxicidad",
+        "Mantener seco",
+        "Compatible con tanque B"
+      ],
+      "recommended_for": ["tanque_b", "aporte_potasio", "aporte_azufre"],
+      "stock_tank": "B"
+    },
+    {
+      "id": "magnesium_sulfate",
+      "name": "Sulfato de Magnesio (Sal de Epsom)",
+      "chemical_formula": "MgSO4·7H2O",
+      "type": "salt",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 246.474,
+      "equivalent_weight": 123.237,
+      "ion_contributions": {
+        "Mg": 1.0,
+        "SO42": 1.0
+      },
+      "meq_per_gram": {
+        "Mg": 8.1,
+        "SO42": 8.1
+      },
+      "nutrient_composition": {
+        "Mg_percent": 9.8,
+        "S_percent": 13.0
+      },
+      "typical_cost_mxn_per_kg": 38.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Muy seguro",
+        "Compatible con tanque B",
+        "Soluble en agua"
+      ],
+      "recommended_for": ["tanque_b", "aporte_magnesio", "aporte_azufre"],
+      "stock_tank": "B"
+    },
+    {
+      "id": "map",
+      "name": "MAP (Fosfato Monoamónico)",
+      "chemical_formula": "NH4H2PO4",
+      "type": "salt",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 115.026,
+      "equivalent_weight": 115.026,
+      "ion_contributions": {
+        "NH4": 1.0,
+        "H2PO4": 1.0
+      },
+      "meq_per_gram": {
+        "NH4": 8.7,
+        "H2PO4": 8.7
+      },
+      "nutrient_composition": {
+        "N_percent": 12.0,
+        "P_percent": 52.0
+      },
+      "typical_cost_mxn_per_kg": 65.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Compatible con tanque B",
+        "Fuente eficiente de fósforo",
+        "Acidificante suave"
+      ],
+      "recommended_for": ["tanque_b", "aporte_fosforo", "aporte_amonio"],
+      "stock_tank": "B"
+    },
+    {
+      "id": "mkp",
+      "name": "MKP (Fosfato Monopotásico)",
+      "chemical_formula": "KH2PO4",
+      "type": "salt",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 136.086,
+      "equivalent_weight": 136.086,
+      "ion_contributions": {
+        "K": 1.0,
+        "H2PO4": 1.0
+      },
+      "meq_per_gram": {
+        "K": 7.4,
+        "H2PO4": 7.4
+      },
+      "nutrient_composition": {
+        "K_percent": 28.0,
+        "P_percent": 52.0
+      },
+      "typical_cost_mxn_per_kg": 72.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Compatible con tanque B",
+        "Excelente fuente de P y K",
+        "Alta pureza"
+      ],
+      "recommended_for": ["tanque_b", "aporte_fosforo", "aporte_potasio"],
+      "stock_tank": "B"
+    },
+    {
+      "id": "fosfonitrato",
+      "name": "Fosfonitrato",
+      "chemical_formula": "Mezcla NPK",
+      "type": "salt",
+      "form": "solid",
+      "purity_percent": 95,
+      "density_g_ml": null,
+      "molecular_weight": 80.0,
+      "equivalent_weight": 80.0,
+      "ion_contributions": {
+        "NO3": 1.0,
+        "H2PO4": 0.5,
+        "K": 0.3
+      },
+      "meq_per_gram": {
+        "NO3": 12.5,
+        "H2PO4": 6.3,
+        "K": 3.8
+      },
+      "nutrient_composition": {
+        "N_percent": 20.0,
+        "P_percent": 20.0,
+        "K_percent": 5.0
+      },
+      "typical_cost_mxn_per_kg": 50.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Fertilizante complejo",
+        "Compatible con tanque A",
+        "Solubilidad media"
+      ],
+      "recommended_for": ["tanque_a", "aporte_multiple"],
+      "stock_tank": "A"
+    },
+    {
+      "id": "potassium_chloride",
+      "name": "Cloruro de Potasio",
+      "chemical_formula": "KCl",
+      "type": "salt",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 74.551,
+      "equivalent_weight": 74.551,
+      "ion_contributions": {
+        "K": 1.0,
+        "Cl": 1.0
+      },
+      "meq_per_gram": {
+        "K": 13.3,
+        "Cl": 13.3
+      },
+      "nutrient_composition": {
+        "K_percent": 50.0,
+        "Cl_percent": 45.0
+      },
+      "typical_cost_mxn_per_kg": 32.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Aporta cloruros",
+        "Evitar en cultivos sensibles al Cl",
+        "Compatible con tanque B"
+      ],
+      "recommended_for": ["tanque_b", "aporte_potasio"],
+      "stock_tank": "B",
+      "notes": "Evitar en tomate, pimiento, fresa (sensibles a Cl)"
+    },
+    {
+      "id": "iron_chelate_eddha",
+      "name": "Quelato de Hierro EDDHA 6%",
+      "chemical_formula": "Fe-EDDHA",
+      "type": "micronutrient",
+      "form": "solid",
+      "purity_percent": 100,
+      "density_g_ml": null,
+      "molecular_weight": 932.0,
+      "equivalent_weight": 932.0,
+      "ion_contributions": {
+        "Fe": 1.0
+      },
+      "mg_per_gram": {
+        "Fe": 60
+      },
+      "nutrient_composition": {
+        "Fe_percent": 6.0
+      },
+      "typical_cost_mxn_per_kg": 450.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Estable en pH alto (hasta 9)",
+        "Mancha superficies - usar guantes",
+        "Ideal para soluciones madre"
+      ],
+      "recommended_for": ["tanque_b", "aporte_hierro", "micronutrientes"],
+      "stock_tank": "B",
+      "notes": "Forma más estable de hierro quelado, excelente para pH alto"
+    },
+    {
+      "id": "iron_sulfate",
+      "name": "Sulfato de Hierro",
+      "chemical_formula": "FeSO4·7H2O",
+      "type": "micronutrient",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 278.014,
+      "equivalent_weight": 278.014,
+      "ion_contributions": {
+        "Fe": 1.0,
+        "SO42": 1.0
+      },
+      "mg_per_gram": {
+        "Fe": 200
+      },
+      "nutrient_composition": {
+        "Fe_percent": 20.0,
+        "S_percent": 11.5
+      },
+      "typical_cost_mxn_per_kg": 35.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Económico pero menos estable",
+        "Puede precipitar en pH > 6.5",
+        "Almacenar en lugar seco"
+      ],
+      "recommended_for": ["tanque_b", "aporte_hierro", "micronutrientes"],
+      "stock_tank": "B",
+      "notes": "Opción económica para pH controlado (< 6.5)"
+    },
+    {
+      "id": "manganese_sulfate",
+      "name": "Sulfato de Manganeso",
+      "chemical_formula": "MnSO4·H2O",
+      "type": "micronutrient",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 169.016,
+      "equivalent_weight": 169.016,
+      "ion_contributions": {
+        "Mn": 1.0,
+        "SO42": 1.0
+      },
+      "mg_per_gram": {
+        "Mn": 325
+      },
+      "nutrient_composition": {
+        "Mn_percent": 32.5,
+        "S_percent": 19.0
+      },
+      "typical_cost_mxn_per_kg": 85.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Baja toxicidad",
+        "Compatible con tanque B",
+        "Soluble en agua"
+      ],
+      "recommended_for": ["tanque_b", "aporte_manganeso", "micronutrientes"],
+      "stock_tank": "B"
+    },
+    {
+      "id": "zinc_sulfate",
+      "name": "Sulfato de Zinc",
+      "chemical_formula": "ZnSO4·7H2O",
+      "type": "micronutrient",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 287.558,
+      "equivalent_weight": 287.558,
+      "ion_contributions": {
+        "Zn": 1.0,
+        "SO42": 1.0
+      },
+      "mg_per_gram": {
+        "Zn": 227
+      },
+      "nutrient_composition": {
+        "Zn_percent": 22.7,
+        "S_percent": 11.1
+      },
+      "typical_cost_mxn_per_kg": 65.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Moderadamente tóxico en alta concentración",
+        "Compatible con tanque B",
+        "No mezclar con fosfatos concentrados"
+      ],
+      "recommended_for": ["tanque_b", "aporte_zinc", "micronutrientes"],
+      "stock_tank": "B"
+    },
+    {
+      "id": "copper_sulfate",
+      "name": "Sulfato de Cobre",
+      "chemical_formula": "CuSO4·5H2O",
+      "type": "micronutrient",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 249.685,
+      "equivalent_weight": 249.685,
+      "ion_contributions": {
+        "Cu": 1.0,
+        "SO42": 1.0
+      },
+      "mg_per_gram": {
+        "Cu": 254
+      },
+      "nutrient_composition": {
+        "Cu_percent": 25.4,
+        "S_percent": 12.8
+      },
+      "typical_cost_mxn_per_kg": 95.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Tóxico en alta concentración",
+        "Usar con precaución (dosis bajas)",
+        "Fungicida natural"
+      ],
+      "recommended_for": ["tanque_b", "aporte_cobre", "micronutrientes"],
+      "stock_tank": "B",
+      "notes": "Usar en dosis muy bajas (0.02-0.1 ppm Cu)"
+    },
+    {
+      "id": "borax",
+      "name": "Bórax (Borato de Sodio)",
+      "chemical_formula": "Na2B4O7·10H2O",
+      "type": "micronutrient",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 381.372,
+      "equivalent_weight": 381.372,
+      "ion_contributions": {
+        "B": 4.0,
+        "Na": 2.0
+      },
+      "mg_per_gram": {
+        "B": 113
+      },
+      "nutrient_composition": {
+        "B_percent": 11.3,
+        "Na_percent": 12.0
+      },
+      "typical_cost_mxn_per_kg": 45.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Baja toxicidad",
+        "Aporta sodio (considerar)",
+        "Solubilidad limitada en frío"
+      ],
+      "recommended_for": ["tanque_b", "aporte_boro", "micronutrientes"],
+      "stock_tank": "B"
+    },
+    {
+      "id": "boric_acid",
+      "name": "Ácido Bórico",
+      "chemical_formula": "H3BO3",
+      "type": "micronutrient",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 61.833,
+      "equivalent_weight": 61.833,
+      "ion_contributions": {
+        "B": 1.0
+      },
+      "mg_per_gram": {
+        "B": 175
+      },
+      "nutrient_composition": {
+        "B_percent": 17.5
+      },
+      "typical_cost_mxn_per_kg": 55.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Baja toxicidad",
+        "No aporta sodio (preferido)",
+        "Buena solubilidad"
+      ],
+      "recommended_for": ["tanque_b", "aporte_boro", "micronutrientes"],
+      "stock_tank": "B",
+      "notes": "Preferido sobre bórax por no aportar sodio"
+    },
+    {
+      "id": "sodium_molybdate",
+      "name": "Molibdato de Sodio",
+      "chemical_formula": "Na2MoO4·2H2O",
+      "type": "micronutrient",
+      "form": "solid",
+      "purity_percent": 99,
+      "density_g_ml": null,
+      "molecular_weight": 241.95,
+      "equivalent_weight": 241.95,
+      "ion_contributions": {
+        "Mo": 1.0,
+        "Na": 2.0
+      },
+      "mg_per_gram": {
+        "Mo": 396
+      },
+      "nutrient_composition": {
+        "Mo_percent": 39.6,
+        "Na_percent": 19.0
+      },
+      "typical_cost_mxn_per_kg": 850.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Costoso pero esencial",
+        "Usar en dosis muy bajas",
+        "Aporta sodio (considerar)"
+      ],
+      "recommended_for": ["tanque_b", "aporte_molibdeno", "micronutrientes"],
+      "stock_tank": "B",
+      "notes": "Dosis muy bajas requeridas (0.01-0.1 ppm Mo)"
+    },
+    {
+      "id": "micronutrient_mix_complete",
+      "name": "Mezcla Completa de Micronutrientes",
+      "chemical_formula": "Mezcla Quelada",
+      "type": "micronutrient",
+      "form": "solid",
+      "purity_percent": 100,
+      "density_g_ml": null,
+      "equivalent_weight": null,
+      "ion_contributions": {
+        "Fe": 1.0,
+        "Mn": 1.0,
+        "Zn": 1.0,
+        "Cu": 1.0,
+        "B": 1.0,
+        "Mo": 1.0
+      },
+      "mg_per_gram": {
+        "Fe": 70,
+        "Mn": 40,
+        "Zn": 15,
+        "Cu": 5,
+        "B": 20,
+        "Mo": 1
+      },
+      "nutrient_composition": {
+        "Fe_percent": 7.0,
+        "Mn_percent": 4.0,
+        "Zn_percent": 1.5,
+        "Cu_percent": 0.5,
+        "B_percent": 2.0,
+        "Mo_percent": 0.1
+      },
+      "typical_cost_mxn_per_kg": 380.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Solución práctica todo-en-uno",
+        "Quelatos estables",
+        "Compatible con tanque B"
+      ],
+      "recommended_for": ["tanque_b", "micronutrientes", "solucion_completa"],
+      "stock_tank": "B",
+      "notes": "Opción práctica para quienes no desean mezclar micronutrientes individualmente"
+    },
+    {
+      "id": "tradecorp_az",
+      "name": "Tradecorp AZ",
+      "chemical_formula": "Mezcla Quelada EDTA",
+      "type": "micronutrient_mix",
+      "form": "solid",
+      "purity_percent": 100,
+      "density_g_ml": null,
+      "equivalent_weight": null,
+      "ion_contributions": {
+        "Fe": 1.0,
+        "Mn": 1.0,
+        "Zn": 1.0,
+        "Cu": 1.0,
+        "B": 1.0,
+        "Mo": 1.0
+      },
+      "concentration_percent": {
+        "Fe": 7.5,
+        "Mn": 3.5,
+        "Zn": 0.7,
+        "Cu": 0.28,
+        "B": 0.65,
+        "Mo": 0.26
+      },
+      "typical_cost_mxn_per_kg": 420.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Mezcla profesional de micronutrientes quelados",
+        "EDTA como agente quelante",
+        "Compatible con tanque B"
+      ],
+      "recommended_for": ["tanque_b", "micronutrientes", "mezcla_comercial"],
+      "stock_tank": "B",
+      "notes": "Mezcla comercial de Tradecorp con todos los micronutrientes esenciales quelados"
+    },
+    {
+      "id": "multimicro_haifa",
+      "name": "Multimicro (Haifa)",
+      "chemical_formula": "Mezcla Quelada EDTA",
+      "type": "micronutrient_mix",
+      "form": "solid",
+      "purity_percent": 100,
+      "density_g_ml": null,
+      "equivalent_weight": null,
+      "ion_contributions": {
+        "Fe": 1.0,
+        "Mn": 1.0,
+        "Zn": 1.0,
+        "Cu": 1.0,
+        "Mo": 1.0
+      },
+      "concentration_percent": {
+        "Fe": 7.1,
+        "Mn": 3.5,
+        "Zn": 1.0,
+        "Cu": 0.7,
+        "B": 0.0,
+        "Mo": 0.485
+      },
+      "typical_cost_mxn_per_kg": 450.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Mezcla profesional de Haifa",
+        "No contiene Boro - agregar por separado si es necesario",
+        "Compatible con tanque B"
+      ],
+      "recommended_for": ["tanque_b", "micronutrientes", "mezcla_comercial"],
+      "stock_tank": "B",
+      "notes": "Mezcla comercial de Haifa. NOTA: No contiene Boro, debe suplementarse por separado"
+    },
+    {
+      "id": "ultrasol_micro_sqm",
+      "name": "Ultrasol Micro (SQM)",
+      "chemical_formula": "Mezcla Quelada EDTA",
+      "type": "micronutrient_mix",
+      "form": "solid",
+      "purity_percent": 100,
+      "density_g_ml": null,
+      "equivalent_weight": null,
+      "ion_contributions": {
+        "Fe": 1.0,
+        "Mn": 1.0,
+        "Zn": 1.0,
+        "Cu": 1.0,
+        "B": 1.0,
+        "Mo": 1.0
+      },
+      "concentration_percent": {
+        "Fe": 7.5,
+        "Mn": 3.7,
+        "Zn": 0.6,
+        "Cu": 0.3,
+        "B": 0.7,
+        "Mo": 0.2
+      },
+      "typical_cost_mxn_per_kg": 440.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Mezcla profesional de SQM",
+        "Quelatos EDTA estables",
+        "Compatible con tanque B"
+      ],
+      "recommended_for": ["tanque_b", "micronutrientes", "mezcla_comercial"],
+      "stock_tank": "B",
+      "notes": "Mezcla comercial de SQM con formulación balanceada de micronutrientes"
+    },
+    {
+      "id": "diosol",
+      "name": "Diosol",
+      "chemical_formula": "Mezcla Quelada",
+      "type": "micronutrient_mix",
+      "form": "solid",
+      "purity_percent": 100,
+      "density_g_ml": null,
+      "equivalent_weight": null,
+      "ion_contributions": {
+        "Fe": 1.0,
+        "Mn": 1.0,
+        "Zn": 1.0,
+        "Cu": 1.0,
+        "B": 1.0,
+        "Mo": 1.0
+      },
+      "concentration_percent": {
+        "Fe": 6.5,
+        "Mn": 2.5,
+        "Zn": 0.75,
+        "Cu": 0.5,
+        "B": 0.25,
+        "Mo": 0.1
+      },
+      "typical_cost_mxn_per_kg": 350.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Mezcla económica de micronutrientes",
+        "Buena relación costo-beneficio",
+        "Compatible con tanque B"
+      ],
+      "recommended_for": ["tanque_b", "micronutrientes", "mezcla_comercial"],
+      "stock_tank": "B",
+      "notes": "Mezcla comercial Diosol - opción económica para hidroponía"
+    },
+    {
+      "id": "living_complete",
+      "name": "Living Complete",
+      "chemical_formula": "Mezcla Quelada con Co",
+      "type": "micronutrient_mix",
+      "form": "solid",
+      "purity_percent": 100,
+      "density_g_ml": null,
+      "equivalent_weight": null,
+      "ion_contributions": {
+        "Fe": 1.0,
+        "Mn": 1.0,
+        "Zn": 1.0,
+        "Cu": 1.0,
+        "B": 1.0,
+        "Mo": 1.0,
+        "Co": 1.0
+      },
+      "concentration_percent": {
+        "Fe": 6.0,
+        "Mn": 2.4,
+        "Zn": 1.3,
+        "Cu": 0.25,
+        "B": 1.1,
+        "Mo": 0.25,
+        "Co": 0.03
+      },
+      "typical_cost_mxn_per_kg": 480.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Mezcla premium con Cobalto incluido",
+        "Alto contenido de Boro y Zinc",
+        "Compatible con tanque B"
+      ],
+      "recommended_for": [
+        "tanque_b",
+        "micronutrientes",
+        "mezcla_comercial",
+        "leguminosas"
+      ],
+      "stock_tank": "B",
+      "notes": "Única mezcla comercial con Cobalto (0.03%) - ideal para leguminosas y fijación de N"
+    },
+    {
+      "id": "iron_chelate_edta",
+      "name": "Quelato de Hierro EDTA 13%",
+      "chemical_formula": "Fe-EDTA",
+      "type": "chelate",
+      "form": "solid",
+      "purity_percent": 100,
+      "density_g_ml": null,
+      "molecular_weight": 428.183,
+      "equivalent_weight": 428.183,
+      "ion_contributions": {
+        "Fe": 1.0
+      },
+      "mg_per_gram": {
+        "Fe": 130
+      },
+      "nutrient_composition": {
+        "Fe_percent": 13.0
+      },
+      "typical_cost_mxn_per_kg": 280.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Estable en pH 4-6.5",
+        "Más económico que EDDHA",
+        "Pierde estabilidad en pH alto"
+      ],
+      "recommended_for": ["tanque_b", "aporte_hierro", "quelatos", "ph_bajo"],
+      "stock_tank": "B",
+      "notes": "Quelato económico de Fe, ideal para sistemas con pH controlado bajo 6.5"
+    },
+    {
+      "id": "iron_chelate_dtpa",
+      "name": "Quelato de Hierro DTPA 11%",
+      "chemical_formula": "Fe-DTPA",
+      "type": "chelate",
+      "form": "solid",
+      "purity_percent": 100,
+      "density_g_ml": null,
+      "molecular_weight": 509.284,
+      "equivalent_weight": 509.284,
+      "ion_contributions": {
+        "Fe": 1.0
+      },
+      "mg_per_gram": {
+        "Fe": 110
+      },
+      "nutrient_composition": {
+        "Fe_percent": 11.0
+      },
+      "typical_cost_mxn_per_kg": 350.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Estable en pH 4-7",
+        "Mejor estabilidad que EDTA en pH medio",
+        "Opción intermedia costo-estabilidad"
+      ],
+      "recommended_for": ["tanque_b", "aporte_hierro", "quelatos", "ph_medio"],
+      "stock_tank": "B",
+      "notes": "Quelato de Fe con estabilidad intermedia, funciona bien hasta pH 7"
+    },
+    {
+      "id": "manganese_chelate_edta",
+      "name": "Quelato de Manganeso EDTA 13%",
+      "chemical_formula": "Mn-EDTA",
+      "type": "chelate",
+      "form": "solid",
+      "purity_percent": 100,
+      "density_g_ml": null,
+      "molecular_weight": 423.27,
+      "equivalent_weight": 423.27,
+      "ion_contributions": {
+        "Mn": 1.0
+      },
+      "mg_per_gram": {
+        "Mn": 130
+      },
+      "nutrient_composition": {
+        "Mn_percent": 13.0
+      },
+      "typical_cost_mxn_per_kg": 320.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Estable en pH 4-7",
+        "Mejor biodisponibilidad que sulfato",
+        "Compatible con tanque B"
+      ],
+      "recommended_for": ["tanque_b", "aporte_manganeso", "quelatos"],
+      "stock_tank": "B",
+      "notes": "Quelato de Mn con alta biodisponibilidad, preferido sobre sulfato de Mn"
+    },
+    {
+      "id": "zinc_chelate_edta",
+      "name": "Quelato de Zinc EDTA 15%",
+      "chemical_formula": "Zn-EDTA",
+      "type": "chelate",
+      "form": "solid",
+      "purity_percent": 100,
+      "density_g_ml": null,
+      "molecular_weight": 435.722,
+      "equivalent_weight": 435.722,
+      "ion_contributions": {
+        "Zn": 1.0
+      },
+      "mg_per_gram": {
+        "Zn": 150
+      },
+      "nutrient_composition": {
+        "Zn_percent": 15.0
+      },
+      "typical_cost_mxn_per_kg": 340.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Estable en pH 4-7",
+        "Mejor absorción que sulfato de zinc",
+        "Compatible con tanque B"
+      ],
+      "recommended_for": ["tanque_b", "aporte_zinc", "quelatos"],
+      "stock_tank": "B",
+      "notes": "Quelato de Zn con alta biodisponibilidad para sistemas hidropónicos"
+    },
+    {
+      "id": "copper_chelate_edta",
+      "name": "Quelato de Cobre EDTA 15%",
+      "chemical_formula": "Cu-EDTA",
+      "type": "chelate",
+      "form": "solid",
+      "purity_percent": 100,
+      "density_g_ml": null,
+      "molecular_weight": 433.888,
+      "equivalent_weight": 433.888,
+      "ion_contributions": {
+        "Cu": 1.0
+      },
+      "mg_per_gram": {
+        "Cu": 150
+      },
+      "nutrient_composition": {
+        "Cu_percent": 15.0
+      },
+      "typical_cost_mxn_per_kg": 380.0,
+      "typical_cost_mxn_per_liter": null,
+      "safety_warnings": [
+        "Estable en pH 4-7",
+        "Usar en dosis bajas (Cu es tóxico en exceso)",
+        "Mejor biodisponibilidad que sulfato"
+      ],
+      "recommended_for": ["tanque_b", "aporte_cobre", "quelatos"],
+      "stock_tank": "B",
+      "notes": "Quelato de Cu seguro y biodisponible. PRECAUCIÓN: Dosis máxima 0.1 ppm Cu"
+    }
+  ],
+  "compatibility_rules": {
+    "tank_a": ["calcium_nitrate", "potassium_nitrate", "calcium_chloride"],
+    "tank_b": [
+      "magnesium_nitrate",
+      "potassium_sulfate",
+      "magnesium_sulfate",
+      "mkp",
+      "iron_chelate_eddha",
+      "iron_chelate_edta",
+      "iron_chelate_dtpa",
+      "iron_sulfate",
+      "manganese_sulfate",
+      "manganese_chelate_edta",
+      "zinc_sulfate",
+      "zinc_chelate_edta",
+      "copper_sulfate",
+      "copper_chelate_edta",
+      "borax",
+      "boric_acid",
+      "sodium_molybdate",
+      "micronutrient_mix_complete",
+      "tradecorp_az",
+      "multimicro_haifa",
+      "ultrasol_micro_sqm",
+      "diosol",
+      "living_complete",
+      "potassium_chloride",
+      "ammonium_sulfate",
+      "ammonium_nitrate",
+      "map"
+    ],
+    "direct_to_solution": ["fosfonitrato"],
+    "acids": ["sulfuric_acid_98", "phosphoric_acid_75", "nitric_acid_70"],
+    "incompatible_pairs": [
+      ["calcium_nitrate", "magnesium_sulfate"],
+      ["calcium_nitrate", "potassium_sulfate"],
+      ["calcium_nitrate", "map"],
+      ["calcium_nitrate", "mkp"],
+      ["calcium_nitrate", "ammonium_sulfate"],
+      ["calcium_chloride", "magnesium_sulfate"],
+      ["calcium_chloride", "potassium_sulfate"],
+      ["calcium_chloride", "map"],
+      ["calcium_chloride", "mkp"],
+      ["calcium_chloride", "ammonium_sulfate"]
+    ],
+    "notes": "Tanque A: Sales de calcio y nitratos compatibles. Tanque B: Sulfatos, fosfatos, magnesio y micronutrientes. NUNCA mezclar calcio con sulfatos o fosfatos en el mismo tanque concentrado."
+  },
+  "ion_atomic_weights": {
+    "NO3": 62.004,
+    "H2PO4": 96.987,
+    "SO42": 96.063,
+    "HCO3": 61.017,
+    "Cl": 35.453,
+    "NH4": 18.039,
+    "K": 39.098,
+    "Ca": 40.078,
+    "Mg": 24.305,
+    "Na": 22.99,
+    "Fe": 55.845,
+    "Mn": 54.938,
+    "Zn": 65.38,
+    "Cu": 63.546,
+    "B": 10.81,
+    "Mo": 95.95
+  },
+  "ion_valences": {
+    "NO3": 1,
+    "H2PO4": 1,
+    "SO42": 2,
+    "HCO3": 1,
+    "Cl": 1,
+    "NH4": 1,
+    "K": 1,
+    "Ca": 2,
+    "Mg": 2,
+    "Na": 1,
+    "Fe": 2,
+    "Mn": 2,
+    "Zn": 2,
+    "Cu": 2,
+    "B": 1,
+    "Mo": 2
+  },
+  "micronutrient_units_note": "IMPORTANTE: Los micronutrientes (Fe, Mn, Zn, Cu, B, Mo) se miden SOLO en ppm en la practica hidroponoca. Las valencias aqui son para referencia teorica pero NO se usan para convertir a meq/L. El boro existe como H3BO3 (acido borico no ionizado) y el molibdeno como MoO4^2- (molibdato).",
+  "micronutrient_defaults": {
+    "Fe": {
+      "min_ppm": 1.0,
+      "max_ppm": 5.0,
+      "typical_ppm": 2.5
+    },
+    "Mn": {
+      "min_ppm": 0.3,
+      "max_ppm": 2.0,
+      "typical_ppm": 0.8
+    },
+    "Zn": {
+      "min_ppm": 0.05,
+      "max_ppm": 0.5,
+      "typical_ppm": 0.15
+    },
+    "Cu": {
+      "min_ppm": 0.02,
+      "max_ppm": 0.1,
+      "typical_ppm": 0.05
+    },
+    "B": {
+      "min_ppm": 0.2,
+      "max_ppm": 1.0,
+      "typical_ppm": 0.5
+    },
+    "Mo": {
+      "min_ppm": 0.01,
+      "max_ppm": 0.1,
+      "typical_ppm": 0.05
+    }
+  },
+  "schema_version": "hydro_fertilizers_v3",
+  "validated_at": "2026-01-10",
+  "units_note": "All meq_per_gram values represent meq/L contributed by adding 1 gram of product to 1 liter of water (i.e., meq per gram per liter). When dosing in g/1000L, contribution (meq/L) = meq_per_gram * g_per_1000L / 1000.",
+  "acids_note": "For acids with purity_percent, meq_per_gram values are adjusted by purity_fraction (w/w)."
+}
