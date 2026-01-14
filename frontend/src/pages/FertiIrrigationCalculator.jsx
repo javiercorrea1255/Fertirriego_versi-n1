@@ -141,10 +141,10 @@ export default function FertiIrrigationCalculator() {
   const [inlineCurve, setInlineCurve] = useState({
     name: '',
     stages: [
-      { id: 'stage_1', name: 'Etapa 1', cumulative_percent: { N: 25, P2O5: 25, K2O: 25, Ca: 25, Mg: 25, S: 25 } },
-      { id: 'stage_2', name: 'Etapa 2', cumulative_percent: { N: 50, P2O5: 50, K2O: 50, Ca: 50, Mg: 50, S: 50 } },
-      { id: 'stage_3', name: 'Etapa 3', cumulative_percent: { N: 75, P2O5: 75, K2O: 75, Ca: 75, Mg: 75, S: 75 } },
-      { id: 'stage_4', name: 'Etapa 4', cumulative_percent: { N: 100, P2O5: 100, K2O: 100, Ca: 100, Mg: 100, S: 100 } }
+      { id: 'stage_1', name: 'Etapa 1', cumulative_percent: { N: 25, NH4: 25, P2O5: 25, K2O: 25, Ca: 25, Mg: 25, S: 25 } },
+      { id: 'stage_2', name: 'Etapa 2', cumulative_percent: { N: 50, NH4: 50, P2O5: 50, K2O: 50, Ca: 50, Mg: 50, S: 50 } },
+      { id: 'stage_3', name: 'Etapa 3', cumulative_percent: { N: 75, NH4: 75, P2O5: 75, K2O: 75, Ca: 75, Mg: 75, S: 75 } },
+      { id: 'stage_4', name: 'Etapa 4', cumulative_percent: { N: 100, NH4: 100, P2O5: 100, K2O: 100, Ca: 100, Mg: 100, S: 100 } }
     ]
   });
   const [savingInlineCurve, setSavingInlineCurve] = useState(false);
@@ -711,7 +711,7 @@ export default function FertiIrrigationCalculator() {
       return;
     }
     
-    const nutrients = ['N', 'P2O5', 'K2O', 'Ca', 'Mg', 'S'];
+    const nutrients = ['N', 'NH4', 'P2O5', 'K2O', 'Ca', 'Mg', 'S'];
     for (let i = 1; i < inlineCurve.stages.length; i++) {
       for (const n of nutrients) {
         const prev = Number(inlineCurve.stages[i - 1].cumulative_percent[n]) || 0;
@@ -739,6 +739,7 @@ export default function FertiIrrigationCalculator() {
         duration_days_max: (idx + 1) * 20,
         cumulative_percent: {
           N: Number(s.cumulative_percent.N) || 0,
+          NH4: Number(s.cumulative_percent.NH4) || 0,
           P2O5: Number(s.cumulative_percent.P2O5) || 0,
           K2O: Number(s.cumulative_percent.K2O) || 0,
           Ca: Number(s.cumulative_percent.Ca) || 0,
@@ -785,10 +786,10 @@ export default function FertiIrrigationCalculator() {
       setInlineCurve({
         name: '',
         stages: [
-          { id: 'stage_1', name: 'Etapa 1', cumulative_percent: { N: 25, P2O5: 25, K2O: 25, Ca: 25, Mg: 25, S: 25 } },
-          { id: 'stage_2', name: 'Etapa 2', cumulative_percent: { N: 50, P2O5: 50, K2O: 50, Ca: 50, Mg: 50, S: 50 } },
-          { id: 'stage_3', name: 'Etapa 3', cumulative_percent: { N: 75, P2O5: 75, K2O: 75, Ca: 75, Mg: 75, S: 75 } },
-          { id: 'stage_4', name: 'Etapa 4', cumulative_percent: { N: 100, P2O5: 100, K2O: 100, Ca: 100, Mg: 100, S: 100 } }
+          { id: 'stage_1', name: 'Etapa 1', cumulative_percent: { N: 25, NH4: 25, P2O5: 25, K2O: 25, Ca: 25, Mg: 25, S: 25 } },
+          { id: 'stage_2', name: 'Etapa 2', cumulative_percent: { N: 50, NH4: 50, P2O5: 50, K2O: 50, Ca: 50, Mg: 50, S: 50 } },
+          { id: 'stage_3', name: 'Etapa 3', cumulative_percent: { N: 75, NH4: 75, P2O5: 75, K2O: 75, Ca: 75, Mg: 75, S: 75 } },
+          { id: 'stage_4', name: 'Etapa 4', cumulative_percent: { N: 100, NH4: 100, P2O5: 100, K2O: 100, Ca: 100, Mg: 100, S: 100 } }
         ]
       });
     } catch (err) {
@@ -2581,6 +2582,7 @@ export default function FertiIrrigationCalculator() {
                         <tr>
                           <th style={{ minWidth: '140px' }}>Etapa</th>
                           <th style={{ width: '75px', textAlign: 'center' }}>N %</th>
+                          <th style={{ width: '75px', textAlign: 'center' }}>NH₄ %</th>
                           <th style={{ width: '75px', textAlign: 'center' }}>P₂O₅ %</th>
                           <th style={{ width: '75px', textAlign: 'center' }}>K₂O %</th>
                           <th style={{ width: '75px', textAlign: 'center' }}>Ca %</th>
@@ -2601,7 +2603,7 @@ export default function FertiIrrigationCalculator() {
                                 style={{ margin: 0, minWidth: '120px' }}
                               />
                             </td>
-                            {['N', 'P2O5', 'K2O', 'Ca', 'Mg', 'S'].map(nutrient => (
+                            {['N', 'NH4', 'P2O5', 'K2O', 'Ca', 'Mg', 'S'].map(nutrient => (
                               <td key={nutrient} style={{ textAlign: 'center', padding: '4px 2px' }}>
                                 <input
                                   type="number"
@@ -3256,8 +3258,8 @@ export default function FertiIrrigationCalculator() {
               </ResponsiveContainer>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '8px' }}>
-              {['N', 'P2O5', 'K2O', 'Ca', 'Mg', 'S'].map((nutrient) => {
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px' }}>
+              {['N', 'NH4', 'P2O5', 'K2O', 'Ca', 'Mg', 'S'].map((nutrient) => {
                 const deficitBase = nutrientContributions.deficit_base?.[nutrient] || 0;
                 const deficitSeguridad = nutrientContributions.deficit_seguridad?.[nutrient] || 0;
                 const deficitFinal = nutrientContributions.deficit_final?.[nutrient] || nutrientContributions.real_deficit?.[nutrient] || 0;
@@ -3295,7 +3297,7 @@ export default function FertiIrrigationCalculator() {
                     border: `1px solid ${borderColor}`
                   }}>
                     <div style={{ fontSize: '0.75rem', color: '#6b7280', marginBottom: '4px' }}>
-                      {nutrient === 'P2O5' ? 'P₂O₅' : nutrient === 'K2O' ? 'K₂O' : nutrient}
+                      {nutrient === 'P2O5' ? 'P₂O₅' : nutrient === 'K2O' ? 'K₂O' : nutrient === 'NH4' ? 'NH₄' : nutrient}
                     </div>
                     <div style={{ fontSize: '1.25rem', fontWeight: 700, color: textColor }}>
                       {deficitFinal.toFixed(1)}
